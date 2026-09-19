@@ -119,5 +119,6 @@ Compose **没有**现成「背景模糊」修饰符；`RenderEffect` 只能糊�
 ## 用户偏好
 - 界面用 MiuiX 风格，**不要橙色主题**；不要无意义的名句/引言
 - 倾向紧凑排版：标题字号与留白要压，但大标题要保留
-- 作者署名 `@Natsume`，反馈邮箱 `xu.tianhao@outkook.com`
+- 作者署名 `@Natsume`，反馈邮箱 `xu.tianhao@outlook.com`
+  （早期版本误写成 `outkook.com`，BETA-v1.3.2 修正）
 - 滑块/配色这类易误触的控件收进二级菜单
