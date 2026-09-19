@@ -1,0 +1,5 @@
+﻿zip 大小 MB: 1841.8
+=== zip 内 flutter 顶层 ===
+
+packages/flutter_tools 在 zip 中: False
+version 文件在 zip 中: False

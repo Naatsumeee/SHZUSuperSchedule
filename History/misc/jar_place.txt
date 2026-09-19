@@ -1,0 +1,4 @@
+﻿SHA1: 73576ddf378c5b4f1f6b449fe6b119b8183fc078
+放置: C:\Users\xutia\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-stdlib-jdk8\1.8.20\73576ddf378c5b4f1f6b449fe6b119b8183fc078
+验证: True
+jar 大小: 969

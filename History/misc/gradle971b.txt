@@ -1,0 +1,2 @@
+﻿gradle.bat: True
+gradle 目录: gradle-9.3.1, gradle-9.7.1

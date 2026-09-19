@@ -1,0 +1,10 @@
+﻿javac.exe : LockTest.java:20: 错误: 编码 GBK 的不可映射字符 (0x80)
+所在位置 行:449 字符: 1
++ & "$env:JAVA_HOME\bin\javac.exe" LockTest.java 2>&1 | Out-File "C:\Us ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (LockTest.java:2... 的不可映射字符 (0x80):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+        // 鏅?氬啓鏂囦欢娴嬭瘯
+             ^
+1 个错误

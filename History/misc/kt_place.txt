@@ -1,0 +1,10 @@
+﻿compiler jar 已放置: True
+=== 其他 kotlin 组件 jar 状态 ===
+kotlin-build-tools-impl          jar=True
+kotlin-build-tools-compat        jar=True
+kotlin-build-tools-cri-impl      jar=True
+kotlin-script-runtime            jar=False
+kotlin-daemon-embeddable         jar=False
+kotlin-stdlib                    jar=True
+kotlin-reflect                   jar=False
+kotlin-stdlib-common             jar=False

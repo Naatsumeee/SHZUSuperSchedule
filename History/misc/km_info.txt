@@ -1,0 +1,341 @@
+﻿Initialized native services in: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\native
+Initialized jansi services in: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\native
+Removing 0 daemon stop events from registry
+Starting a Gradle Daemon, 2 busy Daemons could not be reused, use --status for details
+Starting process 'Gradle build daemon'. Working directory: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\daemon\9.7.1 Command: C:\Users\xutia\WorkBuddy\android-toolchain\jdk17\jdk-17.0.20.1+1\bin\java.exe --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.invoke=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.prefs/java.util.prefs=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED --add-opens=java.base/java.nio.charset=ALL-UNNAMED --add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.base/java.util.concurrent.atomic=ALL-UNNAMED --add-opens=java.xml/javax.xml.namespace=ALL-UNNAMED --add-opens=java.base/java.time=ALL-UNNAMED -XX:MaxMetaspaceSize=512m -Xmx1536m -Dfile.encoding=UTF-8 -Duser.country=CN -Duser.language=zh -Duser.variant -cp C:\Users\xutia\WorkBuddy\android-toolchain\gradle\gradle-9.7.1\lib\gradle-daemon-main-9.7.1.jar -javaagent:C:\Users\xutia\WorkBuddy\android-toolchain\gradle\gradle-9.7.1\lib\agents\gradle-instrumentation-agent-9.7.1.jar org.gradle.launcher.daemon.bootstrap.GradleDaemon 9.7.1
+Successfully started process 'Gradle build daemon'
+An attempt to start the daemon took 0.824 secs.
+The client will now receive all logging from the daemon (pid: 29500). The daemon log file: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\daemon\9.7.1\daemon-29500.out.log
+Starting build in new daemon [memory: 1.5 GiB]
+Using 1 worker leases.
+Operational build model parameters: {cachingModelBuilding=false, configurationCache=false, configurationCacheDisabledReason=null, configurationCacheParallelLoad=false, configurationCacheParallelStore=false, configureOnDemand=false, invalidateCoupledProjects=false, isolatedProjects=false, isolatedProjectsDiagnostics=false, isolatedProjectsDangerouslyIgnoreProblems=false, modelAsProjectDependency=false, modelBuilding=false, parallelModelBuilding=false, parallelProjectConfiguration=false, parallelProjectExecution=false, vintage=true}
+Received JVM installation metadata from 'C:\Users\xutia\WorkBuddy\android-toolchain\jdk17\jdk-17.0.20.1+1': {JAVA_HOME=C:\Users\xutia\WorkBuddy\android-toolchain\jdk17\jdk-17.0.20.1+1, JAVA_VERSION=17.0.20.1, JAVA_VENDOR=Eclipse Adoptium, RUNTIME_NAME=OpenJDK Runtime Environment, RUNTIME_VERSION=17.0.20.1+1, VM_NAME=OpenJDK 64-Bit Server VM, VM_VERSION=17.0.20.1+1, VM_VENDOR=Eclipse Adoptium, OS_ARCH=amd64}
+Watching the file system is configured to be enabled if available
+Now considering [C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km] as hierarchies to watch
+File system watching is active
+Starting Build
+Settings evaluated using settings file 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\settings.gradle.kts'.
+Projects loaded. Root project using build file 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\build.gradle.kts'.
+Included projects: [root project 'shzu_class_km', project ':app']
+
+> Configure project :
+Evaluating root project 'shzu_class_km' using build file 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\build.gradle.kts'.
+Resolved plugin [id: 'com.android.application', version: '9.4.0', apply: false]
+Resolved plugin [id: 'org.jetbrains.kotlin.plugin.compose', version: '2.4.20', apply: false]
+Resolved plugin [id: 'org.jetbrains.compose', version: '1.12.0', apply: false]
+Resolved plugin [id: 'org.jetbrains.kotlin.plugin.serialization', version: '2.4.20', apply: false]
+
+> Configure project :app
+Evaluating project ':app' using build file 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\app\build.gradle.kts'.
+Resolved plugin [id: 'com.android.application']
+Resolved plugin [id: 'org.jetbrains.kotlin.plugin.compose']
+Resolved plugin [id: 'org.jetbrains.compose']
+Resolved plugin [id: 'org.jetbrains.kotlin.plugin.serialization']
+Build 7d6f8002-b714-461e-b70b-4eec94e53810 is started
+Using default execution profile
+Detected Android Gradle Plugin compose compiler configuration
+Detected Android Gradle Plugin compose compiler configuration
+Detected Android Gradle Plugin compose compiler configuration
+Detected Android Gradle Plugin compose compiler configuration
+All projects evaluated.
+Task name matched 'assembleDebug'
+Selected primary task 'assembleDebug' from project :
+Adding -Xuse-inline-scopes-numbers Kotlin compiler flag for task :app:compileDebugKotlin
+Tasks to be executed: [task ':app:preBuild', task ':app:preDebugBuild', task ':app:mergeDebugNativeDebugMetadata', task ':app:generateDebugResources', task ':app:packageDebugResources', task ':app:processDebugNavigationResources', task ':app:parseDebugLocalResources', task ':app:generateDebugRFile', task ':app:compileDebugKotlin', task ':app:javaPreCompileDebug', task ':app:compileDebugJavaWithJavac', task ':app:generateDebugAssets', task ':app:mergeDebugAssets', task ':app:compressDebugAssets', task ':app:generateDebugGlobalSynthetics', task ':app:l8DexDesugarLibDebug', task ':app:processDebugJavaRes', task ':app:mergeDebugJavaResource', task ':app:checkDebugDuplicateClasses', task ':app:desugarDebugFileDependencies', task ':app:mergeExtDexDebug', task ':app:mergeLibDexDebug', task ':app:checkDebugAarMetadata', task ':app:mapDebugSourceSetPaths', task ':app:compileDebugNavigationResources', task ':app:mergeDebugResources', task ':app:createDebugCompatibleScreenManifests', task ':app:extractDeepLinksDebug', task ':app:processDebugMainManifest', task ':app:processDebugManifest', task ':app:processDebugManifestForPackage', task ':app:processDebugResources', task ':app:dexBuilderDebug', task ':app:mergeProjectDexDebug', task ':app:mergeDebugJniLibFolders', task ':app:mergeDebugNativeLibs', task ':app:stripDebugDebugSymbols', task ':app:validateSigningDebug', task ':app:writeDebugAppMetadata', task ':app:writeDebugSigningConfigVersions', task ':app:packageDebug', task ':app:createDebugApkListingFileRedirect', task ':app:assembleDebug']
+Tasks that were excluded: []
+Resolve mutations for :app:preBuild (Thread[included builds,5,main]) started.
+:app:preBuild (Thread[included builds,5,main]) started.
+
+> Task :app:preBuild UP-TO-DATE
+Skipping task ':app:preBuild' as it has no actions.
+Resolve mutations for :app:preDebugBuild (Thread[included builds,5,main]) started.
+:app:preDebugBuild (Thread[included builds,5,main]) started.
+
+> Task :app:preDebugBuild UP-TO-DATE
+Skipping task ':app:preDebugBuild' as it has no actions.
+Resolve mutations for :app:mergeDebugNativeDebugMetadata (Thread[included builds,5,main]) started.
+:app:mergeDebugNativeDebugMetadata (Thread[included builds,5,main]) started.
+
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+Skipping task ':app:mergeDebugNativeDebugMetadata' as it has no source files and no previous output files.
+Resolve mutations for :app:generateDebugResources (Thread[included builds,5,main]) started.
+:app:generateDebugResources (Thread[included builds,5,main]) started.
+
+> Task :app:generateDebugResources UP-TO-DATE
+Caching disabled for task ':app:generateDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:generateDebugResources' as it is up-to-date.
+Resolve mutations for :app:packageDebugResources (Thread[included builds,5,main]) started.
+:app:packageDebugResources (Thread[included builds,5,main]) started.
+
+> Task :app:packageDebugResources UP-TO-DATE
+Caching disabled for task ':app:packageDebugResources' because:
+  Build cache is disabled
+Skipping task ':app:packageDebugResources' as it is up-to-date.
+Resolve mutations for :app:processDebugNavigationResources (Thread[included builds,5,main]) started.
+:app:processDebugNavigationResources (Thread[included builds,5,main]) started.
+
+> Task :app:processDebugNavigationResources UP-TO-DATE
+Caching disabled for task ':app:processDebugNavigationResources' because:
+  Build cache is disabled
+Skipping task ':app:processDebugNavigationResources' as it is up-to-date.
+Resolve mutations for :app:parseDebugLocalResources (Thread[included builds,5,main]) started.
+:app:parseDebugLocalResources (Thread[included builds,5,main]) started.
+
+> Task :app:parseDebugLocalResources UP-TO-DATE
+Caching disabled for task ':app:parseDebugLocalResources' because:
+  Build cache is disabled
+Skipping task ':app:parseDebugLocalResources' as it is up-to-date.
+Resolve mutations for :app:generateDebugRFile (Thread[included builds,5,main]) started.
+:app:generateDebugRFile (Thread[included builds,5,main]) started.
+
+> Task :app:generateDebugRFile UP-TO-DATE
+Caching disabled for task ':app:generateDebugRFile' because:
+  Build cache is disabled
+Skipping task ':app:generateDebugRFile' as it is up-to-date.
+Resolve mutations for :app:compileDebugKotlin (Thread[included builds,5,main]) started.
+:app:compileDebugKotlin (Thread[included builds,5,main]) started.
+
+> Task :app:compileDebugKotlin
+file or directory 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\app\src\main\kotlin', not found
+file or directory 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\app\src\debug\java', not found
+file or directory 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\app\src\debug\kotlin', not found
+file or directory 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\app\src\debug\java', not found
+file or directory 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\app\src\main\kotlin', not found
+file or directory 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\app\src\debug\java', not found
+file or directory 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\app\src\debug\kotlin', not found
+file or directory 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\app\src\debug\java', not found
+Cached resource https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-common/2.6.2/lifecycle-common-2.6.2.pom is up-to-date (lastModified: Thu Sep 07 01:00:00 CST 2023).
+Downloading https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-common/2.6.2/lifecycle-common-2.6.2.module to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download10894433252893150600bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime/2.6.2/lifecycle-runtime-2.6.2.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download7147935112210866142bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-runtime/2.6.2/lifecycle-runtime-2.6.2.module to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download2764978276045677237bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-android/1.8.1/kotlinx-coroutines-android-1.8.1.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-android/1.8.1/kotlinx-coroutines-android-1.8.1.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download17347259510503122377bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-bom/1.8.1/kotlinx-coroutines-bom-1.8.1.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-bom/1.8.1/kotlinx-coroutines-bom-1.8.1.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download15641794153836655414bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-android/1.8.1/kotlinx-coroutines-android-1.8.1.module to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download10138471782527409316bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-text-android/1.8.1/ui-text-android-1.8.1.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download8563145666225464269bin
+Downloading https://dl.google.com/dl/android/maven2/androidx/compose/ui/ui-text-android/1.8.1/ui-text-android-1.8.1.module to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download3884007776600053505bin
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.activity\activity\1.13.0\722e241a3182b6f135b6cc2eb16e37dc9e422339\activity-1.13.0.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.activity\activity-compose\1.13.0\6febbf42ee1a80d0586856e136a0d74f92b16b1d\activity-compose-1.13.0.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\top.yukonga.miuix.kmp\miuix-preference-android\0.9.3\5b8ac7be9e41dd8a43b9e19375862ea0503587b7\miuix-preference.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\top.yukonga.miuix.kmp\miuix-ui-android\0.9.3\637663c48984e3daa03569c4f4a7e9e62915b11\miuix-ui.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.animation\animation-core-android\1.12.0\ab0acea9bc0c7740b593c9334fed1079db70a36a\animation-core.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.animation\animation-android\1.12.0\7c483465f8db63d31da5117b6dbf89a8729952fa\animation.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.foundation\foundation-layout-android\1.12.0\805c39185dd4ec7ebcb696c07e66ba236c062a33\foundation-layout.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.foundation\foundation-android\1.12.0\d5b62f514e31773d6309098e815a568fc4751d33\foundation.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.ui\ui-util-android\1.12.0\1473a9dd9df1fb9e346bba45fa3acaef3e5de1cb\ui-util.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.ui\ui-geometry-android\1.12.0\f832b841dceee84becc1c13f6b2201213f9a65be\ui-geometry.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.ui\ui-unit-android\1.12.0\80092cdceededdce83ac532193e61b0b59eb59fa\ui-unit.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.ui\ui-text-android\1.12.0\6ee73ce00f05c7ae425393f5d4c7988223f4b62\ui-text.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.ui\ui-graphics-android\1.12.0\516f45c3a537e32ea57c40c5e7cba4a3b3ec044\ui-graphics.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.ui\ui-android\1.12.0\e690da6e54faddc2140f6362becddb2b9d67953\ui.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.runtime\runtime-saveable-android\1.12.0\55c2cdc598cc2140097222731dc611e7a0ddb1bc\runtime-saveable.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.compose.runtime\runtime-android\1.12.0\4cfd12fdb52e796a5bee7fc4ebfa426630815efb\runtime.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.material3\material3-android\1.4.0\6064b108969ab5557a0c19c7e026554f377cecf5\material3.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.material\material-ripple-android\1.9.3\c5bdc1ceac779c1e9818da986d8cd1b8cd6c3d8f\material-ripple.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.animation\animation-core-android\1.12.0\c9f403dee017f721165db0ca753844617be56e41\animation-core.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.animation\animation-android\1.12.0\e49544b3337128d9a477bc0aadb685831b9a49b9\animation.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.foundation\foundation-layout-android\1.12.0\ab4d8bfb049bd0252db5bd48f68aed0b7657b868\foundation-layout.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.foundation\foundation-android\1.12.0\479fdcf1502c4d9217834e47b1d46e802c51413e\foundation.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.material\material-icons-extended-android\1.7.6\bfe16888e8a4ea407d82aeb38d8cf1a5e6c3b4b4\material-icons-extended-release.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.material\material-icons-core-android\1.7.6\57538d4c99063937529d9daa0746247b6f90bd1c\material-icons-core-release.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.ui\ui-util-android\1.12.0\85cd30ef4c5074fe76b3d54501f800de8c698040\ui-util.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.ui\ui-unit-android\1.12.0\8d98ac30c8fd549314e881c09d8c1d65963a749f\ui-unit.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.ui\ui-geometry-android\1.12.0\4a1e6d1dafd9c3b32b4a22ac45a82da090af0dc2\ui-geometry.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.ui\ui-text-android\1.12.0\4338add40c348a4004766ebe4ebaad555b5baa9e\ui-text.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.ui\ui-graphics-android\1.12.0\6a2640119fe1b278be8b634e99c3e35e159f1abb\ui-graphics.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.ui\ui-android\1.12.0\48012a242c8ccb8bd1d934e537d27597f618973a\ui.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.core\core\1.18.0\ff046a9f2725d94c2eaaa82e08674bb761c17792\core-1.18.0.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.lifecycle\lifecycle-runtime-ktx-android\2.9.4\58b7a78b98c61ac487551aa60cd17e1a4d01af96\lifecycle-runtime-ktx.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.lifecycle\lifecycle-livedata-core\2.9.4\8ffb4401079c231b0a85014cf2e4df02c804d53b\lifecycle-livedata-core-2.9.4.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.lifecycle\lifecycle-runtime-android\2.9.4\fd218d3a91d46511975ef11165ffba7d696c04a\lifecycle-runtime-release.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://dl.google.com/dl/android/maven2/androidx/lifecycle/lifecycle-common-jvm/2.9.4/lifecycle-common-jvm-2.9.4.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download17328169079419826066bin
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.lifecycle\lifecycle-common-jvm\2.9.4\ab739bccdb3541983385af169565c7c035d897e7\lifecycle-common-jvm-2.9.4.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.lifecycle\lifecycle-runtime-compose-android\2.9.4\ca8d7bbd9529da9346e0e6a27462fafcdc324ae\lifecycle-runtime-compose-release.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.lifecycle\lifecycle-viewmodel-android\2.9.4\d7f04dd2b3815ea592642340dabc73352c3786a3\lifecycle-viewmodel-release.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.lifecycle\lifecycle-viewmodel-savedstate-android\2.9.4\5ec9278f5df344e931a5e57d91f91f181a165055\lifecycle-viewmodel-savedstate-release.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.core\core-ktx\1.18.0\d3e73ac068e614ed84893958bded6b0724717f2\core-ktx-1.18.0.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\top.yukonga.miuix.kmp\miuix-icons-android\0.9.3\fb5a80141be33c678165916a66151b82b004b93d\miuix-icons.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://dl.google.com/dl/android/maven2/androidx/navigationevent/navigationevent-android/1.0.0/navigationevent-android-1.0.0.aar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download10442442025428559193bin
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.navigationevent\navigationevent-android\1.0.0\8171ee9b6046346e0c0aad9b767a99726a81c6dc\navigationevent.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://dl.google.com/dl/android/maven2/androidx/navigationevent/navigationevent-compose-android/1.0.0/navigationevent-compose-android-1.0.0.aar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download17159915920761127084bin
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.navigationevent\navigationevent-compose-android\1.0.0\b6c1a5f3174a1d9fdbf8b8244e817ca25d5c773c\navigationevent-compose.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.runtime\runtime-annotation-android\1.12.0\f662c50b14a203b81130dfb3f2b02c7acbbb9c86\runtime-annotation.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.runtime\runtime-retain-android\1.12.0\83de6370dc2b468f5c47c197c97212189890f646\runtime-retain.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.runtime\runtime-android\1.12.0\4a47d1bba2633cf1e3ccfd03286a0e4e719b7ad8\runtime.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.compose.runtime\runtime-saveable-android\1.12.0\c215beda375b17ea4583b3ba61709b7aafcaf9a5\runtime-saveable.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.savedstate\savedstate-compose-android\1.4.0\2a31e3f86f04a6373fcf13cee48a923ff899b88f\savedstate-compose.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.savedstate\savedstate-android\1.4.0\8cf8663a8d810d4d50110ff135b3cd1d7227c867\savedstate.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-core-jvm/1.11.0/kotlinx-serialization-core-jvm-1.11.0.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download7491596115383048377bin
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.kotlinx\kotlinx-serialization-core-jvm\1.11.0\c1905c9bf7452b045d5af9248835abe64ddad6bf\kotlinx-serialization-core-jvm-1.11.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-json-jvm/1.11.0/kotlinx-serialization-json-jvm-1.11.0.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download16499182228518570004bin
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.kotlinx\kotlinx-serialization-json-jvm\1.11.0\e7e045e99e56f07599bb9ccb708c2190e2af0606\kotlinx-serialization-json-jvm-1.11.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.annotation\annotation-experimental\1.4.1\7851235e2a16ce50270a74b555edaf9209b42864\annotation-experimental-1.4.1.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.core\core-viewtree\1.0.0\449ba4f495b4d10d18edd01f32f9328be40d5749\core-viewtree-1.0.0.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.versionedparcelable\versionedparcelable\1.1.1\18e18071e7715679e0593c570217edeb5ca48b9e\versionedparcelable-1.1.1.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://dl.google.com/dl/android/maven2/androidx/collection/collection-jvm/1.5.0/collection-jvm-1.5.0.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download15850785945252804411bin
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.collection\collection-jvm\1.5.0\7ba2c69414d46ebc2dd76598bdd0a75c54281a57\collection-jvm-1.5.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.arch.core\core-common\2.2.0\5e1b8b81dfd5f52c56a8d53b18ca759c19a301f3\core-common-2.2.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\androidx.annotation\annotation-jvm\1.9.1\b17951747e38bf3986a24431b9ba0d039958aa5f\annotation-jvm-1.9.1.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\top.yukonga.miuix.kmp\miuix-core-android\0.9.3\cf74bb5b9ec5bd30664a719a92e47ff82fe98901\miuix-core.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\top.yukonga.miuix.kmp\miuix-squircle-android\0.9.3\2fc8d834a3f6c4c351f89cea4ee12e684ba89283\miuix-squircle.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.kotlinx\kotlinx-coroutines-core-jvm\1.9.0\9beade4c1c1569e4f36cbd2c37e02e3e41502601\kotlinx-coroutines-core-jvm-1.9.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-android/1.9.0/kotlinx-coroutines-android-1.9.0.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download17787135191085274882bin
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.kotlinx\kotlinx-coroutines-android\1.9.0\6cf3b8df5a2ce8c6b0dffe55657a827c405ee2fe\kotlinx-coroutines-android-1.9.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\top.yukonga.miuix.kmp\miuix-shader-android\0.9.3\ae997187d758080677721df4388c1393807fcfad\miuix-shader.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.4.20/kotlin-stdlib-2.4.20.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download1048230675583187942bin
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-stdlib\2.4.20\94c1451890d164aed65d43b3db0b7ecef7c183e7\kotlin-stdlib-2.4.20.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://repo.maven.apache.org/maven2/org/jsoup/jsoup/1.18.3/jsoup-1.18.3.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download14898452740971661402bin
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jsoup\jsoup\1.18.3\fb42d6cc9898ced4b73175eac49c61a40f35325\jsoup-1.18.3.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains\annotations\23.0.0\8cc20c07506ec18e0834947b84a864bfc094484e\annotations-23.0.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jspecify\jspecify\1.0.0\7425a601c1c7ec76645a78d22b8c6a627edee507\jspecify-1.0.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\com.google.guava\listenablefuture\1.0\c949a840a6acbc5268d088e47b04177bf90b3cad\listenablefuture-1.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-build-tools-compat/2.4.20/kotlin-build-tools-compat-2.4.20.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-build-tools-impl/2.4.20/kotlin-build-tools-impl-2.4.20.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-impl/2.4.20/kotlin-build-tools-impl-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download11502116242337927998bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-compat/2.4.20/kotlin-build-tools-compat-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download15504426219883586655bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-build-tools-cri-impl/2.4.20/kotlin-build-tools-cri-impl-2.4.20.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-cri-impl/2.4.20/kotlin-build-tools-cri-impl-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download2215283289305610882bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download4862696372502753359bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-script-runtime/2.4.20/kotlin-script-runtime-2.4.20.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-daemon-embeddable/2.4.20/kotlin-daemon-embeddable-2.4.20.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-script-runtime/2.4.20/kotlin-script-runtime-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download5640802714643723241bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-daemon-embeddable/2.4.20/kotlin-daemon-embeddable-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download6945088670393379441bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-compat/2.4.20/kotlin-build-tools-compat-2.4.20.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download17855230391480080434bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-impl/2.4.20/kotlin-build-tools-impl-2.4.20.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download3082333393438653541bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-cri-impl/2.4.20/kotlin-build-tools-cri-impl-2.4.20.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download9243011236517939020bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download6251982865722337602bin

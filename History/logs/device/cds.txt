@@ -1,0 +1,130 @@
+Compiled from "ContentDrawScope.kt"
+public final class androidx.compose.ui.graphics.drawscope.ContentDrawScope$DefaultImpls {
+  public static long getCenter-F1C5BW0(androidx.compose.ui.graphics.drawscope.ContentDrawScope);
+    Code:
+       0: aload_0
+       1: invokestatic  #13                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$getCenter-F1C5BW0$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;)J
+       4: lreturn
+
+  public static long getSize-NH-jbRc(androidx.compose.ui.graphics.drawscope.ContentDrawScope);
+    Code:
+       0: aload_0
+       1: invokestatic  #19                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$getSize-NH-jbRc$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;)J
+       4: lreturn
+
+  public static void drawImage-AZ2fEMs(androidx.compose.ui.graphics.drawscope.ContentDrawScope, androidx.compose.ui.graphics.ImageBitmap, long, long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: lload         4
+       5: lload         6
+       7: lload         8
+       9: fload         10
+      11: aload         11
+      13: aload         12
+      15: iload         13
+      17: iload         14
+      19: invokestatic  #32                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$drawImage-AZ2fEMs$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;Landroidx/compose/ui/graphics/ImageBitmap;JJJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;II)V
+      22: return
+
+  public static void record-JVtK1S4(androidx.compose.ui.graphics.drawscope.ContentDrawScope, androidx.compose.ui.graphics.layer.GraphicsLayer, long, kotlin.jvm.functions.Function1<? super androidx.compose.ui.graphics.drawscope.DrawScope, kotlin.Unit>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: aload         4
+       5: invokestatic  #54                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$record-JVtK1S4$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;Landroidx/compose/ui/graphics/layer/GraphicsLayer;JLkotlin/jvm/functions/Function1;)V
+       8: return
+
+  public static float toPx-0680j_4(androidx.compose.ui.graphics.drawscope.ContentDrawScope, float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: invokestatic  #65                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$toPx-0680j_4$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;F)F
+       5: freturn
+
+  public static float toPx--R2X_6o(androidx.compose.ui.graphics.drawscope.ContentDrawScope, long);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: invokestatic  #70                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$toPx--R2X_6o$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;J)F
+       5: freturn
+
+  public static int roundToPx-0680j_4(androidx.compose.ui.graphics.drawscope.ContentDrawScope, float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: invokestatic  #75                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$roundToPx-0680j_4$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;F)I
+       5: ireturn
+
+  public static int roundToPx--R2X_6o(androidx.compose.ui.graphics.drawscope.ContentDrawScope, long);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: invokestatic  #80                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$roundToPx--R2X_6o$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;J)I
+       5: ireturn
+
+  public static float toDp-u2uoSUM(androidx.compose.ui.graphics.drawscope.ContentDrawScope, int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: invokestatic  #85                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$toDp-u2uoSUM$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;I)F
+       5: freturn
+
+  public static float toDp-u2uoSUM(androidx.compose.ui.graphics.drawscope.ContentDrawScope, float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: invokestatic  #87                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$toDp-u2uoSUM$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;F)F
+       5: freturn
+
+  public static float toDp-GaN1DYA(androidx.compose.ui.graphics.drawscope.ContentDrawScope, long);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: invokestatic  #91                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$toDp-GaN1DYA$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;J)F
+       5: freturn
+
+  public static long toSp-kPz2Gy4(androidx.compose.ui.graphics.drawscope.ContentDrawScope, int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: invokestatic  #96                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$toSp-kPz2Gy4$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;I)J
+       5: lreturn
+
+  public static long toSp-kPz2Gy4(androidx.compose.ui.graphics.drawscope.ContentDrawScope, float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: invokestatic  #99                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$toSp-kPz2Gy4$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;F)J
+       5: lreturn
+
+  public static long toSp-0xMU5do(androidx.compose.ui.graphics.drawscope.ContentDrawScope, float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: invokestatic  #103                // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$toSp-0xMU5do$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;F)J
+       5: lreturn
+
+  public static androidx.compose.ui.geometry.Rect toRect(androidx.compose.ui.graphics.drawscope.ContentDrawScope, androidx.compose.ui.unit.DpRect);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #108                // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope.access$toRect$jd:(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;Landroidx/compose/ui/unit/DpRect;)Landroidx/compose/ui/geometry/Rect;
+       5: areturn
+
+  public static long toSize-XkaWNTQ(androidx.compose.ui.graphics.drawscope.ContentDrawScope, long);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: invokestatic  #114                // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$toSize-XkaWNTQ$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;J)J
+       5: lreturn
+
+  public static long toDpSize-k-rfVVM(androidx.compose.ui.graphics.drawscope.ContentDrawScope, long);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: invokestatic  #118                // InterfaceMethod androidx/compose/ui/graphics/drawscope/ContentDrawScope."access$toDpSize-k-rfVVM$jd":(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;J)J
+       5: lreturn
+}

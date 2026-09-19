@@ -1,0 +1,4 @@
+﻿dart 进程 CPU_s:
+=== flutter build 目录大小 ===
+app/intermediates 大小 MB: 0.1
+=== .dart_tool / kernel 产物 ===

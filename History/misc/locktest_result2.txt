@@ -1,0 +1,2 @@
+﻿tryLock result: true
+plain write: OK

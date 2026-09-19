@@ -1,0 +1,5 @@
+﻿android-36 android.jar: False
+android-36 source.properties: False
+build-tools 35 aapt2: True
+build-tools 36 aapt2: True
+platform-tools: False

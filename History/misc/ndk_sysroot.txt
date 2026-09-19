@@ -1,0 +1,13 @@
+﻿=== sysroot usr/lib 目录 ===
+usr/lib 存在: True
+aarch64-linux-android, arm-linux-androideabi, i686-linux-android, riscv64-linux-android, x86_64-linux-android
+=== crtbegin_dynamic.o 检查 ===
+aarch64: True
+armv7a: False
+=== NDK 总大小 MB ===
+1986.5
+=== source.properties 内容 ===
+Pkg.Desc = Android NDK
+Pkg.Revision = 28.2.13676358
+Pkg.BaseRevision = 28.2.13676358
+Pkg.ReleaseName = r28c

@@ -1,0 +1,8 @@
+﻿=== 直连(绕过代理)测试 ===
+direct 200  https://dl.google.com/android/repository/repository2-3.xml
+direct 200  https://services.gradle.org/distributions/
+direct 200  https://repo.maven.apache.org/maven2/
+direct 301  https://maven.google.com/
+=== 走代理测试 ===
+proxy  000  https://services.gradle.org/distributions/
+proxy  000  https://dl.google.com/android/repository/repository2-3.xml

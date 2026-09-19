@@ -1,0 +1,51 @@
+﻿总行数: 341
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\top.yukonga.miuix.kmp\miuix-core-android\0.9.3\cf74bb5b9ec5bd30664a719a92e47ff82fe98901\miuix-core.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\top.yukonga.miuix.kmp\miuix-squircle-android\0.9.3\2fc8d834a3f6c4c351f89cea4ee12e684ba89283\miuix-squircle.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.kotlinx\kotlinx-coroutines-core-jvm\1.9.0\9beade4c1c1569e4f36cbd2c37e02e3e41502601\kotlinx-coroutines-core-jvm-1.9.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlinx/kotlinx-coroutines-android/1.9.0/kotlinx-coroutines-android-1.9.0.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download17787135191085274882bin
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.kotlinx\kotlinx-coroutines-android\1.9.0\6cf3b8df5a2ce8c6b0dffe55657a827c405ee2fe\kotlinx-coroutines-android-1.9.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for AarToClassTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\top.yukonga.miuix.kmp\miuix-shader-android\0.9.3\ae997187d758080677721df4388c1393807fcfad\miuix-shader.aar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/2.4.20/kotlin-stdlib-2.4.20.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download1048230675583187942bin
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-stdlib\2.4.20\94c1451890d164aed65d43b3db0b7ecef7c183e7\kotlin-stdlib-2.4.20.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Downloading https://repo.maven.apache.org/maven2/org/jsoup/jsoup/1.18.3/jsoup-1.18.3.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download14898452740971661402bin
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jsoup\jsoup\1.18.3\fb42d6cc9898ced4b73175eac49c61a40f35325\jsoup-1.18.3.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jetbrains\annotations\23.0.0\8cc20c07506ec18e0834947b84a864bfc094484e\annotations-23.0.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\org.jspecify\jspecify\1.0.0\7425a601c1c7ec76645a78d22b8c6a627edee507\jspecify-1.0.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Caching disabled for IdentityTransform: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\modules-2\files-2.1\com.google.guava\listenablefuture\1.0\c949a840a6acbc5268d088e47b04177bf90b3cad\listenablefuture-1.0.jar because:
+  Build cache is disabled
+  Caching not enabled.
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-build-tools-compat/2.4.20/kotlin-build-tools-compat-2.4.20.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-build-tools-impl/2.4.20/kotlin-build-tools-impl-2.4.20.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-impl/2.4.20/kotlin-build-tools-impl-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download11502116242337927998bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-compat/2.4.20/kotlin-build-tools-compat-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download15504426219883586655bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-build-tools-cri-impl/2.4.20/kotlin-build-tools-cri-impl-2.4.20.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-cri-impl/2.4.20/kotlin-build-tools-cri-impl-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download2215283289305610882bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download4862696372502753359bin
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-script-runtime/2.4.20/kotlin-script-runtime-2.4.20.pom]
+Resource missing. [HTTP GET: https://dl.google.com/dl/android/maven2/org/jetbrains/kotlin/kotlin-daemon-embeddable/2.4.20/kotlin-daemon-embeddable-2.4.20.pom]
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-script-runtime/2.4.20/kotlin-script-runtime-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download5640802714643723241bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-daemon-embeddable/2.4.20/kotlin-daemon-embeddable-2.4.20.pom to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download6945088670393379441bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-compat/2.4.20/kotlin-build-tools-compat-2.4.20.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download17855230391480080434bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-impl/2.4.20/kotlin-build-tools-impl-2.4.20.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download3082333393438653541bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-build-tools-cri-impl/2.4.20/kotlin-build-tools-cri-impl-2.4.20.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download9243011236517939020bin
+Downloading https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-compiler-embeddable/2.4.20/kotlin-compiler-embeddable-2.4.20.jar to C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\.tmp\gradle_download6251982865722337602bin

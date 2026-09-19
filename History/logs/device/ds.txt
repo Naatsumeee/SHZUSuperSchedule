@@ -1,0 +1,444 @@
+Compiled from "DrawScope.kt"
+public final class androidx.compose.ui.graphics.drawscope.DrawScope$DefaultImpls {
+  public static long getCenter-F1C5BW0(androidx.compose.ui.graphics.drawscope.DrawScope);
+    Code:
+       0: aload_0
+       1: invokestatic  #13                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$getCenter-F1C5BW0$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;)J
+       4: lreturn
+
+  public static long getSize-NH-jbRc(androidx.compose.ui.graphics.drawscope.DrawScope);
+    Code:
+       0: aload_0
+       1: invokestatic  #19                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$getSize-NH-jbRc$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;)J
+       4: lreturn
+
+  public static void drawLine-1RTmtNc$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.Brush, long, long, float, int, androidx.compose.ui.graphics.PathEffect, float, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: lload         4
+       5: fload         6
+       7: iload         7
+       9: aload         8
+      11: fload         9
+      13: aload         10
+      15: iload         11
+      17: iload         12
+      19: aload         13
+      21: invokestatic  #23                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawLine-1RTmtNc$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/Brush;JJFILandroidx/compose/ui/graphics/PathEffect;FLandroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      24: return
+
+  public static void drawLine-NGM6Ib0$default(androidx.compose.ui.graphics.drawscope.DrawScope, long, long, long, float, int, androidx.compose.ui.graphics.PathEffect, float, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: lload_3
+       3: lload         5
+       5: fload         7
+       7: iload         8
+       9: aload         9
+      11: fload         10
+      13: aload         11
+      15: iload         12
+      17: iload         13
+      19: aload         14
+      21: invokestatic  #27                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawLine-NGM6Ib0$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;JJJFILandroidx/compose/ui/graphics/PathEffect;FLandroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      24: return
+
+  public static void drawRect-AsUm42w$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.Brush, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: lload         4
+       5: fload         6
+       7: aload         7
+       9: aload         8
+      11: iload         9
+      13: iload         10
+      15: aload         11
+      17: invokestatic  #31                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawRect-AsUm42w$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/Brush;JJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      20: return
+
+  public static void drawRect-n-J9OG0$default(androidx.compose.ui.graphics.drawscope.DrawScope, long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: lload_3
+       3: lload         5
+       5: fload         7
+       7: aload         8
+       9: aload         9
+      11: iload         10
+      13: iload         11
+      15: aload         12
+      17: invokestatic  #35                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawRect-n-J9OG0$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;JJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      20: return
+
+  public static void drawImage-gbVJVH8$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.ImageBitmap, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: fload         4
+       5: aload         5
+       7: aload         6
+       9: iload         7
+      11: iload         8
+      13: aload         9
+      15: invokestatic  #39                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawImage-gbVJVH8$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/ImageBitmap;JFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      18: return
+
+  public static void drawImage-9jGpkUE$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.ImageBitmap, long, long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: lload         4
+       5: lload         6
+       7: lload         8
+       9: fload         10
+      11: aload         11
+      13: aload         12
+      15: iload         13
+      17: iload         14
+      19: aload         15
+      21: invokestatic  #43                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawImage-9jGpkUE$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/ImageBitmap;JJJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      24: return
+
+  public static void drawImage-AZ2fEMs(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.ImageBitmap, long, long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: lload         4
+       5: lload         6
+       7: lload         8
+       9: fload         10
+      11: aload         11
+      13: aload         12
+      15: iload         13
+      17: iload         14
+      19: invokestatic  #56                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$drawImage-AZ2fEMs$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/ImageBitmap;JJJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;II)V
+      22: return
+
+  public static void drawImage-AZ2fEMs$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.ImageBitmap, long, long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: lload         4
+       5: lload         6
+       7: lload         8
+       9: fload         10
+      11: aload         11
+      13: aload         12
+      15: iload         13
+      17: iload         14
+      19: iload         15
+      21: aload         16
+      23: invokestatic  #76                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawImage-AZ2fEMs$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/ImageBitmap;JJJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IIILjava/lang/Object;)V
+      26: return
+
+  public static void drawRoundRect-ZuiqVtQ$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.Brush, long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: lload         4
+       5: lload         6
+       7: fload         8
+       9: aload         9
+      11: aload         10
+      13: iload         11
+      15: iload         12
+      17: aload         13
+      19: invokestatic  #80                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawRoundRect-ZuiqVtQ$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/Brush;JJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      22: return
+
+  public static void drawRoundRect-u-Aw5IA$default(androidx.compose.ui.graphics.drawscope.DrawScope, long, long, long, long, androidx.compose.ui.graphics.drawscope.DrawStyle, float, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: lload_3
+       3: lload         5
+       5: lload         7
+       7: aload         9
+       9: fload         10
+      11: aload         11
+      13: iload         12
+      15: iload         13
+      17: aload         14
+      19: invokestatic  #84                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawRoundRect-u-Aw5IA$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;JJJJLandroidx/compose/ui/graphics/drawscope/DrawStyle;FLandroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      22: return
+
+  public static void drawCircle-V9BoPsw$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.Brush, float, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: fload_2
+       3: lload_3
+       4: fload         5
+       6: aload         6
+       8: aload         7
+      10: iload         8
+      12: iload         9
+      14: aload         10
+      16: invokestatic  #88                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawCircle-V9BoPsw$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/Brush;FJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      19: return
+
+  public static void drawCircle-VaOC9Bg$default(androidx.compose.ui.graphics.drawscope.DrawScope, long, float, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: fload_3
+       3: lload         4
+       5: fload         6
+       7: aload         7
+       9: aload         8
+      11: iload         9
+      13: iload         10
+      15: aload         11
+      17: invokestatic  #92                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawCircle-VaOC9Bg$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;JFJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      20: return
+
+  public static void drawOval-AsUm42w$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.Brush, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: lload         4
+       5: fload         6
+       7: aload         7
+       9: aload         8
+      11: iload         9
+      13: iload         10
+      15: aload         11
+      17: invokestatic  #95                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawOval-AsUm42w$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/Brush;JJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      20: return
+
+  public static void drawOval-n-J9OG0$default(androidx.compose.ui.graphics.drawscope.DrawScope, long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: lload_3
+       3: lload         5
+       5: fload         7
+       7: aload         8
+       9: aload         9
+      11: iload         10
+      13: iload         11
+      15: aload         12
+      17: invokestatic  #98                 // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawOval-n-J9OG0$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;JJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      20: return
+
+  public static void drawArc-illE91I$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.Brush, float, float, boolean, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: fload_2
+       3: fload_3
+       4: iload         4
+       6: lload         5
+       8: lload         7
+      10: fload         9
+      12: aload         10
+      14: aload         11
+      16: iload         12
+      18: iload         13
+      20: aload         14
+      22: invokestatic  #102                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawArc-illE91I$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/Brush;FFZJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      25: return
+
+  public static void drawArc-yD3GUKo$default(androidx.compose.ui.graphics.drawscope.DrawScope, long, float, float, boolean, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: fload_3
+       3: fload         4
+       5: iload         5
+       7: lload         6
+       9: lload         8
+      11: fload         10
+      13: aload         11
+      15: aload         12
+      17: iload         13
+      19: iload         14
+      21: aload         15
+      23: invokestatic  #106                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawArc-yD3GUKo$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;JFFZJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      26: return
+
+  public static void drawPath-LG529CI$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.Path, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: fload         4
+       5: aload         5
+       7: aload         6
+       9: iload         7
+      11: iload         8
+      13: aload         9
+      15: invokestatic  #110                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawPath-LG529CI$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/Path;JFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      18: return
+
+  public static void drawPath-GBMwjPU$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.Path, androidx.compose.ui.graphics.Brush, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: fload_3
+       4: aload         4
+       6: aload         5
+       8: iload         6
+      10: iload         7
+      12: aload         8
+      14: invokestatic  #114                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawPath-GBMwjPU$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/Path;Landroidx/compose/ui/graphics/Brush;FLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      17: return
+
+  public static void drawPoints-F8ZwMP8$default(androidx.compose.ui.graphics.drawscope.DrawScope, java.util.List, int, long, float, int, androidx.compose.ui.graphics.PathEffect, float, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: lload_3
+       4: fload         5
+       6: iload         6
+       8: aload         7
+      10: fload         8
+      12: aload         9
+      14: iload         10
+      16: iload         11
+      18: aload         12
+      20: invokestatic  #118                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawPoints-F8ZwMP8$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Ljava/util/List;IJFILandroidx/compose/ui/graphics/PathEffect;FLandroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      23: return
+
+  public static void drawPoints-Gsft0Ws$default(androidx.compose.ui.graphics.drawscope.DrawScope, java.util.List, int, androidx.compose.ui.graphics.Brush, float, int, androidx.compose.ui.graphics.PathEffect, float, androidx.compose.ui.graphics.ColorFilter, int, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: aload_3
+       4: fload         4
+       6: iload         5
+       8: aload         6
+      10: fload         7
+      12: aload         8
+      14: iload         9
+      16: iload         10
+      18: aload         11
+      20: invokestatic  #122                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."drawPoints-Gsft0Ws$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Ljava/util/List;ILandroidx/compose/ui/graphics/Brush;FILandroidx/compose/ui/graphics/PathEffect;FLandroidx/compose/ui/graphics/ColorFilter;IILjava/lang/Object;)V
+      23: return
+
+  public static void record-JVtK1S4(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.layer.GraphicsLayer, long, kotlin.jvm.functions.Function1<? super androidx.compose.ui.graphics.drawscope.DrawScope, kotlin.Unit>);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: aload         4
+       5: invokestatic  #128                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$record-JVtK1S4$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/layer/GraphicsLayer;JLkotlin/jvm/functions/Function1;)V
+       8: return
+
+  public static void record-JVtK1S4$default(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.graphics.layer.GraphicsLayer, long, kotlin.jvm.functions.Function1, int, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: lload_2
+       3: aload         4
+       5: iload         5
+       7: aload         6
+       9: invokestatic  #137                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."record-JVtK1S4$default":(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/graphics/layer/GraphicsLayer;JLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+      12: return
+
+  public static float toPx-0680j_4(androidx.compose.ui.graphics.drawscope.DrawScope, float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: invokestatic  #143                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$toPx-0680j_4$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;F)F
+       5: freturn
+
+  public static float toPx--R2X_6o(androidx.compose.ui.graphics.drawscope.DrawScope, long);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: invokestatic  #148                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$toPx--R2X_6o$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;J)F
+       5: freturn
+
+  public static int roundToPx-0680j_4(androidx.compose.ui.graphics.drawscope.DrawScope, float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: invokestatic  #153                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$roundToPx-0680j_4$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;F)I
+       5: ireturn
+
+  public static int roundToPx--R2X_6o(androidx.compose.ui.graphics.drawscope.DrawScope, long);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: invokestatic  #158                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$roundToPx--R2X_6o$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;J)I
+       5: ireturn
+
+  public static float toDp-u2uoSUM(androidx.compose.ui.graphics.drawscope.DrawScope, int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: invokestatic  #163                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$toDp-u2uoSUM$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;I)F
+       5: freturn
+
+  public static float toDp-u2uoSUM(androidx.compose.ui.graphics.drawscope.DrawScope, float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: invokestatic  #165                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$toDp-u2uoSUM$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;F)F
+       5: freturn
+
+  public static float toDp-GaN1DYA(androidx.compose.ui.graphics.drawscope.DrawScope, long);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: invokestatic  #169                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$toDp-GaN1DYA$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;J)F
+       5: freturn
+
+  public static long toSp-kPz2Gy4(androidx.compose.ui.graphics.drawscope.DrawScope, int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: invokestatic  #174                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$toSp-kPz2Gy4$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;I)J
+       5: lreturn
+
+  public static long toSp-kPz2Gy4(androidx.compose.ui.graphics.drawscope.DrawScope, float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: invokestatic  #177                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$toSp-kPz2Gy4$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;F)J
+       5: lreturn
+
+  public static long toSp-0xMU5do(androidx.compose.ui.graphics.drawscope.DrawScope, float);
+    Code:
+       0: aload_0
+       1: fload_1
+       2: invokestatic  #181                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$toSp-0xMU5do$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;F)J
+       5: lreturn
+
+  public static androidx.compose.ui.geometry.Rect toRect(androidx.compose.ui.graphics.drawscope.DrawScope, androidx.compose.ui.unit.DpRect);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #186                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.access$toRect$jd:(Landroidx/compose/ui/graphics/drawscope/DrawScope;Landroidx/compose/ui/unit/DpRect;)Landroidx/compose/ui/geometry/Rect;
+       5: areturn
+
+  public static long toSize-XkaWNTQ(androidx.compose.ui.graphics.drawscope.DrawScope, long);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: invokestatic  #192                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$toSize-XkaWNTQ$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;J)J
+       5: lreturn
+
+  public static long toDpSize-k-rfVVM(androidx.compose.ui.graphics.drawscope.DrawScope, long);
+    Code:
+       0: aload_0
+       1: lload_1
+       2: invokestatic  #196                // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope."access$toDpSize-k-rfVVM$jd":(Landroidx/compose/ui/graphics/drawscope/DrawScope;J)J
+       5: lreturn
+}

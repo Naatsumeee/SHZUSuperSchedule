@@ -1,0 +1,16 @@
+--------- beginning of main
+09-19 18:37:28.999 23066 23066 D ShzuBar : bar tuning from file: BarTuning(alphaTop=0.45, alphaBottom=0.65, blurDp=44.0, extraOffset=2600.0, bands=5, dbg=0)
+09-19 18:37:28.999 23066 23066 D ShzuBar : progressive blur: n=5 max=44.0dp dbg=0
+09-19 18:37:29.000 23066 23066 D ShzuBar : band 4 graphicsLayer r=165.0 px
+09-19 18:37:29.000 23066 23066 D ShzuBar : band 3 graphicsLayer r=134.0625 px
+09-19 18:37:29.000 23066 23066 D ShzuBar : band 2 graphicsLayer r=103.125 px
+09-19 18:37:29.000 23066 23066 D ShzuBar : band 1 graphicsLayer r=72.1875 px
+09-19 18:37:29.000 23066 23066 D ShzuBar : band 0 graphicsLayer r=41.25 px
+09-19 18:37:29.003 23066 23066 D ShzuBar : bar tuning from file: BarTuning(alphaTop=0.45, alphaBottom=0.65, blurDp=44.0, extraOffset=2600.0, bands=5, dbg=0)
+09-19 18:37:29.013 23066 23066 D ShzuBar : bar blur: supported=true contentTopY=0.0 barTopY=2885.0 bar=1440x315 tuning=BarTuning(alphaTop=0.45, alphaBottom=0.65, blurDp=44.0, extraOffset=2600.0, bands=5, dbg=0)
+09-19 18:37:29.014 23066 23066 D ShzuBar : record content layer 1440x3200
+09-19 18:37:29.018 23066 23066 D ShzuBar : band 4 draw 1440.0x315.0 r=44.0dp
+09-19 18:37:29.018 23066 23066 D ShzuBar : band 3 draw 1440.0x315.0 r=35.75dp
+09-19 18:37:29.018 23066 23066 D ShzuBar : band 2 draw 1440.0x315.0 r=27.5dp
+09-19 18:37:29.018 23066 23066 D ShzuBar : band 1 draw 1440.0x315.0 r=19.25dp
+09-19 18:37:29.018 23066 23066 D ShzuBar : band 0 draw 1440.0x315.0 r=11.0dp

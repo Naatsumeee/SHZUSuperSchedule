@@ -1,0 +1,18 @@
+﻿Analyzing lib...
+
+  error - providers\schedule_provider.dart:76:20 - Undefined name 'LoginResult'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - providers\schedule_provider.dart:93:27 - Undefined name 'LoginResult'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - services\auth_service.dart:54:3 - Enums can't be declared inside classes. Try moving the enum to the top-level. - enum_in_class
+  error - services\auth_service.dart:57:11 - Undefined class 'LoginResult'. Try changing the name to the name of an existing class, or creating a class with the name 'LoginResult'. - undefined_class
+  error - services\auth_service.dart:81:15 - Undefined name 'LoginResult'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - services\auth_service.dart:92:15 - Undefined name 'LoginResult'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - services\auth_service.dart:95:15 - Undefined name 'LoginResult'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - services\auth_service.dart:99:15 - Undefined name 'LoginResult'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - services\auth_service.dart:101:13 - Undefined name 'LoginResult'. Try correcting the name to one that is defined, or defining the name. - undefined_identifier
+  error - services\notification_service.dart:81:21 - The named parameter 'uiLocalNotificationDateInterpretation' is required, but there's no corresponding argument. Try adding the required argument. - missing_required_argument
+warning - pages\week_page.dart:7:8 - Unused import: '../theme/miui_theme.dart'. Try removing the import directive. - unused_import
+warning - services\notification_service.dart:62:13 - The value of the local variable 'importance' isn't used. Try removing the variable or using it. - unused_local_variable
+warning - services\notification_service.dart:65:13 - The value of the local variable 'priority' isn't used. Try removing the variable or using it. - unused_local_variable
+warning - services\schedule_service.dart:1:8 - Unused import: 'package:html/dom.dart'. Try removing the import directive. - unused_import
+
+14 issues found.

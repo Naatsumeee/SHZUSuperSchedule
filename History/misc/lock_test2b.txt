@@ -1,0 +1,2 @@
+﻿.lock 写入(PowerShell): 成功
+java 进程数: 0

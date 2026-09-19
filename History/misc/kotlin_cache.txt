@@ -1,0 +1,6 @@
+﻿kotlin-stdlib-jdk8 缓存版本:
+1.7.10, 1.8.0, 1.8.20, 2.2.10
+1.8.20 存在, 文件:
+f9dac9f21106bd224ea78c78b56f4e401d7df56f, kotlin-stdlib-jdk8-1.8.20.pom
+=== kotlin-stdlib 缓存版本 ===
+2.2.21, 2.4.0

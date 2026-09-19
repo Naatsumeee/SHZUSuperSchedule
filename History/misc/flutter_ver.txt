@@ -1,0 +1,4067 @@
+﻿flutter.bat : Building flutter tool... 
+所在位置 行:452 字符: 1
++ & "$base\flutter\bin\flutter.bat" --version 2>&1 | Out-File "C:\Users ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Building flutter tool... :String) 
+    [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+4 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+3 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+2 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+1 tries left) 
+Error: 'pub upgrade' still failing after 10 tries. 
+Building flutter tool... 
+系统找不到指定的路径。
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+9 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+8 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+7 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+6 tries left) 
+Running pub upgrade... 
+Found no `pubspec.yaml` file in `C:\Users\xutia\WorkBuddy\SHZUClassList` or par
+ent directories
+Error (66): Unable to 'pub upgrade' flutter tool. Retrying in five seconds... (
+5 tries left) 
+Running pub upgrade... 

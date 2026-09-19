@@ -1,0 +1,5 @@
+--------- beginning of main
+09-19 18:29:06.994 14904 14904 D ShzuBar : progressive blur: n=5 offset=0.0 max=44.0dp dbg=0
+09-19 18:29:07.007 14904 14904 D ShzuBar : bar blur: supported=true contentTopY=0.0 barTopY=2885.0 offset=-2885.0 tuning=BarTuning(alphaTop=0.45, alphaBottom=0.65, blurDp=44.0, extraOffset=0.0, bands=5, dbg=0)
+09-19 18:29:07.008 14904 14904 D ShzuBar : record content layer 1440x3200
+09-19 18:29:07.026 14904 14904 D ShzuBar : progressive blur: n=5 offset=-2885.0 max=44.0dp dbg=0

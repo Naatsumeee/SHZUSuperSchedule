@@ -1,0 +1,6 @@
+﻿=== jdk17 目录 ===
+jdk-17.0.20.1+1
+=== cmdline-tools 目录 ===
+latest
+=== latest 内容 ===
+bin, lib, NOTICE.txt, source.properties

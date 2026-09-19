@@ -1,0 +1,10 @@
+﻿=== NDK 安装状态 ===
+ndk 目录存在: True
+source.properties: False
+ndk 大小 MB: 0
+28.2.13676358
+=== .temp 残留 ===
+.temp 大小 MB: 1847.1
+=== APK 产物 ===
+app-release.apk: False
+=== ndk_install.txt 尾部 ===

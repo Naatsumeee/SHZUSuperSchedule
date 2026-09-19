@@ -1,0 +1,2 @@
+﻿gradle.bat 存在: True
+gradle-9.3.1

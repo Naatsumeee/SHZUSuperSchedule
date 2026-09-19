@@ -1,0 +1,23 @@
+﻿=== JAVA ===
+java not found
+=== FLUTTER ===
+flutter not found
+=== DART ===
+dart not found
+=== ENV VARS ===
+ANDROID_HOME=
+ANDROID_SDK_ROOT=
+JAVA_HOME=
+=== DISK C: ===
+
+        Used        Free
+        ----        ----
+204114829312 41780645888
+
+
+
+=== which ===
+flutter: 
+java: 
+adb: 
+gradle: 

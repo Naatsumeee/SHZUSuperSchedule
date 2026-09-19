@@ -1,0 +1,16 @@
+﻿flutter.bat : Building flutter tool... 
+所在位置 行:453 字符: 1
++ & "$base\flutter\bin\flutter.bat" --version 2>&1 | Out-File "C:\Users ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Building flutter tool... :String) 
+    [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Running pub upgrade... 
+Resolving dependencies...
+Downloading packages...
+Got dependencies.
+Flutter 3.47.4 鈥?channel stable 鈥?https://github.com/flutter/flutter.git
+Framework 鈥?revision 9584c6713b (7 days ago) 鈥?2026-09-10 15:25:10 -0700
+Engine 鈥?hash 0e228ec8c8d2abc9fcf1d053e8a40665bb859ec7 (revision 06a2e2a110) (13 days ago) 鈥?2026-09-03 16:07:13.000Z
+Tools 鈥?Dart 3.13.3 鈥?DevTools 2.60.0

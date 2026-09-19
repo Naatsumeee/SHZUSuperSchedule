@@ -1,0 +1,5 @@
+﻿C:\Users\xutia\.gradle\caches\9.3.1\transforms\0000022f9d1b1435fc7a057d4dacf452\0000022f9d1b1435fc7a057d4dacf452.lock | 只读:False
+C:\Users\xutia\.gradle\caches\9.3.1\transforms\0009eca534b89cc6769bbf807136b5b8\0009eca534b89cc6769bbf807136b5b8.lock | 只读:False
+C:\Users\xutia\.gradle\caches\9.3.1\transforms\0053340cc315e614136720ba873891f2\0053340cc315e614136720ba873891f2.lock | 只读:False
+C:\Users\xutia\.gradle\caches\9.3.1\transforms\00665c749ddb8c69f5da149f861cf10d\00665c749ddb8c69f5da149f861cf10d.lock | 只读:False
+C:\Users\xutia\.gradle\caches\9.3.1\transforms\00ba47ca7805a1082b24e7cb937708fe\00ba47ca7805a1082b24e7cb937708fe.lock | 只读:False

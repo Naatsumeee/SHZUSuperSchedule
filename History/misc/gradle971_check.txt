@@ -1,0 +1,4 @@
+﻿=== gradle971.txt ===
+gradle.bat: False
+
+zip 存在: False

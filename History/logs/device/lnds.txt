@@ -1,0 +1,1230 @@
+Compiled from "LayoutNodeDrawScope.kt"
+public final class androidx.compose.ui.node.LayoutNodeDrawScope implements androidx.compose.ui.graphics.drawscope.DrawScope,androidx.compose.ui.graphics.drawscope.ContentDrawScope {
+  private final androidx.compose.ui.graphics.drawscope.CanvasDrawScope canvasDrawScope;
+
+  private androidx.compose.ui.node.DrawModifierNode drawNode;
+
+  public static final int $stable;
+
+  public androidx.compose.ui.node.LayoutNodeDrawScope(androidx.compose.ui.graphics.drawscope.CanvasDrawScope);
+    Code:
+       0: aload_0
+       1: invokespecial #14                 // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: aload_1
+       6: putfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       9: return
+
+  public androidx.compose.ui.node.LayoutNodeDrawScope(androidx.compose.ui.graphics.drawscope.CanvasDrawScope, int, kotlin.jvm.internal.DefaultConstructorMarker);
+    Code:
+       0: iload_2
+       1: iconst_1
+       2: iand
+       3: ifeq          14
+       6: new           #23                 // class androidx/compose/ui/graphics/drawscope/CanvasDrawScope
+       9: dup
+      10: invokespecial #24                 // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."<init>":()V
+      13: astore_1
+      14: aload_0
+      15: aload_1
+      16: invokespecial #26                 // Method "<init>":(Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;)V
+      19: return
+
+  public final androidx.compose.ui.graphics.drawscope.CanvasDrawScope getCanvasDrawScope();
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: areturn
+
+  public void drawContent();
+    Code:
+       0: aload_0
+       1: checkcast     #6                  // class androidx/compose/ui/graphics/drawscope/DrawScope
+       4: astore_1
+       5: iconst_0
+       6: istore_2
+       7: aload_1
+       8: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      13: invokeinterface #39,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getCanvas:()Landroidx/compose/ui/graphics/Canvas;
+      18: astore_3
+      19: iconst_0
+      20: istore        4
+      22: aload_0
+      23: getfield      #43                 // Field drawNode:Landroidx/compose/ui/node/DrawModifierNode;
+      26: astore        5
+      28: iconst_0
+      29: istore        6
+      31: aload         5
+      33: ifnonnull     54
+      36: iconst_0
+      37: istore        7
+      39: ldc           #45                 // String Attempting to drawContent for a `null` node. This usually means that a call to ContentDrawScope#drawContent() has been captured inside a lambda, and is being invoked outside of the draw pass. Capturing the scope this way is unsupported - if you are trying to record drawContent with graphicsLayer.record(), make sure you are using the GraphicsLayer#record function within DrawScope, instead of the member function on GraphicsLayer.
+      41: nop
+      42: invokestatic  #51                 // Method androidx/compose/ui/internal/InlineClassHelperKt.throwIllegalStateExceptionForNullCheck:(Ljava/lang/String;)Ljava/lang/Void;
+      45: pop
+      46: new           #53                 // class kotlin/KotlinNothingValueException
+      49: dup
+      50: invokespecial #54                 // Method kotlin/KotlinNothingValueException."<init>":()V
+      53: athrow
+      54: aload         5
+      56: astore        8
+      58: aload         8
+      60: checkcast     #56                 // class androidx/compose/ui/node/DelegatableNode
+      63: invokestatic  #62                 // Method androidx/compose/ui/node/LayoutNodeDrawScopeKt.access$nextDrawNode:(Landroidx/compose/ui/node/DelegatableNode;)Landroidx/compose/ui/Modifier$Node;
+      66: astore        5
+      68: aload         5
+      70: ifnull        401
+      73: aload         5
+      75: astore        6
+      77: iconst_0
+      78: istore        7
+      80: iconst_4
+      81: invokestatic  #68                 // Method androidx/compose/ui/node/NodeKind."constructor-impl":(I)I
+      84: istore        7
+      86: nop
+      87: iconst_0
+      88: istore        9
+      90: aload         6
+      92: astore        10
+      94: iload         7
+      96: istore        11
+      98: iconst_0
+      99: istore        12
+     101: iconst_0
+     102: istore        13
+     104: aconst_null
+     105: astore        14
+     107: aconst_null
+     108: astore        15
+     110: aload         10
+     112: astore        15
+     114: aload         15
+     116: ifnull        396
+     119: aload         15
+     121: instanceof    #70                 // class androidx/compose/ui/node/DrawModifierNode
+     124: ifeq          159
+     127: aload         15
+     129: checkcast     #70                 // class androidx/compose/ui/node/DrawModifierNode
+     132: astore        16
+     134: iconst_0
+     135: istore        17
+     137: aload_0
+     138: aload         16
+     140: aload_3
+     141: aload_0
+     142: invokevirtual #71                 // Method getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     145: invokeinterface #75,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getGraphicsLayer:()Landroidx/compose/ui/graphics/layer/GraphicsLayer;
+     150: invokevirtual #79                 // Method performDraw:(Landroidx/compose/ui/node/DrawModifierNode;Landroidx/compose/ui/graphics/Canvas;Landroidx/compose/ui/graphics/layer/GraphicsLayer;)V
+     153: nop
+     154: nop
+     155: iconst_0
+     156: goto          160
+     159: iconst_1
+     160: istore        18
+     162: iload         18
+     164: ifeq          386
+     167: aload         15
+     169: astore        19
+     171: iload         11
+     173: istore        20
+     175: iconst_0
+     176: istore        21
+     178: aload         19
+     180: invokevirtual #85                 // Method androidx/compose/ui/Modifier$Node.getKindSet$ui:()I
+     183: iload         20
+     185: iand
+     186: ifeq          193
+     189: iconst_1
+     190: goto          194
+     193: iconst_0
+     194: ifeq          386
+     197: aload         15
+     199: instanceof    #87                 // class androidx/compose/ui/node/DelegatingNode
+     202: ifeq          386
+     205: iconst_0
+     206: istore        19
+     208: aload         15
+     210: checkcast     #87                 // class androidx/compose/ui/node/DelegatingNode
+     213: astore        20
+     215: iconst_0
+     216: istore        21
+     218: aload         20
+     220: invokevirtual #91                 // Method androidx/compose/ui/node/DelegatingNode.getDelegate$ui:()Landroidx/compose/ui/Modifier$Node;
+     223: astore        22
+     225: aload         22
+     227: ifnull        376
+     230: aload         22
+     232: astore        23
+     234: iconst_0
+     235: istore        24
+     237: aload         23
+     239: astore        25
+     241: iload         11
+     243: istore        26
+     245: iconst_0
+     246: istore        27
+     248: aload         25
+     250: invokevirtual #85                 // Method androidx/compose/ui/Modifier$Node.getKindSet$ui:()I
+     253: iload         26
+     255: iand
+     256: ifeq          263
+     259: iconst_1
+     260: goto          264
+     263: iconst_0
+     264: ifeq          364
+     267: iload         19
+     269: iconst_1
+     270: iadd
+     271: istore        19
+     273: iload         19
+     275: iconst_1
+     276: if_icmpne     286
+     279: aload         23
+     281: astore        15
+     283: goto          364
+     286: aload         14
+     288: dup
+     289: ifnonnull     318
+     292: pop
+     293: iconst_0
+     294: istore        26
+     296: nop
+     297: bipush        16
+     299: istore        27
+     301: iconst_0
+     302: istore        28
+     304: new           #93                 // class androidx/compose/runtime/collection/MutableVector
+     307: dup
+     308: iload         27
+     310: anewarray     #81                 // class androidx/compose/ui/Modifier$Node
+     313: iconst_0
+     314: invokespecial #96                 // Method androidx/compose/runtime/collection/MutableVector."<init>":([Ljava/lang/Object;I)V
+     317: nop
+     318: astore        14
+     320: aload         15
+     322: astore        25
+     324: aload         25
+     326: ifnull        348
+     329: aload         14
+     331: dup
+     332: ifnull        344
+     335: aload         25
+     337: invokevirtual #100                // Method androidx/compose/runtime/collection/MutableVector.add:(Ljava/lang/Object;)Z
+     340: pop
+     341: goto          345
+     344: pop
+     345: aconst_null
+     346: astore        15
+     348: aload         14
+     350: dup
+     351: ifnull        363
+     354: aload         23
+     356: invokevirtual #100                // Method androidx/compose/runtime/collection/MutableVector.add:(Ljava/lang/Object;)Z
+     359: pop
+     360: goto          364
+     363: pop
+     364: nop
+     365: nop
+     366: aload         22
+     368: invokevirtual #103                // Method androidx/compose/ui/Modifier$Node.getChild$ui:()Landroidx/compose/ui/Modifier$Node;
+     371: astore        22
+     373: goto          225
+     376: nop
+     377: iload         19
+     379: iconst_1
+     380: if_icmpne     386
+     383: goto          114
+     386: aload         14
+     388: invokestatic  #109                // Method androidx/compose/ui/node/DelegatableNodeKt.access$pop:(Landroidx/compose/runtime/collection/MutableVector;)Landroidx/compose/ui/Modifier$Node;
+     391: astore        15
+     393: goto          114
+     396: nop
+     397: nop
+     398: goto          464
+     401: aload         8
+     403: checkcast     #56                 // class androidx/compose/ui/node/DelegatableNode
+     406: iconst_0
+     407: istore        7
+     409: iconst_4
+     410: invokestatic  #68                 // Method androidx/compose/ui/node/NodeKind."constructor-impl":(I)I
+     413: invokestatic  #113                // Method androidx/compose/ui/node/DelegatableNodeKt."requireCoordinator-64DMado":(Landroidx/compose/ui/node/DelegatableNode;I)Landroidx/compose/ui/node/NodeCoordinator;
+     416: astore        6
+     418: aload         6
+     420: invokevirtual #118                // Method androidx/compose/ui/node/NodeCoordinator.getTail:()Landroidx/compose/ui/Modifier$Node;
+     423: aload         8
+     425: invokeinterface #121,  1          // InterfaceMethod androidx/compose/ui/node/DrawModifierNode.getNode:()Landroidx/compose/ui/Modifier$Node;
+     430: if_acmpne     445
+     433: aload         6
+     435: invokevirtual #125                // Method androidx/compose/ui/node/NodeCoordinator.getWrapped$ui:()Landroidx/compose/ui/node/NodeCoordinator;
+     438: dup
+     439: invokestatic  #131                // Method kotlin/jvm/internal/Intrinsics.checkNotNull:(Ljava/lang/Object;)V
+     442: goto          447
+     445: aload         6
+     447: astore        7
+     449: aload         7
+     451: aload_3
+     452: aload_0
+     453: invokevirtual #71                 // Method getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     456: invokeinterface #75,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getGraphicsLayer:()Landroidx/compose/ui/graphics/layer/GraphicsLayer;
+     461: invokevirtual #134                // Method androidx/compose/ui/node/NodeCoordinator.performDraw:(Landroidx/compose/ui/graphics/Canvas;Landroidx/compose/ui/graphics/layer/GraphicsLayer;)V
+     464: nop
+     465: nop
+     466: return
+
+  public void record-JVtK1S4(androidx.compose.ui.graphics.layer.GraphicsLayer, long, kotlin.jvm.functions.Function1<? super androidx.compose.ui.graphics.drawscope.DrawScope, kotlin.Unit>);
+    Code:
+       0: aload_0
+       1: getfield      #43                 // Field drawNode:Landroidx/compose/ui/node/DrawModifierNode;
+       4: astore        5
+       6: aload_1
+       7: aload_0
+       8: checkcast     #184                // class androidx/compose/ui/unit/Density
+      11: aload_0
+      12: invokevirtual #188                // Method getLayoutDirection:()Landroidx/compose/ui/unit/LayoutDirection;
+      15: lload_2
+      16: aload_0
+      17: aload         5
+      19: aload         4
+      21: invokedynamic #208,  0            // InvokeDynamic #0:invoke:(Landroidx/compose/ui/node/LayoutNodeDrawScope;Landroidx/compose/ui/node/DrawModifierNode;Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;
+      26: invokevirtual #214                // Method androidx/compose/ui/graphics/layer/GraphicsLayer."record-mL-hObY":(Landroidx/compose/ui/unit/Density;Landroidx/compose/ui/unit/LayoutDirection;JLkotlin/jvm/functions/Function1;)V
+      29: return
+
+  public final void performDraw(androidx.compose.ui.node.DrawModifierNode, androidx.compose.ui.graphics.Canvas, androidx.compose.ui.graphics.layer.GraphicsLayer);
+    Code:
+       0: aload_1
+       1: checkcast     #56                 // class androidx/compose/ui/node/DelegatableNode
+       4: iconst_0
+       5: istore        5
+       7: iconst_4
+       8: invokestatic  #68                 // Method androidx/compose/ui/node/NodeKind."constructor-impl":(I)I
+      11: invokestatic  #113                // Method androidx/compose/ui/node/DelegatableNodeKt."requireCoordinator-64DMado":(Landroidx/compose/ui/node/DelegatableNode;I)Landroidx/compose/ui/node/NodeCoordinator;
+      14: astore        4
+      16: aload         4
+      18: invokevirtual #226                // Method androidx/compose/ui/node/NodeCoordinator."getSize-YbymL2g":()J
+      21: invokestatic  #232                // Method androidx/compose/ui/unit/IntSizeKt."toSize-ozmzZPI":(J)J
+      24: lstore        5
+      26: aload         4
+      28: invokevirtual #236                // Method androidx/compose/ui/node/NodeCoordinator.getLayoutNode:()Landroidx/compose/ui/node/LayoutNode;
+      31: invokevirtual #242                // Method androidx/compose/ui/node/LayoutNode.getMDrawScope$ui:()Landroidx/compose/ui/node/LayoutNodeDrawScope;
+      34: astore        7
+      36: aload         7
+      38: aload_2
+      39: lload         5
+      41: aload         4
+      43: aload_1
+      44: aload_3
+      45: invokevirtual #246                // Method "drawDirect-eZhPAX0$ui":(Landroidx/compose/ui/graphics/Canvas;JLandroidx/compose/ui/node/NodeCoordinator;Landroidx/compose/ui/node/DrawModifierNode;Landroidx/compose/ui/graphics/layer/GraphicsLayer;)V
+      48: return
+
+  public final void draw-eZhPAX0$ui(androidx.compose.ui.graphics.Canvas, long, androidx.compose.ui.node.NodeCoordinator, androidx.compose.ui.Modifier$Node, androidx.compose.ui.graphics.layer.GraphicsLayer);
+    Code:
+       0: aload         5
+       2: astore        7
+       4: iconst_0
+       5: istore        8
+       7: iconst_4
+       8: invokestatic  #68                 // Method androidx/compose/ui/node/NodeKind."constructor-impl":(I)I
+      11: istore        8
+      13: nop
+      14: iconst_0
+      15: istore        9
+      17: aload         7
+      19: astore        10
+      21: iload         8
+      23: istore        11
+      25: iconst_0
+      26: istore        12
+      28: iconst_0
+      29: istore        13
+      31: aconst_null
+      32: astore        14
+      34: aconst_null
+      35: astore        15
+      37: aload         10
+      39: astore        15
+      41: aload         15
+      43: ifnull        318
+      46: aload         15
+      48: instanceof    #70                 // class androidx/compose/ui/node/DrawModifierNode
+      51: ifeq          81
+      54: aload         15
+      56: checkcast     #70                 // class androidx/compose/ui/node/DrawModifierNode
+      59: astore        16
+      61: iconst_0
+      62: istore        17
+      64: aload_0
+      65: aload_1
+      66: lload_2
+      67: aload         4
+      69: aload         16
+      71: aload         6
+      73: invokevirtual #246                // Method "drawDirect-eZhPAX0$ui":(Landroidx/compose/ui/graphics/Canvas;JLandroidx/compose/ui/node/NodeCoordinator;Landroidx/compose/ui/node/DrawModifierNode;Landroidx/compose/ui/graphics/layer/GraphicsLayer;)V
+      76: nop
+      77: iconst_0
+      78: goto          82
+      81: iconst_1
+      82: istore        18
+      84: iload         18
+      86: ifeq          308
+      89: aload         15
+      91: astore        19
+      93: iload         11
+      95: istore        20
+      97: iconst_0
+      98: istore        21
+     100: aload         19
+     102: invokevirtual #85                 // Method androidx/compose/ui/Modifier$Node.getKindSet$ui:()I
+     105: iload         20
+     107: iand
+     108: ifeq          115
+     111: iconst_1
+     112: goto          116
+     115: iconst_0
+     116: ifeq          308
+     119: aload         15
+     121: instanceof    #87                 // class androidx/compose/ui/node/DelegatingNode
+     124: ifeq          308
+     127: iconst_0
+     128: istore        19
+     130: aload         15
+     132: checkcast     #87                 // class androidx/compose/ui/node/DelegatingNode
+     135: astore        20
+     137: iconst_0
+     138: istore        21
+     140: aload         20
+     142: invokevirtual #91                 // Method androidx/compose/ui/node/DelegatingNode.getDelegate$ui:()Landroidx/compose/ui/Modifier$Node;
+     145: astore        22
+     147: aload         22
+     149: ifnull        298
+     152: aload         22
+     154: astore        23
+     156: iconst_0
+     157: istore        24
+     159: aload         23
+     161: astore        25
+     163: iload         11
+     165: istore        26
+     167: iconst_0
+     168: istore        27
+     170: aload         25
+     172: invokevirtual #85                 // Method androidx/compose/ui/Modifier$Node.getKindSet$ui:()I
+     175: iload         26
+     177: iand
+     178: ifeq          185
+     181: iconst_1
+     182: goto          186
+     185: iconst_0
+     186: ifeq          286
+     189: iload         19
+     191: iconst_1
+     192: iadd
+     193: istore        19
+     195: iload         19
+     197: iconst_1
+     198: if_icmpne     208
+     201: aload         23
+     203: astore        15
+     205: goto          286
+     208: aload         14
+     210: dup
+     211: ifnonnull     240
+     214: pop
+     215: iconst_0
+     216: istore        26
+     218: nop
+     219: bipush        16
+     221: istore        27
+     223: iconst_0
+     224: istore        28
+     226: new           #93                 // class androidx/compose/runtime/collection/MutableVector
+     229: dup
+     230: iload         27
+     232: anewarray     #81                 // class androidx/compose/ui/Modifier$Node
+     235: iconst_0
+     236: invokespecial #96                 // Method androidx/compose/runtime/collection/MutableVector."<init>":([Ljava/lang/Object;I)V
+     239: nop
+     240: astore        14
+     242: aload         15
+     244: astore        25
+     246: aload         25
+     248: ifnull        270
+     251: aload         14
+     253: dup
+     254: ifnull        266
+     257: aload         25
+     259: invokevirtual #100                // Method androidx/compose/runtime/collection/MutableVector.add:(Ljava/lang/Object;)Z
+     262: pop
+     263: goto          267
+     266: pop
+     267: aconst_null
+     268: astore        15
+     270: aload         14
+     272: dup
+     273: ifnull        285
+     276: aload         23
+     278: invokevirtual #100                // Method androidx/compose/runtime/collection/MutableVector.add:(Ljava/lang/Object;)Z
+     281: pop
+     282: goto          286
+     285: pop
+     286: nop
+     287: nop
+     288: aload         22
+     290: invokevirtual #103                // Method androidx/compose/ui/Modifier$Node.getChild$ui:()Landroidx/compose/ui/Modifier$Node;
+     293: astore        22
+     295: goto          147
+     298: nop
+     299: iload         19
+     301: iconst_1
+     302: if_icmpne     308
+     305: goto          41
+     308: aload         14
+     310: invokestatic  #109                // Method androidx/compose/ui/node/DelegatableNodeKt.access$pop:(Landroidx/compose/runtime/collection/MutableVector;)Landroidx/compose/ui/Modifier$Node;
+     313: astore        15
+     315: goto          41
+     318: nop
+     319: nop
+     320: return
+
+  public final void drawDirect-eZhPAX0$ui(androidx.compose.ui.graphics.Canvas, long, androidx.compose.ui.node.NodeCoordinator, androidx.compose.ui.node.DrawModifierNode, androidx.compose.ui.graphics.layer.GraphicsLayer);
+    Code:
+       0: aload_0
+       1: getfield      #43                 // Field drawNode:Landroidx/compose/ui/node/DrawModifierNode;
+       4: astore        7
+       6: aload_0
+       7: aload         5
+       9: putfield      #43                 // Field drawNode:Landroidx/compose/ui/node/DrawModifierNode;
+      12: aload_0
+      13: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+      16: checkcast     #6                  // class androidx/compose/ui/graphics/drawscope/DrawScope
+      19: astore        8
+      21: aload         4
+      23: checkcast     #184                // class androidx/compose/ui/unit/Density
+      26: astore        9
+      28: aload         4
+      30: invokevirtual #253                // Method androidx/compose/ui/node/NodeCoordinator.getLayoutDirection:()Landroidx/compose/ui/unit/LayoutDirection;
+      33: astore        10
+      35: aload_1
+      36: astore        11
+      38: lload_2
+      39: lstore        12
+      41: aload         6
+      43: astore        14
+      45: iconst_0
+      46: istore        15
+      48: aload         8
+      50: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      55: invokeinterface #257,  1          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getDensity:()Landroidx/compose/ui/unit/Density;
+      60: astore        16
+      62: aload         8
+      64: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      69: invokeinterface #258,  1          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getLayoutDirection:()Landroidx/compose/ui/unit/LayoutDirection;
+      74: astore        17
+      76: aload         8
+      78: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      83: invokeinterface #39,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getCanvas:()Landroidx/compose/ui/graphics/Canvas;
+      88: astore        18
+      90: aload         8
+      92: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      97: invokeinterface #261,  1          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext."getSize-NH-jbRc":()J
+     102: lstore        19
+     104: aload         8
+     106: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     111: invokeinterface #75,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getGraphicsLayer:()Landroidx/compose/ui/graphics/layer/GraphicsLayer;
+     116: astore        21
+     118: aload         8
+     120: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     125: astore        22
+     127: iconst_0
+     128: istore        23
+     130: aload         22
+     132: aload         9
+     134: invokeinterface #265,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setDensity:(Landroidx/compose/ui/unit/Density;)V
+     139: aload         22
+     141: aload         10
+     143: invokeinterface #269,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setLayoutDirection:(Landroidx/compose/ui/unit/LayoutDirection;)V
+     148: aload         22
+     150: aload         11
+     152: invokeinterface #273,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setCanvas:(Landroidx/compose/ui/graphics/Canvas;)V
+     157: aload         22
+     159: lload         12
+     161: invokeinterface #277,  3          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext."setSize-uvyYCjk":(J)V
+     166: aload         22
+     168: aload         14
+     170: invokeinterface #281,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setGraphicsLayer:(Landroidx/compose/ui/graphics/layer/GraphicsLayer;)V
+     175: nop
+     176: nop
+     177: aload         11
+     179: invokeinterface #284,  1          // InterfaceMethod androidx/compose/ui/graphics/Canvas.save:()V
+     184: nop
+     185: aload         8
+     187: astore        24
+     189: iconst_0
+     190: istore        25
+     192: aload         5
+     194: astore        26
+     196: iconst_0
+     197: istore        27
+     199: aload         26
+     201: aload_0
+     202: checkcast     #8                  // class androidx/compose/ui/graphics/drawscope/ContentDrawScope
+     205: invokeinterface #288,  2          // InterfaceMethod androidx/compose/ui/node/DrawModifierNode.draw:(Landroidx/compose/ui/graphics/drawscope/ContentDrawScope;)V
+     210: nop
+     211: nop
+     212: nop
+     213: aload         11
+     215: invokeinterface #291,  1          // InterfaceMethod androidx/compose/ui/graphics/Canvas.restore:()V
+     220: aload         8
+     222: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     227: astore        22
+     229: iconst_0
+     230: istore        23
+     232: aload         22
+     234: aload         16
+     236: invokeinterface #265,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setDensity:(Landroidx/compose/ui/unit/Density;)V
+     241: aload         22
+     243: aload         17
+     245: invokeinterface #269,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setLayoutDirection:(Landroidx/compose/ui/unit/LayoutDirection;)V
+     250: aload         22
+     252: aload         18
+     254: invokeinterface #273,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setCanvas:(Landroidx/compose/ui/graphics/Canvas;)V
+     259: aload         22
+     261: lload         19
+     263: invokeinterface #277,  3          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext."setSize-uvyYCjk":(J)V
+     268: aload         22
+     270: aload         21
+     272: invokeinterface #281,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setGraphicsLayer:(Landroidx/compose/ui/graphics/layer/GraphicsLayer;)V
+     277: nop
+     278: goto          351
+     281: astore        28
+     283: aload         11
+     285: invokeinterface #291,  1          // InterfaceMethod androidx/compose/ui/graphics/Canvas.restore:()V
+     290: aload         8
+     292: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     297: astore        23
+     299: iconst_0
+     300: istore        29
+     302: aload         23
+     304: aload         16
+     306: invokeinterface #265,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setDensity:(Landroidx/compose/ui/unit/Density;)V
+     311: aload         23
+     313: aload         17
+     315: invokeinterface #269,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setLayoutDirection:(Landroidx/compose/ui/unit/LayoutDirection;)V
+     320: aload         23
+     322: aload         18
+     324: invokeinterface #273,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setCanvas:(Landroidx/compose/ui/graphics/Canvas;)V
+     329: aload         23
+     331: lload         19
+     333: invokeinterface #277,  3          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext."setSize-uvyYCjk":(J)V
+     338: aload         23
+     340: aload         21
+     342: invokeinterface #281,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setGraphicsLayer:(Landroidx/compose/ui/graphics/layer/GraphicsLayer;)V
+     347: nop
+     348: aload         28
+     350: athrow
+     351: nop
+     352: aload_0
+     353: aload         7
+     355: putfield      #43                 // Field drawNode:Landroidx/compose/ui/node/DrawModifierNode;
+     358: return
+    Exception table:
+       from    to  target type
+         184   213   281   any
+         281   283   281   any
+
+  public void drawLine-1RTmtNc(androidx.compose.ui.graphics.Brush, long, long, float, int, androidx.compose.ui.graphics.PathEffect, float, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: lload_2
+       6: lload         4
+       8: fload         6
+      10: iload         7
+      12: aload         8
+      14: fload         9
+      16: aload         10
+      18: iload         11
+      20: invokevirtual #330                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawLine-1RTmtNc":(Landroidx/compose/ui/graphics/Brush;JJFILandroidx/compose/ui/graphics/PathEffect;FLandroidx/compose/ui/graphics/ColorFilter;I)V
+      23: return
+
+  public void drawLine-NGM6Ib0(long, long, long, float, int, androidx.compose.ui.graphics.PathEffect, float, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: lload_3
+       6: lload         5
+       8: fload         7
+      10: iload         8
+      12: aload         9
+      14: fload         10
+      16: aload         11
+      18: iload         12
+      20: invokevirtual #347                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawLine-NGM6Ib0":(JJJFILandroidx/compose/ui/graphics/PathEffect;FLandroidx/compose/ui/graphics/ColorFilter;I)V
+      23: return
+
+  public void drawRect-AsUm42w(androidx.compose.ui.graphics.Brush, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: lload_2
+       6: lload         4
+       8: fload         6
+      10: aload         7
+      12: aload         8
+      14: iload         9
+      16: invokevirtual #352                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawRect-AsUm42w":(Landroidx/compose/ui/graphics/Brush;JJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      19: return
+
+  public void drawRect-n-J9OG0(long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: lload_3
+       6: lload         5
+       8: fload         7
+      10: aload         8
+      12: aload         9
+      14: iload         10
+      16: invokevirtual #359                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawRect-n-J9OG0":(JJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      19: return
+
+  public void drawImage-gbVJVH8(androidx.compose.ui.graphics.ImageBitmap, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: lload_2
+       6: fload         4
+       8: aload         5
+      10: aload         6
+      12: iload         7
+      14: invokevirtual #363                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawImage-gbVJVH8":(Landroidx/compose/ui/graphics/ImageBitmap;JFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      17: return
+
+  public void drawImage-9jGpkUE(androidx.compose.ui.graphics.ImageBitmap, long, long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: lload_2
+       6: lload         4
+       8: lload         6
+      10: lload         8
+      12: fload         10
+      14: aload         11
+      16: aload         12
+      18: iload         13
+      20: invokevirtual #382                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawImage-9jGpkUE":(Landroidx/compose/ui/graphics/ImageBitmap;JJJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      23: return
+
+  public void drawImage-AZ2fEMs(androidx.compose.ui.graphics.ImageBitmap, long, long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: lload_2
+       6: lload         4
+       8: lload         6
+      10: lload         8
+      12: fload         10
+      14: aload         11
+      16: aload         12
+      18: iload         13
+      20: iload         14
+      22: invokevirtual #390                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawImage-AZ2fEMs":(Landroidx/compose/ui/graphics/ImageBitmap;JJJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;II)V
+      25: return
+
+  public void drawRoundRect-ZuiqVtQ(androidx.compose.ui.graphics.Brush, long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: lload_2
+       6: lload         4
+       8: lload         6
+      10: fload         8
+      12: aload         9
+      14: aload         10
+      16: iload         11
+      18: invokevirtual #395                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawRoundRect-ZuiqVtQ":(Landroidx/compose/ui/graphics/Brush;JJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      21: return
+
+  public void drawRoundRect-u-Aw5IA(long, long, long, long, androidx.compose.ui.graphics.drawscope.DrawStyle, float, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: lload_3
+       6: lload         5
+       8: lload         7
+      10: aload         9
+      12: fload         10
+      14: aload         11
+      16: iload         12
+      18: invokevirtual #400                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawRoundRect-u-Aw5IA":(JJJJLandroidx/compose/ui/graphics/drawscope/DrawStyle;FLandroidx/compose/ui/graphics/ColorFilter;I)V
+      21: return
+
+  public void drawCircle-V9BoPsw(androidx.compose.ui.graphics.Brush, float, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: fload_2
+       6: lload_3
+       7: fload         5
+       9: aload         6
+      11: aload         7
+      13: iload         8
+      15: invokevirtual #404                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawCircle-V9BoPsw":(Landroidx/compose/ui/graphics/Brush;FJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      18: return
+
+  public void drawCircle-VaOC9Bg(long, float, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: fload_3
+       6: lload         4
+       8: fload         6
+      10: aload         7
+      12: aload         8
+      14: iload         9
+      16: invokevirtual #410                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawCircle-VaOC9Bg":(JFJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      19: return
+
+  public void drawOval-AsUm42w(androidx.compose.ui.graphics.Brush, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: lload_2
+       6: lload         4
+       8: fload         6
+      10: aload         7
+      12: aload         8
+      14: iload         9
+      16: invokevirtual #413                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawOval-AsUm42w":(Landroidx/compose/ui/graphics/Brush;JJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      19: return
+
+  public void drawOval-n-J9OG0(long, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: lload_3
+       6: lload         5
+       8: fload         7
+      10: aload         8
+      12: aload         9
+      14: iload         10
+      16: invokevirtual #416                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawOval-n-J9OG0":(JJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      19: return
+
+  public void drawArc-illE91I(androidx.compose.ui.graphics.Brush, float, float, boolean, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: fload_2
+       6: fload_3
+       7: iload         4
+       9: lload         5
+      11: lload         7
+      13: fload         9
+      15: aload         10
+      17: aload         11
+      19: iload         12
+      21: invokevirtual #420                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawArc-illE91I":(Landroidx/compose/ui/graphics/Brush;FFZJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      24: return
+
+  public void drawArc-yD3GUKo(long, float, float, boolean, long, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: fload_3
+       6: fload         4
+       8: iload         5
+      10: lload         6
+      12: lload         8
+      14: fload         10
+      16: aload         11
+      18: aload         12
+      20: iload         13
+      22: invokevirtual #427                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawArc-yD3GUKo":(JFFZJJFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      25: return
+
+  public void drawPath-LG529CI(androidx.compose.ui.graphics.Path, long, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: lload_2
+       6: fload         4
+       8: aload         5
+      10: aload         6
+      12: iload         7
+      14: invokevirtual #431                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawPath-LG529CI":(Landroidx/compose/ui/graphics/Path;JFLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      17: return
+
+  public void drawPath-GBMwjPU(androidx.compose.ui.graphics.Path, androidx.compose.ui.graphics.Brush, float, androidx.compose.ui.graphics.drawscope.DrawStyle, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: aload_2
+       6: fload_3
+       7: aload         4
+       9: aload         5
+      11: iload         6
+      13: invokevirtual #437                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawPath-GBMwjPU":(Landroidx/compose/ui/graphics/Path;Landroidx/compose/ui/graphics/Brush;FLandroidx/compose/ui/graphics/drawscope/DrawStyle;Landroidx/compose/ui/graphics/ColorFilter;I)V
+      16: return
+
+  public void drawPoints-F8ZwMP8(java.util.List<androidx.compose.ui.geometry.Offset>, int, long, float, int, androidx.compose.ui.graphics.PathEffect, float, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: iload_2
+       6: lload_3
+       7: fload         5
+       9: iload         6
+      11: aload         7
+      13: fload         8
+      15: aload         9
+      17: iload         10
+      19: invokevirtual #442                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawPoints-F8ZwMP8":(Ljava/util/List;IJFILandroidx/compose/ui/graphics/PathEffect;FLandroidx/compose/ui/graphics/ColorFilter;I)V
+      22: return
+
+  public void drawPoints-Gsft0Ws(java.util.List<androidx.compose.ui.geometry.Offset>, int, androidx.compose.ui.graphics.Brush, float, int, androidx.compose.ui.graphics.PathEffect, float, androidx.compose.ui.graphics.ColorFilter, int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: iload_2
+       6: aload_3
+       7: fload         4
+       9: iload         5
+      11: aload         6
+      13: fload         7
+      15: aload         8
+      17: iload         9
+      19: invokevirtual #450                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."drawPoints-Gsft0Ws":(Ljava/util/List;ILandroidx/compose/ui/graphics/Brush;FILandroidx/compose/ui/graphics/PathEffect;FLandroidx/compose/ui/graphics/ColorFilter;I)V
+      22: return
+
+  public androidx.compose.ui.graphics.drawscope.DrawContext getDrawContext();
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: invokevirtual #451                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+       7: areturn
+
+  public long getCenter-F1C5BW0();
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: invokevirtual #454                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."getCenter-F1C5BW0":()J
+       7: lreturn
+
+  public long getSize-NH-jbRc();
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: invokevirtual #455                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."getSize-NH-jbRc":()J
+       7: lreturn
+
+  public androidx.compose.ui.unit.LayoutDirection getLayoutDirection();
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: invokevirtual #456                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope.getLayoutDirection:()Landroidx/compose/ui/unit/LayoutDirection;
+       7: areturn
+
+  public float toPx-0680j_4(float);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: fload_1
+       5: invokevirtual #461                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."toPx-0680j_4":(F)F
+       8: freturn
+
+  public float toPx--R2X_6o(long);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: invokevirtual #466                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."toPx--R2X_6o":(J)F
+       8: freturn
+
+  public int roundToPx-0680j_4(float);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: fload_1
+       5: invokevirtual #471                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."roundToPx-0680j_4":(F)I
+       8: ireturn
+
+  public int roundToPx--R2X_6o(long);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: invokevirtual #476                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."roundToPx--R2X_6o":(J)I
+       8: ireturn
+
+  public float toDp-u2uoSUM(int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: iload_1
+       5: invokevirtual #481                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."toDp-u2uoSUM":(I)F
+       8: freturn
+
+  public float toDp-u2uoSUM(float);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: fload_1
+       5: invokevirtual #484                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."toDp-u2uoSUM":(F)F
+       8: freturn
+
+  public float toDp-GaN1DYA(long);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: invokevirtual #487                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."toDp-GaN1DYA":(J)F
+       8: freturn
+
+  public long toSp-kPz2Gy4(int);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: iload_1
+       5: invokevirtual #492                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."toSp-kPz2Gy4":(I)J
+       8: lreturn
+
+  public long toSp-kPz2Gy4(float);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: fload_1
+       5: invokevirtual #496                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."toSp-kPz2Gy4":(F)J
+       8: lreturn
+
+  public long toSp-0xMU5do(float);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: fload_1
+       5: invokevirtual #499                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."toSp-0xMU5do":(F)J
+       8: lreturn
+
+  public androidx.compose.ui.geometry.Rect toRect(androidx.compose.ui.unit.DpRect);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: aload_1
+       5: invokevirtual #504                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope.toRect:(Landroidx/compose/ui/unit/DpRect;)Landroidx/compose/ui/geometry/Rect;
+       8: areturn
+
+  public long toSize-XkaWNTQ(long);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: invokevirtual #509                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."toSize-XkaWNTQ":(J)J
+       8: lreturn
+
+  public long toDpSize-k-rfVVM(long);
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: lload_1
+       5: invokevirtual #513                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope."toDpSize-k-rfVVM":(J)J
+       8: lreturn
+
+  public float getDensity();
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: invokevirtual #517                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope.getDensity:()F
+       7: freturn
+
+  public float getFontScale();
+    Code:
+       0: aload_0
+       1: getfield      #18                 // Field canvasDrawScope:Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;
+       4: invokevirtual #520                // Method androidx/compose/ui/graphics/drawscope/CanvasDrawScope.getFontScale:()F
+       7: freturn
+
+  private static final kotlin.Unit record_JVtK1S4$lambda$0(androidx.compose.ui.node.LayoutNodeDrawScope, androidx.compose.ui.node.DrawModifierNode, kotlin.jvm.functions.Function1, androidx.compose.ui.graphics.drawscope.DrawScope);
+    Code:
+       0: aload_0
+       1: getfield      #43                 // Field drawNode:Landroidx/compose/ui/node/DrawModifierNode;
+       4: astore        4
+       6: aload_0
+       7: aload_1
+       8: putfield      #43                 // Field drawNode:Landroidx/compose/ui/node/DrawModifierNode;
+      11: nop
+      12: aload_0
+      13: checkcast     #6                  // class androidx/compose/ui/graphics/drawscope/DrawScope
+      16: astore        5
+      18: aload_3
+      19: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      24: invokeinterface #257,  1          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getDensity:()Landroidx/compose/ui/unit/Density;
+      29: astore        6
+      31: aload_3
+      32: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      37: invokeinterface #258,  1          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getLayoutDirection:()Landroidx/compose/ui/unit/LayoutDirection;
+      42: astore        7
+      44: aload_3
+      45: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      50: invokeinterface #39,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getCanvas:()Landroidx/compose/ui/graphics/Canvas;
+      55: astore        8
+      57: aload_3
+      58: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      63: invokeinterface #261,  1          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext."getSize-NH-jbRc":()J
+      68: lstore        9
+      70: aload_3
+      71: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      76: invokeinterface #75,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getGraphicsLayer:()Landroidx/compose/ui/graphics/layer/GraphicsLayer;
+      81: astore        11
+      83: nop
+      84: iconst_0
+      85: istore        12
+      87: aload         5
+      89: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+      94: invokeinterface #257,  1          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getDensity:()Landroidx/compose/ui/unit/Density;
+      99: astore        13
+     101: aload         5
+     103: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     108: invokeinterface #258,  1          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getLayoutDirection:()Landroidx/compose/ui/unit/LayoutDirection;
+     113: astore        14
+     115: aload         5
+     117: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     122: invokeinterface #39,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getCanvas:()Landroidx/compose/ui/graphics/Canvas;
+     127: astore        15
+     129: aload         5
+     131: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     136: invokeinterface #261,  1          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext."getSize-NH-jbRc":()J
+     141: lstore        16
+     143: aload         5
+     145: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     150: invokeinterface #75,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.getGraphicsLayer:()Landroidx/compose/ui/graphics/layer/GraphicsLayer;
+     155: astore        18
+     157: aload         5
+     159: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     164: astore        19
+     166: iconst_0
+     167: istore        20
+     169: aload         19
+     171: aload         6
+     173: invokeinterface #265,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setDensity:(Landroidx/compose/ui/unit/Density;)V
+     178: aload         19
+     180: aload         7
+     182: invokeinterface #269,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setLayoutDirection:(Landroidx/compose/ui/unit/LayoutDirection;)V
+     187: aload         19
+     189: aload         8
+     191: invokeinterface #273,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setCanvas:(Landroidx/compose/ui/graphics/Canvas;)V
+     196: aload         19
+     198: lload         9
+     200: invokeinterface #277,  3          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext."setSize-uvyYCjk":(J)V
+     205: aload         19
+     207: aload         11
+     209: invokeinterface #281,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setGraphicsLayer:(Landroidx/compose/ui/graphics/layer/GraphicsLayer;)V
+     214: nop
+     215: nop
+     216: aload         8
+     218: invokeinterface #284,  1          // InterfaceMethod androidx/compose/ui/graphics/Canvas.save:()V
+     223: nop
+     224: aload_2
+     225: aload         5
+     227: invokeinterface #524,  2          // InterfaceMethod kotlin/jvm/functions/Function1.invoke:(Ljava/lang/Object;)Ljava/lang/Object;
+     232: pop
+     233: aload         8
+     235: invokeinterface #291,  1          // InterfaceMethod androidx/compose/ui/graphics/Canvas.restore:()V
+     240: aload         5
+     242: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     247: astore        19
+     249: iconst_0
+     250: istore        20
+     252: aload         19
+     254: aload         13
+     256: invokeinterface #265,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setDensity:(Landroidx/compose/ui/unit/Density;)V
+     261: aload         19
+     263: aload         14
+     265: invokeinterface #269,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setLayoutDirection:(Landroidx/compose/ui/unit/LayoutDirection;)V
+     270: aload         19
+     272: aload         15
+     274: invokeinterface #273,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setCanvas:(Landroidx/compose/ui/graphics/Canvas;)V
+     279: aload         19
+     281: lload         16
+     283: invokeinterface #277,  3          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext."setSize-uvyYCjk":(J)V
+     288: aload         19
+     290: aload         18
+     292: invokeinterface #281,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setGraphicsLayer:(Landroidx/compose/ui/graphics/layer/GraphicsLayer;)V
+     297: nop
+     298: goto          371
+     301: astore        21
+     303: aload         8
+     305: invokeinterface #291,  1          // InterfaceMethod androidx/compose/ui/graphics/Canvas.restore:()V
+     310: aload         5
+     312: invokeinterface #33,  1           // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawScope.getDrawContext:()Landroidx/compose/ui/graphics/drawscope/DrawContext;
+     317: astore        20
+     319: iconst_0
+     320: istore        22
+     322: aload         20
+     324: aload         13
+     326: invokeinterface #265,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setDensity:(Landroidx/compose/ui/unit/Density;)V
+     331: aload         20
+     333: aload         14
+     335: invokeinterface #269,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setLayoutDirection:(Landroidx/compose/ui/unit/LayoutDirection;)V
+     340: aload         20
+     342: aload         15
+     344: invokeinterface #273,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setCanvas:(Landroidx/compose/ui/graphics/Canvas;)V
+     349: aload         20
+     351: lload         16
+     353: invokeinterface #277,  3          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext."setSize-uvyYCjk":(J)V
+     358: aload         20
+     360: aload         18
+     362: invokeinterface #281,  2          // InterfaceMethod androidx/compose/ui/graphics/drawscope/DrawContext.setGraphicsLayer:(Landroidx/compose/ui/graphics/layer/GraphicsLayer;)V
+     367: nop
+     368: aload         21
+     370: athrow
+     371: nop
+     372: aload_0
+     373: aload         4
+     375: putfield      #43                 // Field drawNode:Landroidx/compose/ui/node/DrawModifierNode;
+     378: goto          392
+     381: astore        5
+     383: aload_0
+     384: aload         4
+     386: putfield      #43                 // Field drawNode:Landroidx/compose/ui/node/DrawModifierNode;
+     389: aload         5
+     391: athrow
+     392: getstatic     #530                // Field kotlin/Unit.INSTANCE:Lkotlin/Unit;
+     395: areturn
+    Exception table:
+       from    to  target type
+         223   233   301   any
+         301   303   301   any
+          11   372   381   any
+         381   383   381   any
+
+  public androidx.compose.ui.node.LayoutNodeDrawScope();
+    Code:
+       0: aload_0
+       1: aconst_null
+       2: iconst_1
+       3: aconst_null
+       4: invokespecial #536                // Method "<init>":(Landroidx/compose/ui/graphics/drawscope/CanvasDrawScope;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+       7: return
+
+  static {};
+    Code:
+       0: return
+}

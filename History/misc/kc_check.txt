@@ -1,0 +1,5 @@
+﻿     0.0 MB  kotlin-compiler-embeddable-2.4.20.pom
+kotlin-compiler-embeddable 缓存目录: True
+=== .tmp 残留 ===
+.tmp 大小 MB: 53.2
+文件数: 12

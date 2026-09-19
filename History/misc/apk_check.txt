@@ -1,0 +1,9 @@
+﻿app-release.apk: True
+APK 大小 MB: 54.4
+=== 构建尾部 ===
+
+[Incubating] Problems report is available at: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_app/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 1m 40s
+69 actionable tasks: 45 executed, 24 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.3.1/userguide/configuration_cache_enabling.html

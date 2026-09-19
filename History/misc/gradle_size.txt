@@ -1,0 +1,2 @@
+﻿.gradle\caches 大小 MB: 584.5
+.gradle 总大小 MB: 588.3

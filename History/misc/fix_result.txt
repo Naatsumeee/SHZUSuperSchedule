@@ -1,0 +1,9 @@
+﻿app-release.apk: True
+APK 大小 MB: 54.4
+修改时间: 09/18/2026 20:41:30
+=== 构建尾部 ===
+
+For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 55s
+69 actionable tasks: 21 executed, 48 up-to-date

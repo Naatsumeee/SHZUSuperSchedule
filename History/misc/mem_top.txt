@@ -1,0 +1,14 @@
+﻿WorkBuddy                    1,724 MB
+Memory Compression             595 MB
+WorkBuddy                      540 MB
+WinStore.App                   521 MB
+MsMpEng                        464 MB
+WorkBuddy                      358 MB
+explorer                       327 MB
+msedge                         297 MB
+WorkBuddy                      294 MB
+WorkBuddy                      275 MB
+=== 内存占用 Top 10 ===
+可用内存 MB: 4561
+提交限制 MB: 27317
+空闲虚拟内存 MB: 9176

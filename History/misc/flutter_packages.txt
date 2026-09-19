@@ -1,0 +1,7 @@
+﻿=== packages 目录 ===
+
+=== version 文件 ===
+False
+False
+=== bin 目录 ===
+cache, internal, mingit, dart, dart.bat, flutter, flutter-dev, flutter-dev.bat, flutter.bat

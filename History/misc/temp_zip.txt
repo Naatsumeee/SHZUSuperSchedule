@@ -1,0 +1,2 @@
+﻿     7.0 MB  C:\Users\xutia\WorkBuddy\android-toolchain\android-sdk\.temp\PackageOperation01\android-ndk-r28c-windows.zip
+unzip

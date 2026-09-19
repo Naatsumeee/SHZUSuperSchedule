@@ -1,0 +1,4 @@
+﻿platform-tools adb: False
+android-35 android.jar: False
+android-36 android.jar: True
+platforms 目录: android-35, android-36

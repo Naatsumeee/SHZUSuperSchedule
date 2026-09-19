@@ -1,0 +1,5 @@
+﻿android-ndk-r28c 存在: True
+source.properties: False
+ndk-build.cmd: False
+大小 MB: 1840.1
+顶层: sources, toolchains, wrap.sh

@@ -1,0 +1,8 @@
+﻿java.exe : openjdk version "17.0.20.1" 2026-08-18
+所在位置 行:450 字符: 1
++ & "$env:JAVA_HOME\bin\java.exe" -version 2>&1 | Select-Object -First  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (openjdk version "17.0.20.1" 2026- 
+   08-18:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

@@ -1,0 +1,2 @@
+﻿resume: HTTP 206 size=7173405 time=33.931425
+size MB: 55.9

@@ -1,0 +1,4 @@
+﻿android-37 android.jar: True
+source.properties:
+Platform.CodeName=
+AndroidVersion.ApiLevel=37

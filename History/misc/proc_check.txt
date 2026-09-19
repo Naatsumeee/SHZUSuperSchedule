@@ -1,0 +1,6 @@
+﻿=== 相关进程 ===
+java 进程: 0
+dart 进程: 2
+flutter 进程: 0 / 0
+=== engine artifacts ===
+android-arm, android-arm-profile, android-arm-release, android-arm64, android-arm64-profile, android-arm64-release, android-x64, android-x64-profile, android-x64-release, android-x86, common, windows-x64, windows-x64-profile, windows-x64-release

@@ -1,0 +1,6 @@
+﻿=== ndk 目录 ===
+android-ndk-r28c
+28.2.13676358 source.properties: False
+android-ndk-r28c 存在: True
+r28c source.properties: True
+r28c 大小 MB: 1986.5

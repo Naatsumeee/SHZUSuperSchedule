@@ -1,0 +1,6 @@
+﻿flutter.bat 存在: True
+flutter 目录: .agents, .claude, .dart_tool, .gemini, .git, .github, .idea, .pub-preload-cache
+=== SDK ===
+platform-tools adb: False
+platforms: android-36
+build-tools: 35.0.0, 36.0.0

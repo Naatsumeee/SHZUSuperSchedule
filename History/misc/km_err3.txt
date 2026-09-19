@@ -1,0 +1,33 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+gradle.bat : 
+所在位置 行:459 字符: 1
++ & "$base\gradle\gradle-9.7.1\bin\gradle.bat" assembleDebug --no-daemo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_km\app\build.gradle.kts' line: 1
+
+* What went wrong:
+An exception occurred applying plugin request [id: 'com.android.application']
+> Failed to apply plugin 'com.android.internal.application'.
+   > Failed to create service 'com.android.build.gradle.internal.errors.AndroidProblemReporterProvider_9e4ddc52-01d1-40
+3f-9712-c2d4194c187c'.
+      > Could not create an instance of type com.android.build.gradle.internal.errors.AndroidProblemReporterProvider.
+         > Could not create service of type InternalProblems using ProblemsBuildTreeServices.createInternalProblems().
+            > Plugin 'com.android.internal.application' relies on 'org.gradle.api.problems.internal.InternalProblems', 
+a Gradle internal API that was removed in Gradle 9.6.0. Update the plugin to a version that no longer uses Gradle inter
+nal APIs, or use Gradle 9.5. For more information, please refer to https://docs.gradle.org/9.7.1/userguide/upgrading_ve
+rsion_9.html#agp_8x_incompatible in the Gradle documentation.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1m 26s

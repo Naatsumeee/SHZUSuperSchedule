@@ -1,0 +1,11 @@
+﻿=== flutter 顶层完整列表 ===
+.agents, .claude, .dart_tool, .gemini, .git, .github, .idea, .pub-preload-cache, .vscode, agent-artifacts, bin, buildtools, dev, docs, engine, .autoroller-preupload.sh, .ci.yaml, .direnv, .gitattributes, .gitignore, analysis_options.yaml, AUTHORS, CHANGELOG.md, CODEOWNERS, CODE_OF_CONDUCT.md, CONTRIBUTING.md, dartdoc_options.yaml, DEPS
+=== packages/flutter_tools ===
+flutter_tools 存在: False
+=== dart-sdk ===
+dart.exe 存在: True
+=== .git ===
+.git 存在: True
+=== git ===
+PortableGit git.exe: False
+PortableGit cmd: True

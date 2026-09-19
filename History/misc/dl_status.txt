@@ -1,0 +1,8 @@
+﻿
+Name              SizeMB
+----              ------
+cmdline-tools.zip  136.4
+flutter.zip            0
+jdk17.zip            182
+
+

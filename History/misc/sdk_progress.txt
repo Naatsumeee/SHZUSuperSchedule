@@ -1,0 +1,8 @@
+﻿=== android-sdk 顶层 ===
+.temp, build-tools, cmdline-tools, licenses, platforms
+=== platforms ===
+android-36
+=== build-tools ===
+35.0.0, 36.0.0
+=== platform-tools 存在? ===
+False

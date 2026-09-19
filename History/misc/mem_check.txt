@@ -1,0 +1,7 @@
+﻿总内存 GB: 15.2
+可用内存 GB: 2.4
+=== gen_snapshot 相关 ===
+gen_snapshot 进程: 0
+=== AOT 产物 ===
+flutter/release 存在, 大小 MB: 0
+

@@ -1,0 +1,5 @@
+﻿arm crtbegin_dynamic.o: True
+arm libc.a: True
+aarch64 crtbegin: True
+总大小 MB: 2172.9
+重命名后 source.properties: True

@@ -1,0 +1,5 @@
+﻿200  https://storage.googleapis.com/flutter_infra_release/releases/releases_windows.json
+200  https://dl.google.com/android/repository/repository2-3.xml
+200  https://api.adoptium.net/v3/binary/latest/17/ga/windows/x64/jdk/hotspot/normal/eclipse
+200  https://services.gradle.org/distributions/
+200  https://pub.dev/

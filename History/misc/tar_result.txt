@@ -1,0 +1,2 @@
+﻿arm-linux-androideabi 大小 MB: 30.9
+aarch64 大小 MB: 47.2

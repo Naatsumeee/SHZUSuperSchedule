@@ -1,0 +1,3 @@
+﻿.tmp 目录存在: False
+清理后存在: False
+kotlin-stdlib-jdk8 缓存: True

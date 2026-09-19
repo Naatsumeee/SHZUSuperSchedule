@@ -1,0 +1,10 @@
+﻿=== 所有 java/javaw 进程 ===
+java: 0
+javaw: 0
+gradle 相关进程: 0
+=== 失败的 lock 文件 ===
+lock 目录存在: True
+df7b42d4d5c87503c10f4049cdd8c436.lock
+NT AUTHORITY\SYSTEM Allow  FullControl
+BUILTIN\Administrators Allow  FullControl
+DESKTOP-AM4IOGR\xutia Allow  FullControl

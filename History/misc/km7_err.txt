@@ -1,0 +1,8 @@
+﻿> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+[Incubating] Problems report is available at: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/build/reports/problems/problems-report.html
+FAILURE: Build failed with an exception.
+* What went wrong:
+> A failure occurred while executing com.android.build.gradle.internal.tasks.CheckAarMetadataWorkAction
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+BUILD FAILED in 1m 31s

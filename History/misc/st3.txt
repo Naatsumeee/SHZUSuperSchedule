@@ -1,0 +1,5 @@
+﻿build_out KB: 0
+.gradle: False
+项目 build 目录: False
+java: 0
+dart: 2
