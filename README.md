@@ -97,18 +97,6 @@ powershell -ExecutionPolicy Bypass -File tools\build_km_v145.ps1
 > ```
 > 只看编译错误：`grep -E "^e: " -A3`
 
-### 方式二：直接 Gradle
-
-```powershell
-$env:JAVA_HOME        = "C:\Users\xutia\WorkBuddy\android-toolchain\jdk17"
-$env:ANDROID_HOME     = "C:\Users\xutia\WorkBuddy\android-toolchain\android-sdk"
-$env:ANDROID_SDK_ROOT = $env:ANDROID_HOME
-$env:GRADLE_USER_HOME = "C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home"
-# 清空所有代理环境变量（直连）
-cd shzu_class_km
-& "C:\Users\xutia\WorkBuddy\android-toolchain\gradle\gradle-9.7.1\bin\gradle.bat" assembleRelease --no-daemon --console=plain
-```
-
 产物：`shzu_class_km/app/build/outputs/apk/release/app-release.apk`
 
 ### 环境要求（版本强绑定，别乱升）
