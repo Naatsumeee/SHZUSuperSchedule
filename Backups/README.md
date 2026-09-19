@@ -10,6 +10,11 @@
 2. 声明文件命名：`版本说明_<版本>.md`，与 APK 一一对应。
 3. 新增版本时：复制 APK → 新增同名声明 → 在本文件「版本索引」表格里补一行。
 4. **不要删旧版本**。这里的价值就是能随时回退到任何一个历史状态。
+5. **对外发布**：打 tag（`git tag -a BETA-v1.3.2 -m "..."`）→ `git push origin <tag>` →
+   在 GitHub 上基于该 tag 创建 Release，把 APK 作为附件上传。
+   ⚠️ **Release 附件名只能用 ASCII**：GitHub 会**静默丢掉非 ASCII 字符**
+   （实测 `石大超级课表_BETA-v1.3.2.apk` 被存成 `_BETA-v1.3.2.apk`），
+   所以附件统一命名为 `SHZUSuperSchedule_<版本>.apk`。
 
 ## 版本索引
 
