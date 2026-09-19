@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  小组件尺寸声明。
+
+  ## 单位换算（Android 官方公式）
+      n 格 = 70n − 30 dp
+        · 1 格 =  40dp
+        · 2 格 = 110dp
+        · 3 格 = 180dp
+        · 4 格 = 250dp
+        · 5 格 = 320dp
+
+  ## MIUI 的三个坑（v1.3.1 修复）
+  1. **决定「更多尺寸档位」的是 minResize，不是 minSize。**
+     早期把 `minResizeWidth/Height` 也写成 110dp（= 2 格），
+     MIUI 的 `WidgetManagerUtils` 判定「已经是最小尺寸、没有可缩放空间」，
+     于是长按拖动时**根本不显示更多尺寸档位** —— 这正是用户反馈
+     「仍然没有更多尺寸选项」的根因。
+     修复：minResize 压到 **1 格 = 40dp**，maxResize 放开到 4 格宽×5 格高，
+     用户可自由从 1 格拉到 5 格。
+
+  2. **必须声明 `android:previewImage`（决定「小组件无法使用」的真凶）。**
+     不声明 previewImage 时，MIUI 桌面加载组件会走
+     `Resources.getDrawable2(resId)`，resId 解析为 **0x0**，
+     日志报：
+        HyperLauncher-HyperTheme [E]: Resources: getDrawable2 failed resId=0x0
+        [Error]IconDrawableWidget: build with null image after render completed
+     结果就是拖到桌面后只显示一块「载入窗口小部件时出现问题」的灰块，
+     组件内容完全不渲染 —— 这才是「安卓小组件仍然无法使用」的根因，
+     跟 RemoteViews 的 id 无关（id 问题只导致内容错乱，不会导致整块不显示）。
+     修复：提供 `@drawable/widget_preview`（560×560 PNG）+ `previewLayout`。
+
+  5. **`initialLayout` 必须指向「加载态」布局，而不是正式布局（第二个真凶）。**
+     小米官方《Widget 适配建议及示例》明确要求：
+
+       没有配置加载态，手机重启或者桌面/负一屏重启会呈现空白卡片。
+       方案：initialLayout 指定加载态布局资源，收到 update 广播时再更新为正式布局。
+
+     之前 initialLayout 直接指向 `@layout/widget_schedule`，
+     而该布局的 6 行课程在**未被 update 填充**时全是空 TextView，
+     「今天没有课」那行又是 `visibility="gone"`，
+     桌面首次渲染量出的可见高度≈0，MIUI 判定为空卡片 →
+     撤掉真实子视图改画兜底占位（那块灰色「载入窗口小部件时出现问题」），
+     并且此后**不再重新膨胀**，于是永远停在灰块。
+     修复：initialLayout 改为 `@layout/widget_schedule_loading`，
+     previewLayout 仍用正式布局（选择器里的预览才是真实样貌）。
+
+  6. **「更多尺寸」靠多个 provider 实现，不靠自由缩放。**
+     MIUI 选择器把每个 `<receiver>` 当一个条目。
+     这个 `ScheduleWidgetProvider` 保留自由缩放能力（自适应尺寸档），
+     另外四个固定尺寸档位见 widget_schedule_info_2x2 / _4x2 / _2x4 / _4x4。
+     用户在选择器里能看到「2×2 / 4×2 / 2×4 / 4×4 / 自适应」共 5 个条目。
+
+  7. `updatePeriodMillis` 设为 0（交给 App 主动推送刷新），
+     避免系统每 30 分钟唤醒一次造成耗电；课程数据本就在写入时
+     通过 `ScheduleWidgetProvider.refreshAll()` 立即刷新。
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="110dp"
+    android:minHeight="110dp"
+    android:minResizeWidth="110dp"
+    android:minResizeHeight="110dp"
+    android:maxResizeWidth="320dp"
+    android:maxResizeHeight="390dp"
+    android:targetCellWidth="2"
+    android:targetCellHeight="2"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/widget_schedule_loading"
+    android:previewLayout="@layout/widget_schedule"
+    android:previewImage="@drawable/widget_preview"
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    android:description="@string/widget_description" />
+
+

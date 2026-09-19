@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:label="@string/app_name"
+        android:theme="@style/Theme.ShzuClass"
+        android:usesCleartextTraffic="true"
+        android:supportsRtl="true">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode|smallestScreenSize|screenLayout"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          桌面小组件的四个尺寸档位。
+
+          ## 为什么注册四个 receiver
+
+          MIUI 的小部件选择器把**每个 `<receiver>` 当作一个独立条目**。
+          系统自带的小爱课程表就是这样提供 4 个固定尺寸档位的
+          （V5TimeTable22Widget / V5TimeTable42Widget / V5TimeTableWidget /
+          V5WeekTimeTableWidget）。
+
+          之前只注册了一个 receiver + resizeMode="horizontal|vertical"，
+          用户在选择器里**只能看到一个条目**，必须长按自己拖才能改大小 ——
+          这就是反复反馈的「可选择尺寸仍然没有多余的」。
+          现在拆成 4 个 receiver，选择器里直接出现四档可选尺寸：
+            2×2（小）/ 4×2（宽扁）/ 2×4（高瘦）/ 4×4（大）
+
+          每个 receiver 的 `android:label` 必须不同，否则选择器里几项同名，
+          用户无法区分。
+
+          ## 另外两个致命细节（缺一不可）
+
+          1. `android:initialLayout` 必须指向**加载态布局**
+             （widget_schedule_loading），不能直接指向正式布局。
+             小米官方文档明确要求配置加载态，否则桌面重启时会呈现空白卡片，
+             MIUI 会把组件判为「加载失败」并永久停在灰色占位 ——
+             这正是「载入窗口小部件时出现问题」的根因。
+
+          2. `<meta-data>` 的 resource 必须与各自尺寸的 xml 对应。
+        -->
+        <receiver
+            android:name=".widget.ScheduleWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label_auto">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_schedule_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.SmallWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label_2x2">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_schedule_info_2x2" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.WideWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label_4x2">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_schedule_info_4x2" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.TallWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label_2x4">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_schedule_info_2x4" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.BigWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label_4x4">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_schedule_info_4x4" />
+        </receiver>
+    </application>
+</manifest>

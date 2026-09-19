@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">石大超级课表</string>
+    <string name="widget_description">在桌面查看今天的课程安排</string>
+    <string name="widget_description_small">2×2 小尺寸 · 今天最多 2 节课</string>
+    <string name="widget_description_medium_wide">4×2 宽扁 · 今天最多 3 节课</string>
+    <string name="widget_description_medium_tall">2×4 高瘦 · 今天最多 3 节课</string>
+    <string name="widget_description_large">4×4 大尺寸 · 今天最多 6 节课</string>
+    <!-- 各尺寸档位在桌面小部件选择器里的显示名，必须各不相同 -->
+    <string name="widget_label_2x2">石大超级课表 · 2×2</string>
+    <string name="widget_label_4x2">石大超级课表 · 4×2</string>
+    <string name="widget_label_2x4">石大超级课表 · 2×4</string>
+    <string name="widget_label_4x4">石大超级课表 · 4×4</string>
+    <string name="widget_label_auto">石大超级课表 · 自适应尺寸</string>
+</resources>

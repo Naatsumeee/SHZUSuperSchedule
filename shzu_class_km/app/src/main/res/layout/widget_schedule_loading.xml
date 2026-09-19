@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  小组件「加载态」布局（initialLayout）。
+
+  ## 为什么必须单独做一个加载态布局（v1.3.1）
+
+  小米官方的《Widget 适配建议及示例》里明确写着：
+
+  > 没有配置加载态，手机重启或者桌面/负一屏重启会呈现**空白卡片**，
+  > 影响整体体验。方案：默认展示加载态（initialLayout 指定加载态布局资源），
+  > 当收到 update 广播时更新为实际的布局。
+
+  ## ⚠️ 同样不能用 <View>
+
+  原因见 `widget_schedule.xml` 顶部注释：`android.view.View` 不在
+  `RemoteViews` 的类白名单内，会被 `RemoteViews.apply()` 拒绝膨胀
+  （`Class not allowed to be inflated android.view.View`），
+  而 MIUI 会静默吞掉这个异常，桌面因此永久停留在灰色占位。
+  所以下面所有的占位色块 / 分隔线都改用白名单内的 `ImageView`。
+
+  ## 加载态的设计要求（按官方规范）
+  - 静态部分 + 半透明占位形状，暗示「内容正在加载」；
+  - **必须有确定的可见高度**，不能是 0 —— 否则照样被判为空；
+  - 视觉与正式布局接近，避免切换时突兀。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_loading_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="40dp"
+    android:orientation="vertical"
+    android:background="@drawable/widget_bg"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FF1A1A1A"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="石大超级课表" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="@null"
+        android:background="#22000000" />
+
+    <!-- 占位行 1 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:layout_width="3dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@null"
+            android:background="#66B3D9F2" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="3"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@null"
+            android:background="#1F000000" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="2"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@null"
+            android:background="#14000000" />
+    </LinearLayout>
+
+    <!-- 占位行 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:layout_width="3dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@null"
+            android:background="#66B3D9F2" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="3"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@null"
+            android:background="#1F000000" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="2"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@null"
+            android:background="#14000000" />
+    </LinearLayout>
+
+    <!-- 占位行 3 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:layout_width="3dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@null"
+            android:background="#66B3D9F2" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="3"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@null"
+            android:background="#1F000000" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="2"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@null"
+            android:background="#14000000" />
+    </LinearLayout>
+
+    <!-- 占位行 4 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:layout_width="3dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@null"
+            android:background="#66B3D9F2" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="3"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@null"
+            android:background="#1F000000" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:layout_weight="2"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@null"
+            android:background="#14000000" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="6dp"
+        android:textColor="#FF9A9A9A"
+        android:textSize="11sp"
+        android:text="正在载入课表…" />
+</LinearLayout>

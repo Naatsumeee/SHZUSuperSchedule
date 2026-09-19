@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  小组件正式布局（RemoteViews 用）。
+
+  ## ⚠️ 最关键的一条约束：不能用 <View>（v1.3.1 真正的根因）
+
+  `RemoteViews` 在桌面端**不是**用普通 `LayoutInflater` 膨胀的，
+  而是走它自己的白名单膨胀器。白名单里只允许这些类：
+
+      FrameLayout / LinearLayout / RelativeLayout / GridLayout
+      AnalogClock / Button / Chronometer / ImageButton / ImageView
+      ProgressBar / TextView / ViewFlipper / ListView / GridView
+      StackView / AdapterViewFlipper / ViewStub
+
+  **`android.view.View` 不在白名单里。** 一旦布局里出现 `<View>`，
+  桌面调用 `RemoteViews.apply()` 时会抛：
+
+      android.view.InflateException:
+      Binary XML file line #N: Class not allowed to be inflated android.view.View
+
+  而 MIUI 的 `AppWidgetHostView.updateAppWidgetImpl`（日志 tag 形如
+  `[AppWidgetHostView] updateAppWidgetImpl: INFLATE path ...`）
+  **会把这个异常静默吞掉**，不做任何兜底提示，然后直接放弃渲染 ——
+  桌面上的表现就是那块灰色的「载入窗口小部件时出现问题」，而且**永久停留**。
+
+  这个坑特别有迷惑性，因为：
+  - `android:previewLayout`（选择器里的预览）走的是**普通 LayoutInflater**，
+    `<View>` 能正常膨胀，所以预览图看起来完美无缺；
+  - 看起来只有「放到桌面之后」才坏，让人误以为是 initialLayout / 尺寸 / 缓存问题。
+
+  所以本文件里**一个 `<View>` 都不能有**：色条与分隔线全部改用
+  `ImageView`（白名单内，且支持 `setBackgroundColor` / `setImageDrawable`）。
+-->
+<!--
+  根布局高度用 `match_parent`：卡片要**填满用户选的格子**。
+  早期写 `wrap_content` + `minHeight=110dp`，导致无论拉多大，
+  卡片都只按内容高度渲染成一条矮卡片（「尺寸档位修好了但高度不对」）。
+  行高由 Kotlin 侧按宿主给的真实高度显式分配，见 WidgetRenderer.buildInternal。
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="40dp"
+    android:orientation="vertical"
+    android:background="@drawable/widget_bg"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/widget_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FF1A1A1A"
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="石大超级课表" />
+
+    <!-- 分隔线：用 ImageView（白名单内），不能用 View。weight 让它在矮卡片里被优先压缩 -->
+    <ImageView
+        android:id="@+id/widget_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="@null"
+        android:background="#22000000" />
+
+    <!-- 第 1 行 -->
+    <LinearLayout
+        android:id="@+id/widget_row_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:id="@+id/widget_bar_1"
+            android:layout_width="3dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@null"
+            android:background="#FFB3D9F2" />
+
+        <TextView
+            android:id="@+id/widget_time_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="42dp"
+            android:textColor="#FF6E6E6E"
+            android:textSize="10sp"
+            android:maxLines="1"
+            android:text="" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widget_name_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF1A1A1A"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/widget_loc_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF7A7A7A"
+                android:textSize="10sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 第 2 行 -->
+    <LinearLayout
+        android:id="@+id/widget_row_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:id="@+id/widget_bar_2"
+            android:layout_width="3dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@null"
+            android:background="#FFB3D9F2" />
+
+        <TextView
+            android:id="@+id/widget_time_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="42dp"
+            android:textColor="#FF6E6E6E"
+            android:textSize="10sp"
+            android:maxLines="1"
+            android:text="" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widget_name_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF1A1A1A"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/widget_loc_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF7A7A7A"
+                android:textSize="10sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 第 3 行 -->
+    <LinearLayout
+        android:id="@+id/widget_row_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:id="@+id/widget_bar_3"
+            android:layout_width="3dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@null"
+            android:background="#FFB3D9F2" />
+
+        <TextView
+            android:id="@+id/widget_time_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="42dp"
+            android:textColor="#FF6E6E6E"
+            android:textSize="10sp"
+            android:maxLines="1"
+            android:text="" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widget_name_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF1A1A1A"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/widget_loc_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF7A7A7A"
+                android:textSize="10sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 第 4 行 -->
+    <LinearLayout
+        android:id="@+id/widget_row_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:id="@+id/widget_bar_4"
+            android:layout_width="3dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@null"
+            android:background="#FFB3D9F2" />
+
+        <TextView
+            android:id="@+id/widget_time_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="42dp"
+            android:textColor="#FF6E6E6E"
+            android:textSize="10sp"
+            android:maxLines="1"
+            android:text="" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widget_name_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF1A1A1A"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/widget_loc_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF7A7A7A"
+                android:textSize="10sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 第 5 行 -->
+    <LinearLayout
+        android:id="@+id/widget_row_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:id="@+id/widget_bar_5"
+            android:layout_width="3dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@null"
+            android:background="#FFB3D9F2" />
+
+        <TextView
+            android:id="@+id/widget_time_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="42dp"
+            android:textColor="#FF6E6E6E"
+            android:textSize="10sp"
+            android:maxLines="1"
+            android:text="" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widget_name_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF1A1A1A"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/widget_loc_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF7A7A7A"
+                android:textSize="10sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 第 6 行（4×4 及以上尺寸可用） -->
+    <LinearLayout
+        android:id="@+id/widget_row_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <ImageView
+            android:id="@+id/widget_bar_6"
+            android:layout_width="3dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="@null"
+            android:background="#FFB3D9F2" />
+
+        <TextView
+            android:id="@+id/widget_time_6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="42dp"
+            android:textColor="#FF6E6E6E"
+            android:textSize="10sp"
+            android:maxLines="1"
+            android:text="" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="6dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widget_name_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF1A1A1A"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/widget_loc_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FF7A7A7A"
+                android:textSize="10sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--
+      「今天没有课」占位。
+
+      高度用 `0dp + weight=1`：它占据「行全部隐藏后」剩下的全部空间，
+      让空课表时卡片也是**满格**的，而不是缩成一条小矮条 ——
+      这正是「小组件高度不随尺寸变化」观感的一部分。
+      行的显隐由 Kotlin 侧控制；行可见时它们自己撑起高度，
+      weight 只在还有剩余空间时才生效，不会挤压已设好高度的行。
+    -->
+    <TextView
+        android:id="@+id/widget_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:minHeight="40dp"
+        android:gravity="center"
+        android:textColor="#FF9A9A9A"
+        android:textSize="12sp"
+        android:text="今天没有课"
+        android:visibility="gone" />
+</LinearLayout>

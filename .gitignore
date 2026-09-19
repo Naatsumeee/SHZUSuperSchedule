@@ -1,0 +1,51 @@
+# ---------- Gradle / Android 构建产物 ----------
+.gradle/
+build/
+shzu_class_km/.gradle/
+shzu_class_km/build/
+shzu_class_km/app/build/
+shzu_class_km/.kotlin/
+captures/
+.externalNativeBuild/
+.cxx/
+*.dex
+
+# ---------- 安装包与签名（二进制，默认不入库） ----------
+*.apk
+*.aab
+*.ap_
+*.jks
+*.keystore
+
+# 例外：Backups/ 下的 release APK 是版本记录的一部分，需要入库。
+# 但排除 57MB 的 Flutter 原型（超过 GitHub 建议的 50MB 单文件上限），
+# 它仍完整保存在本地 Backups/ 目录。
+!Backups/*.apk
+Backups/石大课表_Flutter原型.apk
+
+# ---------- 本地配置 ----------
+local.properties
+
+# ---------- 第三方库源码（本地参考用，不入库） ----------
+# MiuiX 官方仓库：https://github.com/compose-miuix-ui/miuix
+# 需要查 API 时直接从上游获取，不要把它复制进仓库。
+reference/
+
+# ---------- IDE ----------
+*.iml
+.idea/
+.vscode/
+
+# ---------- 系统 ----------
+.DS_Store
+Thumbs.db
+
+# ---------- 日志与临时 ----------
+*.log
+km_build_v*.txt
+
+# ---------- Python（教务爬虫） ----------
+__pycache__/
+*.pyc
+.venv/
+venv/

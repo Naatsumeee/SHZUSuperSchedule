@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  尺寸档位：2×2（小）。
+
+  ## 为什么用「多个 provider」而不是「一个 provider + 自由缩放」
+
+  MIUI 的小组件选择器里，「可选择尺寸」有两种实现方式：
+
+  1. **单个 provider + resizeMode="horizontal|vertical"**
+     桌面上长按拖动可以改大小，但**选择器里只会出现一个条目**，
+     尺寸靠用户自己拖 —— 用户反馈的「可选择尺寸仍然没有多余的」
+     指的就是选择器里只看到一个，没有现成的档位可选。
+
+  2. **多个 provider，每个固定一档尺寸（resizeMode="none"）**
+     系统自带的小爱课程表就是这么做的：
+        V5TimeTable22Widget  (2×2)
+        V5TimeTable42Widget  (4×2)
+        V5TimeTableWidget    (4×4)
+        V5WeekTimeTableWidget(4×5)
+     四个独立 provider 分别声明固定尺寸，选择器里就会出现四个条目，
+     用户直接挑一个，不用手动拖。
+
+  本应用采用方式 2，拆成 4 档：2×2 / 4×2 / 2×4 / 4×4，
+  用户在小部件列表里能直接看到四个不同尺寸的「石大超级课表」。
+
+  注意：方式 2 下 `resizeMode` 必须为 `none`，
+  否则 MIUI 会认为该 provider 支持自由缩放，
+  反而不会再把它当成一个「固定尺寸档位」来展示。
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="110dp"
+    android:minHeight="110dp"
+    android:targetCellWidth="2"
+    android:targetCellHeight="2"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/widget_schedule_loading"
+    android:previewLayout="@layout/widget_schedule"
+    android:previewImage="@drawable/widget_preview"
+    android:resizeMode="none"
+    android:widgetCategory="home_screen"
+    android:description="@string/widget_description_small" />

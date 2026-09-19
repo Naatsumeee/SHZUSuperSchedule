@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  尺寸档位：4×4（大）。
+
+  与 widget_schedule_info_2x2.xml 同一套方案：多个 provider，
+  每个固定一档尺寸 + resizeMode="none"，
+  这样 MIUI 小部件选择器里会直接列出多个不同尺寸的条目。
+
+  对应单元格换算（Android 官方公式 n 格 = 70n − 30 dp）：
+    4 格宽 = 250dp ；4 格高 = 250dp
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="250dp"
+    android:minHeight="250dp"
+    android:targetCellWidth="4"
+    android:targetCellHeight="4"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/widget_schedule_loading"
+    android:previewLayout="@layout/widget_schedule"
+    android:previewImage="@drawable/widget_preview"
+    android:resizeMode="none"
+    android:widgetCategory="home_screen"
+    android:description="@string/widget_description_large" />
