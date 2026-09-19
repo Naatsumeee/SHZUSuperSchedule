@@ -69,7 +69,7 @@ import java.time.LocalDate
 
 const val APP_VERSION = "BETA-v1.3.2"
 const val AUTHOR_NAME = "@Natsume"
-const val AUTHOR_EMAIL = "xu.tianhao@outkook.com"
+const val AUTHOR_EMAIL = "xu.tianhao@outlook.com"
 
 /** 连续点击「开源说明」多少下解锁通知测试（彩蛋） */
 private const val EGG_TAP_TARGET = 7
@@ -770,6 +770,8 @@ private val CHANGELOG = listOf(
             "测试通知会随机取一节课按真实提醒格式展示；\n" +
             "反馈邮箱点一次提示、点两次即可复制到剪贴板；\n" +
             "应用内提示（toast）显示时间统一为 1.2 秒；\n" +
+            "应用图标替换为 Icon-256（此前一直使用系统默认图标）；\n" +
+            "修正反馈邮箱拼写错误（outkook → outlook）；\n" +
             "底栏改为真实的背景高斯模糊（磨砂玻璃），且模糊半径沿栏高渐变（栏底最糊、栏顶最清）；\n" +
             "底栏底色改为顶边完全透明的纵向渐变，去掉溢出到栏外的模糊光晕与顶部硬边；\n" +
             "设置页分组顺序调整，「显示」紧随「教务」，「课表存档」移到「系统与交互」之前；\n" +

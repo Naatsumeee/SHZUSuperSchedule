@@ -37,6 +37,8 @@ v1.3.2 是本轮迭代的主版本，改动量最大，集中在四块：
   测试通知会随机取一节课按真实提醒格式展示；
 - 反馈邮箱点一次提示、点两次即可复制到剪贴板；
 - 应用内提示（toast）显示时间统一为 1.2 秒；
+- **应用图标替换为 Icon-256**（此前一直使用系统默认图标）；
+- **修正反馈邮箱拼写错误**（`outkook.com` → `outlook.com`）；
 - 底栏改为**真实的背景高斯模糊**（磨砂玻璃），且模糊半径沿栏高渐变（栏底最糊、栏顶最清）；
 - 底栏底色改为顶边完全透明的纵向渐变，去掉溢出到栏外的模糊光晕与顶部硬边；
 - 设置页分组顺序调整，「显示」紧随「教务」，「课表存档」移到「系统与交互」之前；
@@ -122,7 +124,23 @@ v1.3.2 是本轮迭代的主版本，改动量最大，集中在四块：
 | v142 | **三层图层方案重写 `BlurBar.kt`** |
 | v143 | 渐变模糊 + 通知测试三项 |
 | v144 | toast 压到 0.5s |
-| v145 | toast 改为 1.2s（**最终出包**） |
+| v145 | toast 改为 1.2s |
+| **v146** | **应用图标改为 Icon-256、反馈邮箱修正为 outlook.com（最终出包）** |
+
+### v146 修订详情
+
+- **应用图标**：工程根目录 `Icon-256.ico`（256×256 RGBA）转成 Android 图标，
+  生成 `mipmap-mdpi/hdpi/xhdpi/xxhdpi/xxxhdpi` 五档 `ic_launcher.png`
+  （48 / 72 / 96 / 144 / 192 px），并在 `AndroidManifest.xml` 的 `<application>` 上加
+  `android:icon="@mipmap/ic_launcher"`。
+  此前 manifest **完全没有指定 icon**，所以一直显示系统默认图标。
+  验证：`aapt2 dump badging` 已输出 `application-icon-160/240/320/480/640` 五个密度。
+- **反馈邮箱**：`SettingsPage.kt` 的 `AUTHOR_EMAIL` 由 `xu.tianhao@outkook.com`
+  （早期误拼，少一个 l）改为 **`xu.tianhao@outlook.com`**。
+  同步更新了 `docs/APP使用说明.md`、`PROJECT_PROMPT.md`、
+  `History/prompts/项目约束提示词.md`、`.workbuddy/memory/MEMORY.md`。
+  验证：dex 中 `outlook.com` 出现 3 次、`outkook.com` 出现 0 次。
+- 体积：14776771 → **14927459 bytes**（+150KB，即图标资源）。
 
 ## 其他沉淀
 

@@ -208,8 +208,7 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
 - 界面用 **MiuiX 风格**，**不要橙色主题**；**不要无意义的名句 / 引言 / 标语**。
 - **倾向紧凑排版**：标题字号与留白要压，但大标题要保留。
 - **滑块 / 配色这类易误触的控件收进二级菜单**。
-- 作者署名 **`@Natsume`**；反馈邮箱 **`xu.tianhao@outkook.com`**
-  （就是这个拼写，别"修正"成 out**l**ook）。
+- 作者署名 **`@Natsume`**；反馈邮箱 **`xu.tianhao@outlook.com`**（标准 outlook 拼写）。
 - 版本号带 **`BETA-`** 前缀。
 - 导入课表前**严格校验**，失败给出具体原因。
 - 课表**本地优先**：JSON 持久化，下次打开直接读，不重复导入。
