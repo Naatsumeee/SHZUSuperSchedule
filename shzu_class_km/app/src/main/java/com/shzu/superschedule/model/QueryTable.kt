@@ -1,5 +1,7 @@
 package com.shzu.superschedule.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * 一次教务查询的结果。
  *
@@ -8,9 +10,12 @@ package com.shzu.superschedule.model
  * 而是统一收敛成「表头 + 行」这种通用表格形态 —— 只要页面还是表格，
  * 换版式也不会解析失败。
  */
+@Serializable
 data class QueryTable(
     /** 查询类型 key，见 [QueryKind.key] */
     val kind: String,
+    /** 该结果对应的学期代码，如 "2026-2027-1"；与学期无关的查询（等级考试）留空 */
+    val semester: String = "",
     /** 页面标题（取自 <title> 或页面主标题） */
     val title: String = "",
     /** 表头；可能为空（页面没有 thead 时由首行推断） */
@@ -49,6 +54,8 @@ enum class QueryKind(
     val desc: String,
     /** 教务系统里的菜单路径，显示在二级页提示里，方便用户手动导航 */
     val menuPath: String,
+    /** 是否按学期查询：考试安排、课程成绩需要选学期；等级考试不需要 */
+    val perSemester: Boolean,
     val paths: List<String>,
 ) {
     EXAM(
@@ -56,6 +63,7 @@ enum class QueryKind(
         label = "考试安排",
         desc = "各门课的考试时间与考场",
         menuPath = "考试报名 → 我的考试 → 考试安排查询",
+        perSemester = true,
         paths = listOf(
             "/jsxsd/xsks/xsksap_query",
             "/jsxsd/ksbm/ksbm_main",
@@ -66,6 +74,7 @@ enum class QueryKind(
         label = "课程成绩",
         desc = "各学期课程成绩与学分绩点",
         menuPath = "学籍成绩 → 我的成绩 → 课程成绩查询",
+        perSemester = true,
         paths = listOf(
             "/jsxsd/kscj/cjcx_query",
             "/jsxsd/kscj/cjcx_list",
@@ -76,6 +85,7 @@ enum class QueryKind(
         label = "等级考试成绩",
         desc = "四六级等等级考试成绩",
         menuPath = "学籍成绩 → 我的成绩 → 等级考试成绩",
+        perSemester = false,
         paths = listOf(
             "/jsxsd/kscj/djkscj_query",
             "/jsxsd/kscj/djkscj_list",

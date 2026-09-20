@@ -23,12 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import com.shzu.superschedule.data.AppLog
 import com.shzu.superschedule.data.AppRepository
 import com.shzu.superschedule.data.CourseParser
+import com.shzu.superschedule.data.JwglQueryFetcher
+import com.shzu.superschedule.data.JwglSession
+import com.shzu.superschedule.data.QueryStore
 import com.shzu.superschedule.data.ScheduleStore
 import com.shzu.superschedule.data.ScheduleStore.MergeMode
 import com.shzu.superschedule.model.AppSettings
 import com.shzu.superschedule.model.Course
+import com.shzu.superschedule.model.QueryTable
 import com.shzu.superschedule.model.SemesterEntry
 import com.shzu.superschedule.widget.ScheduleWidgetProvider
 import kotlinx.coroutines.Dispatchers
@@ -63,6 +68,13 @@ fun AppRoot() {
     var showImport by remember { mutableStateOf(courses.isEmpty()) }
     val scope = rememberCoroutineScope()
 
+    // 查询数据（考试安排 / 课程成绩 / 等级考试成绩）：
+    // 从本地存档读出来直接可用，后台抓取只负责往里补新数据。
+    val initialQueries = remember { QueryStore.load(context) }
+    var queryEntries by remember { mutableStateOf(initialQueries.entries) }
+    var queryUpdatedAt by remember { mutableStateOf(initialQueries.updatedAt) }
+    var queryFetching by remember { mutableStateOf(false) }
+
     // 弹窗状态
     var detailCourse by remember { mutableStateOf<Course?>(null) }
     var detailWeek by remember { mutableStateOf(0) }
@@ -94,6 +106,48 @@ fun AppRoot() {
         settings = s
         repo.saveSettings(s)
         ScheduleWidgetProvider.refreshAll(context)
+    }
+
+    /**
+     * 在后台抓取考试安排 / 课程成绩 / 等级考试成绩。
+     *
+     * **全程无感**：不弹任何界面、不做任何跳转；某项失败也只写日志，不影响其它项，
+     * 更不会影响课表导入本身。
+     *
+     * 触发时机：导入课表之后（此时必然已登录教务，Cookie 现成），
+     * 以及用户在查询页手动下拉刷新时（[silent] = false 会给一句轻提示）。
+     *
+     * [semestersToFetch] 负责「自动抓取所有学期」—— 由调用方把可读学期列表传进来。
+     */
+    fun refreshQueries(semestersToFetch: List<String>, silent: Boolean = true) {
+        if (queryFetching) {
+            AppLog.i("AppRoot", "查询抓取正在进行中，跳过本次触发")
+            return
+        }
+        scope.launch {
+            queryFetching = true
+            val list = semestersToFetch.filter { it.isNotBlank() }
+            AppLog.i("AppRoot", "开始后台抓取查询数据：${list.size} 个学期")
+
+            val summary = JwglQueryFetcher.fetchAll(list)
+
+            // 只有真抓到东西才落盘：merge 是按 (kind, semester) 替换的，
+            // 这一轮没抓到的学期会被保留，不会因为一次失败把老数据冲掉。
+            if (summary.tables.isNotEmpty()) {
+                val merged = QueryStore.merge(queryEntries, summary.tables)
+                val archive = QueryStore.Archive(
+                    entries = merged,
+                    updatedAt = QueryStore.now(),
+                )
+                queryEntries = merged
+                queryUpdatedAt = archive.updatedAt
+                QueryStore.save(context, archive)
+            }
+            queryFetching = false
+
+            // 提示要区分「没数据」和「抓不到」
+            if (!silent) toastLong(context, summary.hint)
+        }
     }
 
     fun applyFetchedSemesters(codes: List<String>, activeCode: String) {
@@ -201,6 +255,8 @@ fun AppRoot() {
                 )
                 showImport = false
                 ScheduleWidgetProvider.refreshAll(context)
+                // 导入完成 = 已登录教务，顺手在后台把考试安排/成绩也抓回来（全程无感）
+                refreshQueries(allSemesters.ifEmpty { listOf(sem) })
             },
         )
     } else {
@@ -285,6 +341,13 @@ fun AppRoot() {
             },
             onExportJson = { name, content -> fileActions.export(name, content) },
             onImportJson = { fileActions.import() },
+            queryEntries = queryEntries,
+            queryUpdatedAt = queryUpdatedAt,
+            queryFetching = queryFetching,
+            onRefreshQueries = {
+                val list = semesters.map { it.code }.ifEmpty { listOf(settings.semester) }
+                refreshQueries(list, silent = false)
+            },
         )
 
         if (switching) {
@@ -355,36 +418,13 @@ fun AppRoot() {
 }
 
 /**
- * 构造教务请求所需的 Cookie 头。
+ * 教务请求所需的 Cookie 头。
  *
- * 【关键】`CookieManager.getCookie(url)` 只会返回 **path 与 url 匹配** 的 Cookie。
- * 教务的登录会话是 `JSESSIONID`，其 path 为 **`/jsxsd`**（不是 `/`），
- * 因此必须用带 `/jsxsd` 前缀的完整 URL 去取，否则拿到的是空串 ——
- * 请求就会以「未登录」身份发出，被服务端重定向到登录页，
- * 解析出的学期列表当然为空。这正是「刷新可读学期」一直失效的根因。
- *
- * 这里把所有可能承载会话的域/路径都取一遍并合并去重，保证不漏。
+ * 实现已统一到 [JwglSession.cookie]（后台抓取查询数据也要用同一套逻辑，
+ * 那边在 `data` 包里，不能反向依赖 `ui`），这里保留一个转发，历史调用点不用动。
+ * 关于「为什么必须用带 `/jsxsd` 的 URL 取 Cookie」，详见 [JwglSession] 的注释。
  */
-private fun jwglCookie(): String? {
-    val cm = android.webkit.CookieManager.getInstance()
-    val candidates = listOf(
-        "https://jwgl.shzu.edu.cn/jsxsd/xskb/xskb_list.do",
-        "https://jwgl.shzu.edu.cn/jsxsd/",
-        "https://jwgl.shzu.edu.cn/",
-    )
-    val merged = LinkedHashMap<String, String>()
-    for (url in candidates) {
-        val raw = runCatching { cm.getCookie(url) }.getOrNull().orEmpty()
-        raw.split(';').forEach { part ->
-            val kv = part.trim()
-            if (kv.isEmpty()) return@forEach
-            val name = kv.substringBefore('=').trim()
-            if (name.isEmpty()) return@forEach
-            if (!merged.containsKey(name)) merged[name] = kv
-        }
-    }
-    return merged.values.takeIf { it.isNotEmpty() }?.joinToString("; ")
-}
+private fun jwglCookie(): String? = JwglSession.cookie()
 
 /**
  * 静默抓取教务「学年学期」下拉框数据。
@@ -592,6 +632,10 @@ private fun MainScaffold(
     onRefreshSemesters: () -> Unit,
     onExportJson: (String, String) -> Unit = { _, _ -> },
     onImportJson: () -> Unit = {},
+    queryEntries: List<QueryTable> = emptyList(),
+    queryUpdatedAt: String = "",
+    queryFetching: Boolean = false,
+    onRefreshQueries: () -> Unit = {},
 ) {
     // 设置页的页面栈与滚动位置在这里（MainScaffold）持有：
     // MainScaffold 在整个 App 生命周期内都保持组合，所以用户在「自定义课表样式」
@@ -661,6 +705,10 @@ private fun MainScaffold(
                 2 -> QueryPage(
                     ui = queryUi,
                     bottomInset = bottomInset,
+                    entries = queryEntries,
+                    updatedAt = queryUpdatedAt,
+                    fetching = queryFetching,
+                    onRefresh = onRefreshQueries,
                 )
                 else -> SettingsPage(
                     ui = settingsUi,

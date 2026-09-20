@@ -38,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.shzu.superschedule.data.AppLog
 import com.shzu.superschedule.data.CourseParser
 import com.shzu.superschedule.model.Course
 import top.yukonga.miuix.kmp.basic.Button
@@ -227,16 +228,43 @@ fun ImportPage(
                                     progress = newProgress / 100f
                                 }
 
-                                /** 处理 target=_blank / window.open，复用当前 WebView，避免"点了没反应" */
+                                /**
+                                 * 处理 target=_blank / window.open。
+                                 *
+                                 * ⚠️ **不能把当前 WebView 直接塞进 transport**：同一个 View
+                                 * 会同时挂在主窗口与新窗口上（两个 parent），Android 立刻抛
+                                 * `IllegalStateException: The specified child already has a parent`
+                                 * 闪退 —— 教务里点「查询」正是用 window.open 打开结果页的。
+                                 *
+                                 * 改用临时 WebView 承接新窗口，把要加载的 URL 转回主 WebView，
+                                 * 等于「新窗口的链接在当前窗口打开」。
+                                 */
                                 override fun onCreateWindow(
                                     view: WebView?,
                                     isDialog: Boolean,
                                     isUserGesture: Boolean,
                                     resultMsg: Message?,
                                 ): Boolean {
+                                    val host = view ?: return false
                                     val msg = resultMsg ?: return false
-                                    val transport = msg.obj as? WebView.WebViewTransport ?: return false
-                                    transport.webView = view
+                                    val transport =
+                                        msg.obj as? WebView.WebViewTransport ?: return false
+
+                                    AppLog.i("WebView", "页面请求打开新窗口，转由当前窗口加载")
+                                    val bridge = WebView(host.context)
+                                    bridge.webViewClient = object : WebViewClient() {
+                                        override fun shouldOverrideUrlLoading(
+                                            v: WebView?,
+                                            request: WebResourceRequest?,
+                                        ): Boolean {
+                                            request?.url?.let { url ->
+                                                AppLog.i("WebView", "新窗口 URL 转当前窗口: $url")
+                                                host.loadUrl(url.toString())
+                                            }
+                                            return true
+                                        }
+                                    }
+                                    transport.webView = bridge
                                     msg.sendToTarget()
                                     return true
                                 }

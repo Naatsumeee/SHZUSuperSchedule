@@ -74,8 +74,10 @@ object JwglQueryParser {
             TAG,
             "解析 $kind：title=$title 表头=${headers.size} 列 数据=${rows.size} 行",
         )
-        if (rows.isEmpty()) return null
-
+        // 表在、但一行数据都没有 → 仍然返回结果（rows 为空），由调用方判定成
+        // 「未查询到数据」。若这里直接返回 null，调用方就没法区分
+        // 「教务确实没有数据」和「页面结构认不出来」，只能一律报「失败」，
+        // 而这两件事对用户的意义完全不同。
         return QueryTable(
             kind = kind,
             title = title,
@@ -90,10 +92,10 @@ object JwglQueryParser {
     private fun pickTable(doc: Document): Element? {
         for (sel in PREFERRED) {
             val t = doc.selectFirst(sel) ?: continue
-            if (dataRowCount(t) > 0) {
-                Log.d(TAG, "命中优先选择器 $sel（${dataRowCount(t)} 行）")
-                return t
-            }
+            // 这些 id/class 在强智里专用于「结果表」，命中即可信 ——
+            // 哪怕当前一行数据都没有，那也是「未查询到数据」而不是认错了表。
+            Log.d(TAG, "命中优先选择器 $sel（${dataRowCount(t)} 行数据）")
+            return t
         }
         // 兜底：数据行最多的表
         val best = doc.select("table")

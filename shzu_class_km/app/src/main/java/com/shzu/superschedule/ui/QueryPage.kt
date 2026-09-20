@@ -19,6 +19,8 @@ import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +31,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
@@ -39,13 +43,16 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.shzu.superschedule.data.AppLog
 import com.shzu.superschedule.data.JwglQueryParser
+import com.shzu.superschedule.data.QueryStore
 import com.shzu.superschedule.model.QueryKind
 import com.shzu.superschedule.model.QueryTable
 import top.yukonga.miuix.kmp.basic.BasicComponent
@@ -62,14 +69,11 @@ import java.util.Locale
 // ---------------------------------------------------------------------------
 // 查询页（底部导航第 3 项，排在「课表」之后、「设置」之前）
 //
-// 提供三条教务查询入口：考试安排 / 课程成绩 / 等级考试成绩。
-// 数据来源与导入课表一致 —— 内嵌 WebView 打开教务系统，用户自行登录并
-// 进入目标查询页，再点「抓取当前页面」把 HTML 交给 [JwglQueryParser] 解析。
+// 数据来源：**导入课表时后台自动抓取**（JwglQueryFetcher，全程无感），
+// 结果落在 QueryStore；本页只负责「展示 + 手动刷新」。
 //
-// 之所以不直接在后端 POST 拿数据（像「刷新可读学期」那样）：
-//   1. 三类查询的接口名/参数各校不同，写死容易失效；
-//   2. 考试安排查询需要用户自选学年学期，表单参数无法预先确定。
-// 走 WebView 则无论教务怎么改，只要能看见表格就能抓。
+// 同时保留一条**手动兜底通道**：若后台抓取因教务改版失败，
+// 用户可以进二级页用内嵌 WebView 自己点到查询页再抓一次。
 // ---------------------------------------------------------------------------
 
 /** 查询页内部子页面 */
@@ -78,24 +82,34 @@ internal enum class QuerySubPage { MAIN, DETAIL }
 /**
  * 查询页的跨页面存活状态。
  *
- * 与 [SettingsUiState] 同理：由 `MainScaffold` 持有（它整个 App 生命周期都在组合树里），
- * 于是切到「课表」看一眼再回来时，二级页与已抓到的查询结果都还在，
- * 不会白跑一趟重新登录抓取。
+ * 由 `MainScaffold` 持有（它整个 App 生命周期都在组合树里），
+ * 于是切到「课表」看一眼再回来时，二级页、选中的学期、滚动位置都还在。
  */
 internal class QueryUiState {
     val stack = PageStack(QuerySubPage.MAIN)
     val mainScroll = ScrollState(0)
     val detailScroll = ScrollState(0)
 
-    /** kind.key → 最近一次解析结果（内存缓存） */
-    var tables by mutableStateOf<Map<String, QueryTable>>(emptyMap())
+    /** 手动抓取的结果，key = "kind|semester"（优先级高于持久化存档） */
+    var manualTables by mutableStateOf<Map<String, QueryTable>>(emptyMap())
         private set
+
+    /** 二级页当前选中的学期（按查询类型分开记） */
+    var pickedSemester by mutableStateOf<Map<String, String>>(emptyMap())
 
     /** 当前正在查看的查询类型 key */
     var activeKind by mutableStateOf<String?>(null)
 
-    fun put(table: QueryTable) {
-        tables = tables + (table.kind to table)
+    fun putManual(table: QueryTable) {
+        manualTables = manualTables + (keyOf(table.kind, table.semester) to table)
+    }
+
+    fun pickSemester(kind: String, semester: String) {
+        pickedSemester = pickedSemester + (kind to semester)
+    }
+
+    companion object {
+        fun keyOf(kind: String, semester: String) = "$kind|$semester"
     }
 }
 
@@ -106,6 +120,13 @@ internal fun rememberQueryUiState(): QueryUiState = remember { QueryUiState() }
 internal fun QueryPage(
     ui: QueryUiState,
     bottomInset: Dp = 0.dp,
+    /** 已持久化的查询数据（来自 QueryStore） */
+    entries: List<QueryTable> = emptyList(),
+    updatedAt: String = "",
+    /** 后台抓取进行中 */
+    fetching: Boolean = false,
+    /** 触发后台刷新 */
+    onRefresh: () -> Unit = {},
 ) {
     PageHost(
         stack = ui.stack,
@@ -115,6 +136,10 @@ internal fun QueryPage(
             QuerySubPage.MAIN -> QueryMain(
                 ui = ui,
                 bottomInset = bottomInset,
+                entries = entries,
+                updatedAt = updatedAt,
+                fetching = fetching,
+                onRefresh = onRefresh,
                 onOpen = { kind ->
                     ui.activeKind = kind.key
                     ui.stack.push(QuerySubPage.DETAIL)
@@ -124,13 +149,15 @@ internal fun QueryPage(
             QuerySubPage.DETAIL -> {
                 val kind = ui.activeKind?.let { QueryKind.of(it) }
                 if (kind == null) {
-                    // 状态异常（例如进程被回收后恢复），直接退回主页
                     LaunchedEffect(Unit) { ui.stack.pop() }
                 } else {
                     QueryDetail(
                         ui = ui,
                         kind = kind,
                         bottomInset = bottomInset,
+                        entries = entries,
+                        fetching = fetching,
+                        onRefresh = onRefresh,
                         onBack = { ui.stack.pop() },
                     )
                 }
@@ -145,6 +172,10 @@ internal fun QueryPage(
 private fun QueryMain(
     ui: QueryUiState,
     bottomInset: Dp,
+    entries: List<QueryTable>,
+    updatedAt: String,
+    fetching: Boolean,
+    onRefresh: () -> Unit,
     onOpen: (QueryKind) -> Unit,
 ) {
     Column(
@@ -158,14 +189,34 @@ private fun QueryMain(
         SectionTitle("教务查询")
         Card {
             QueryKind.entries.forEach { kind ->
-                val cached = ui.tables[kind.key]
+                val group = entries.filter { it.kind == kind.key }
+                val total = group.sumOf { it.count }
                 BasicComponent(
                     title = kind.label,
-                    summary = cached
-                        ?.let { "上次获取 ${it.count} 条 · ${it.fetchedAt}" }
-                        ?: kind.desc,
+                    summary = when {
+                        group.isEmpty() -> "${kind.desc} · 尚未获取"
+                        total == 0 -> "${kind.desc} · 未查询到数据"
+                        kind.perSemester -> "${group.size} 个学期 · 共 $total 条"
+                        else -> "共 $total 条"
+                    },
                     onClick = { onOpen(kind) },
                 )
+            }
+        }
+
+        Spacer(Modifier.height(10.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = if (updatedAt.isBlank()) "尚未抓取过查询数据" else "更新于 $updatedAt",
+                fontSize = 12.sp,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
+                modifier = Modifier.weight(1f),
+            )
+            Button(onClick = onRefresh, enabled = !fetching) {
+                Text(if (fetching) "抓取中…" else "刷新")
             }
         }
 
@@ -173,19 +224,25 @@ private fun QueryMain(
         SectionTitle("说明")
         Card {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 12.dp),
             ) {
                 Text(
-                    text = "三条数据都直接来自教务系统，进入后需要先在弹出的网页里登录一次" +
-                        "（与导入课表共用登录状态，已登录则免登录）。",
+                    text = "导入课表时会自动在后台抓取考试安排、课程成绩与等级考试成绩，" +
+                        "全部学期一次抓完，不需要手动操作。",
                     fontSize = 13.sp,
                     color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 )
                 Spacer(Modifier.height(8.dp))
                 Text(
-                    text = "若没有直接跳到目标页面，可在网页里按菜单手动进入，再点「抓取当前页面」：",
+                    text = "想拿最新数据点上方「刷新」即可（同样在后台完成）。" +
+                        "若某个入口一直取不到数据，可以进去用「手动查询」自己打开教务网页抓一次。",
+                    fontSize = 13.sp,
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
+                )
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = "教务对应菜单：",
                     fontSize = 13.sp,
                     color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
                 )
@@ -202,200 +259,129 @@ private fun QueryMain(
     }
 }
 
-// ---------------- 二级页：具体查询 ----------------
+// ---------------- 二级页：某类查询 ----------------
+
+private enum class DetailMode { DATA, WEB }
 
 @Composable
 private fun QueryDetail(
     ui: QueryUiState,
     kind: QueryKind,
     bottomInset: Dp,
+    entries: List<QueryTable>,
+    fetching: Boolean,
+    onRefresh: () -> Unit,
     onBack: () -> Unit,
 ) {
-    val mainHandler = remember { Handler(Looper.getMainLooper()) }
-    var webView by remember { mutableStateOf<WebView?>(null) }
-    var capturedHtml by remember { mutableStateOf<String?>(null) }
-    var busy by remember { mutableStateOf(false) }
-    var progress by remember { mutableFloatStateOf(0f) }
-    var status by remember {
-        mutableStateOf("正在打开教务系统…若停在其他页面，请按菜单手动进入「${kind.menuPath}」")
+    // 该类查询下已有的数据（持久化的 + 本次手动抓的，手动优先）
+    val tables = remember(entries, ui.manualTables, kind) {
+        val manual = ui.manualTables.values.filter { it.kind == kind.key }
+        val manualKeys = manual.map { it.semester }.toSet()
+        val persisted = entries.filter { it.kind == kind.key && it.semester !in manualKeys }
+        persisted + manual
     }
-    /** 抓取成功后收起网页、把结果铺满；也可以再切回网页重新定位 */
-    var showWeb by remember { mutableStateOf(true) }
 
-    val table = ui.tables[kind.key]
+    val semesters = remember(tables) { tables.map { it.semester }.filter { it.isNotBlank() }.distinct().sortedDescending() }
+    val picked = ui.pickedSemester[kind.key]
+        ?: semesters.firstOrNull()
+        ?: ""
 
-    // 抓到 HTML 后解析
-    LaunchedEffect(capturedHtml) {
-        val html = capturedHtml ?: return@LaunchedEffect
-        capturedHtml = null
-        busy = false
-        val ft = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(Date())
-        val parsed = JwglQueryParser.parse(html, kind.key, ft)
-        if (parsed == null) {
-            status = "没找到结果表格。请确认已登录，且当前页面已经是「${kind.label}」的结果页" +
-                "（能看见数据表格），再点「抓取当前页面」。"
-        } else {
-            ui.put(parsed)
-            status = "已获取 ${parsed.count} 条记录"
-            showWeb = false
-            ui.detailScroll.scrollTo(0)
-        }
+    val current = tables.lastOrNull { it.semester == picked } ?: tables.lastOrNull()
+
+    var mode by remember(kind.key) {
+        mutableStateOf(if (tables.isEmpty()) DetailMode.WEB else DetailMode.DATA)
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(bottom = bottomInset),
+        modifier = Modifier.fillMaxSize().padding(bottom = bottomInset),
     ) {
         SubPageTopBar(title = kind.label, onBack = onBack)
 
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(),
+        // 顶部操作条：模式切换 + 刷新
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            // ---- 底层：网页操作区（始终保留，避免销毁 WebView 丢掉页面状态）----
-            Column(modifier = Modifier.fillMaxSize()) {
-                Box(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxWidth(),
-                ) {
-                    AndroidView(
-                        factory = { ctx ->
-                            buildQueryWebView(
-                                ctx = ctx,
-                                mainHandler = mainHandler,
-                                onHtml = { capturedHtml = it },
-                                onProgress = { progress = it },
-                            ).also { webView = it }
-                        },
-                        modifier = Modifier.fillMaxSize(),
-                    )
-                    if (progress in 0.01f..0.99f) {
-                        LinearProgressIndicator(
-                            progress = progress,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    }
-                }
-
-                Card(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 14.dp, vertical = 12.dp),
-                    ) {
-                        Text(text = status, fontSize = 13.sp)
-                        Spacer(Modifier.height(10.dp))
-
-                        Button(
-                            onClick = {
-                                status = "正在打开「${kind.label}」…若停在其他页面，请按菜单手动进入"
-                                webView?.loadUrl(kind.urlOf(START_URL))
-                            },
-                            enabled = !busy,
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            Text("① 打开「${kind.label}」")
-                        }
-                        Spacer(Modifier.height(8.dp))
-
-                        Button(
-                            onClick = {
-                                busy = true
-                                status = "正在读取当前页面…"
-                                webView?.evaluateJavascript(
-                                    "AndroidBridge.sendHtml(document.documentElement.outerHTML)",
-                                    null,
-                                )
-                            },
-                            enabled = !busy,
-                            modifier = Modifier.fillMaxWidth(),
-                        ) {
-                            Text(if (busy) "处理中…" else "② 抓取当前页面")
-                        }
-                        Spacer(Modifier.height(8.dp))
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        ) {
-                            Button(
-                                onClick = { webView?.reload() },
-                                enabled = !busy,
-                                modifier = Modifier.weight(1f),
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.Refresh,
-                                    contentDescription = null,
-                                    modifier = Modifier.width(18.dp),
-                                )
-                                Spacer(Modifier.width(6.dp))
-                                Text("刷新")
-                            }
-                            if (table != null) {
-                                Button(
-                                    onClick = { showWeb = false },
-                                    enabled = !busy,
-                                    modifier = Modifier.weight(1f),
-                                ) {
-                                    Text("看上次结果")
-                                }
-                            }
-                        }
-                    }
-                }
+            val hint = when {
+                fetching -> "后台抓取中…"
+                current == null -> "尚未获取数据"
+                current.count == 0 -> "未查询到数据"
+                else -> "共 ${current.count} 条 · ${current.fetchedAt}"
             }
+            Text(
+                text = hint,
+                fontSize = 12.sp,
+                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
+                modifier = Modifier.weight(1f),
+            )
+            if (tables.isNotEmpty() && mode == DetailMode.WEB) {
+                Button(onClick = { mode = DetailMode.DATA }) { Text("看数据") }
+                Spacer(Modifier.width(8.dp))
+            }
+            if (mode == DetailMode.DATA) {
+                Button(onClick = { mode = DetailMode.WEB }) { Text("手动查询") }
+                Spacer(Modifier.width(8.dp))
+            }
+            Button(onClick = onRefresh, enabled = !fetching) {
+                Icon(
+                    imageVector = Icons.Filled.Refresh,
+                    contentDescription = null,
+                    modifier = Modifier.width(16.dp),
+                )
+                Spacer(Modifier.width(4.dp))
+                Text("刷新")
+            }
+        }
 
-            // ---- 顶层：结果覆盖层 ----
-            if (!showWeb && table != null) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MiuixTheme.colorScheme.surface),
-                ) {
-                    QueryResultView(
-                        title = kind.label,
-                        table = table,
-                        scroll = ui.detailScroll,
-                        onBack = onBack,
-                        onBackToWeb = { showWeb = true },
-                    )
-                }
+        Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            when (mode) {
+                DetailMode.DATA -> DataView(
+                    kind = kind,
+                    tables = tables,
+                    semesters = semesters,
+                    picked = picked,
+                    current = current,
+                    scroll = ui.detailScroll,
+                    onPickSemester = { ui.pickSemester(kind.key, it) },
+                    onGoManual = { mode = DetailMode.WEB },
+                )
+
+                DetailMode.WEB -> ManualQueryView(
+                    ui = ui,
+                    kind = kind,
+                    onCaptured = { mode = DetailMode.DATA },
+                )
             }
         }
     }
 }
 
-// ---------------- 结果展示 ----------------
+// ---------------- 数据视图 ----------------
 
 @Composable
-private fun QueryResultView(
-    title: String,
-    table: QueryTable,
+private fun DataView(
+    kind: QueryKind,
+    tables: List<QueryTable>,
+    semesters: List<String>,
+    picked: String,
+    current: QueryTable?,
     scroll: ScrollState,
-    onBack: () -> Unit,
-    onBackToWeb: () -> Unit,
+    onPickSemester: (String) -> Unit,
+    onGoManual: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
-        SubPageTopBar(title = title, onBack = onBack)
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, bottom = 6.dp),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-        ) {
-            Text(
-                text = "共 ${table.count} 条 · ${table.fetchedAt}",
-                fontSize = 12.sp,
-                color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
-                modifier = Modifier.weight(1f),
+        // 学期选择（只有按学期查询的才显示）
+        if (kind.perSemester && semesters.size > 1) {
+            SemesterChips(
+                semesters = semesters,
+                picked = picked,
+                onPick = onPickSemester,
             )
-            Button(onClick = onBackToWeb) {
-                Text("回网页")
-            }
+        }
+
+        if (current == null || current.count == 0) {
+            EmptyHint(kind = kind, onGoManual = onGoManual)
+            return@Column
         }
 
         Column(
@@ -405,10 +391,88 @@ private fun QueryResultView(
                 .verticalScroll(scroll)
                 .padding(horizontal = 12.dp),
         ) {
-            table.rows.forEach { row -> ResultCard(table, row) }
+            current.rows.forEach { row -> ResultCard(current, row) }
             Spacer(Modifier.height(8.dp))
         }
     }
+}
+
+@Composable
+private fun EmptyHint(kind: QueryKind, onGoManual: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize().padding(32.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            text = "未查询到数据",
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            color = MiuixTheme.colorScheme.onSurface,
+        )
+        Spacer(Modifier.height(8.dp))
+        Text(
+            text = "可能是该学期确实没有${kind.label}，或数据还没来得及抓取。\n" +
+                "可以先点上方「刷新」，或用手动查询自己打开教务网页抓一次。",
+            fontSize = 12.sp,
+            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
+        )
+        Spacer(Modifier.height(16.dp))
+        Button(onClick = onGoManual) { Text("手动查询") }
+    }
+}
+
+/** 学期筛选：一行可横向滚动的胶囊按钮 */
+@Composable
+private fun SemesterChips(
+    semesters: List<String>,
+    picked: String,
+    onPick: (String) -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState())
+            .padding(horizontal = 12.dp, vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        semesters.forEach { sem ->
+            val active = sem == picked
+            Box(
+                modifier = Modifier
+                    .background(
+                        color = if (active) {
+                            MiuixTheme.colorScheme.primary
+                        } else {
+                            MiuixTheme.colorScheme.surfaceVariant
+                        },
+                        shape = RoundedCornerShape(16.dp),
+                    )
+                    .clickable { onPick(sem) }
+                    .padding(horizontal = 14.dp, vertical = 6.dp),
+            ) {
+                Text(
+                    text = semesterLabel(sem),
+                    fontSize = 13.sp,
+                    fontWeight = if (active) FontWeight.Medium else FontWeight.Normal,
+                    color = if (active) {
+                        MiuixTheme.colorScheme.onPrimary
+                    } else {
+                        MiuixTheme.colorScheme.onSurfaceVariantSummary
+                    },
+                )
+            }
+        }
+    }
+}
+
+/** "2026-2027-1" → "26-27 第1学期"（太长的话横向滚动也难受） */
+private fun semesterLabel(code: String): String {
+    val parts = code.split("-")
+    if (parts.size != 3) return code
+    val y1 = parts[0].takeLast(2)
+    val y2 = parts[1].takeLast(2)
+    return "$y1-$y2 第${parts[2]}学期"
 }
 
 /** 单条记录的卡片：首字段作标题，其余按「字段名 → 值」排列 */
@@ -420,9 +484,7 @@ private fun ResultCard(table: QueryTable, row: List<String>) {
 
     Card(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
         ) {
             Text(
                 text = head.second,
@@ -451,15 +513,100 @@ private fun ResultCard(table: QueryTable, row: List<String>) {
     }
 }
 
-// ---------------- WebView 构建（与 ImportPage 同套配置） ----------------
+// ---------------- WebView 手动查询（兜底通道） ----------------
 
-/**
- * 查询用 WebView。
- *
- * 与导入课表的 WebView 配置一致，唯一差别是**固定使用桌面 UA** ——
- * 考试安排/成绩都是宽表格，桌面版才能完整显示；
- * 导入页那种「手机版/电脑版」切换在这里没必要。
- */
+@Composable
+private fun ManualQueryView(
+    ui: QueryUiState,
+    kind: QueryKind,
+    onCaptured: () -> Unit,
+) {
+    val mainHandler = remember { Handler(Looper.getMainLooper()) }
+    var webView by remember { mutableStateOf<WebView?>(null) }
+    var capturedHtml by remember { mutableStateOf<String?>(null) }
+    var busy by remember { mutableStateOf(false) }
+    var progress by remember { mutableFloatStateOf(0f) }
+    var status by remember {
+        mutableStateOf("正在打开教务系统…若停在其他页面，请按菜单手动进入「${kind.menuPath}」")
+    }
+
+    LaunchedEffect(capturedHtml) {
+        val html = capturedHtml ?: return@LaunchedEffect
+        capturedHtml = null
+        busy = false
+        val parsed = JwglQueryParser.parse(html, kind.key, QueryStore.now())
+        when {
+            parsed == null -> {
+                status = "没找到结果表格。请确认已登录，且当前页面已经是「${kind.label}」的结果页。"
+                AppLog.w("QueryPage", "手动抓取 ${kind.key} 未找到结果表")
+            }
+            parsed.rows.isEmpty() -> {
+                ui.putManual(parsed.copy(semester = parsed.semester))
+                status = "未查询到数据"
+                AppLog.i("QueryPage", "手动抓取 ${kind.key} 结果为空")
+                onCaptured()
+            }
+            else -> {
+                ui.putManual(parsed)
+                status = "已获取 ${parsed.count} 条记录"
+                AppLog.i("QueryPage", "手动抓取 ${kind.key} 成功 ${parsed.count} 条")
+                onCaptured()
+            }
+        }
+    }
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+            AndroidView(
+                factory = { ctx ->
+                    buildQueryWebView(
+                        ctx = ctx,
+                        mainHandler = mainHandler,
+                        onHtml = { capturedHtml = it },
+                        onProgress = { progress = it },
+                    ).also { webView = it }
+                },
+                modifier = Modifier.fillMaxSize(),
+            )
+            if (progress in 0.01f..0.99f) {
+                LinearProgressIndicator(progress = progress, modifier = Modifier.fillMaxWidth())
+            }
+        }
+
+        Card(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
+            Column(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 12.dp),
+            ) {
+                Text(text = status, fontSize = 13.sp)
+                Spacer(Modifier.height(10.dp))
+                Button(
+                    onClick = {
+                        status = "正在打开「${kind.label}」…若停在其他页面，请按菜单手动进入"
+                        webView?.loadUrl(kind.urlOf(START_URL))
+                    },
+                    enabled = !busy,
+                    modifier = Modifier.fillMaxWidth(),
+                ) { Text("① 打开「${kind.label}」") }
+                Spacer(Modifier.height(8.dp))
+                Button(
+                    onClick = {
+                        busy = true
+                        status = "正在读取当前页面…"
+                        webView?.evaluateJavascript(
+                            "AndroidBridge.sendHtml(document.documentElement.outerHTML)",
+                            null,
+                        )
+                    },
+                    enabled = !busy,
+                    modifier = Modifier.fillMaxWidth(),
+                ) { Text(if (busy) "处理中…" else "② 抓取当前页面") }
+            }
+        }
+    }
+}
+
+// ---------------- WebView 构建 ----------------
+
 @SuppressLint("SetJavaScriptEnabled")
 private fun buildQueryWebView(
     ctx: Context,
@@ -492,14 +639,12 @@ private fun buildQueryWebView(
     s.setSupportMultipleWindows(true)
     s.cacheMode = WebSettings.LOAD_NO_CACHE
 
-    // 跨域 CAS（authserver ↔ jwgl）必须接受第三方 Cookie，否则登录态串不起来
     CookieManager.getInstance().setAcceptCookie(true)
     CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
 
     // 返回键：WebView 是 View 层级，会抢在 Activity 的返回分发之前拿到 BACK。
     // 不处理的话，网页一旦有历史记录，系统返回就被它吃掉用于「网页后退」，
-    // 页面栈永远退不出去（而且用户看不出任何变化，像卡死一样）。
-    // 这里按浏览器惯例：**网页能后退就先后退，退无可退再交回 Compose 的页面栈**。
+    // 页面栈永远退不出去（而用户看不出任何变化，像卡死一样）。
     setOnKeyListener { _, keyCode, event ->
         if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
             if (canGoBack()) {
@@ -519,16 +664,16 @@ private fun buildQueryWebView(
             handler: SslErrorHandler?,
             error: SslError?,
         ) {
-            handler?.proceed() // 学校老证书，放行
+            handler?.proceed()
         }
 
         override fun shouldOverrideUrlLoading(
             view: WebView?,
             request: WebResourceRequest?,
-        ): Boolean = false // 交给 WebView 自己跟随 CAS 跳转链
+        ): Boolean = false
 
         override fun onPageFinished(view: WebView?, url: String?) {
-            // 老页面无 viewport 时兜底，避免宽表格溢出屏幕
+            AppLog.i("WebView", "页面加载完成: $url")
             view?.evaluateJavascript(
                 "(function(){" +
                     "var m=document.querySelector('meta[name=viewport]');" +
@@ -539,6 +684,16 @@ private fun buildQueryWebView(
                 null,
             )
         }
+
+        @Deprecated("旧 API，给老页面兜底")
+        override fun onReceivedError(
+            view: WebView?,
+            errorCode: Int,
+            description: String?,
+            failingUrl: String?,
+        ) {
+            AppLog.w("WebView", "加载出错($errorCode): $description @ $failingUrl")
+        }
     }
 
     webChromeClient = object : WebChromeClient() {
@@ -546,16 +701,39 @@ private fun buildQueryWebView(
             onProgress(newProgress / 100f)
         }
 
-        /** 处理 target=_blank / window.open，复用当前 WebView */
+        /**
+         * 处理 target=_blank / window.open。
+         *
+         * ⚠️ **不能把当前 WebView 直接塞进 transport** —— 那样同一个 View 会同时
+         * 挂在主窗口和新窗口上（两个 parent），Android 立刻抛
+         * `IllegalStateException: The specified child already has a parent` 闪退。
+         * 强智教务的「查询」按钮用 `window.open` 打开结果页，正好踩中这一点。
+         */
         override fun onCreateWindow(
             view: WebView?,
             isDialog: Boolean,
             isUserGesture: Boolean,
             resultMsg: Message?,
         ): Boolean {
+            val host = view ?: return false
             val msg = resultMsg ?: return false
             val transport = msg.obj as? WebView.WebViewTransport ?: return false
-            transport.webView = view
+
+            AppLog.i("WebView", "页面请求打开新窗口，转由当前窗口加载")
+            val bridge = WebView(host.context)
+            bridge.webViewClient = object : WebViewClient() {
+                override fun shouldOverrideUrlLoading(
+                    v: WebView?,
+                    request: WebResourceRequest?,
+                ): Boolean {
+                    request?.url?.let { url ->
+                        AppLog.i("WebView", "新窗口 URL 转当前窗口: $url")
+                        host.loadUrl(url.toString())
+                    }
+                    return true
+                }
+            }
+            transport.webView = bridge
             msg.sendToTarget()
             return true
         }

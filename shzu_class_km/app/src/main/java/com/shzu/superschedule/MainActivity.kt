@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.navigationevent.NavigationEventDispatcher
 import androidx.navigationevent.NavigationEventDispatcherOwner
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
+import com.shzu.superschedule.data.AppLog
 import com.shzu.superschedule.ui.AppRoot
 import com.shzu.superschedule.ui.AppTheme
 
@@ -38,6 +39,9 @@ import com.shzu.superschedule.ui.AppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 日志系统最先启动：它同时负责接管未捕获异常，
+        // 越早装上，越不容易漏掉启动阶段的崩溃。
+        AppLog.init(this)
         setContent {
             // 手动兜底提供 NavigationEventDispatcherOwner —— 详见类注释。
             val dispatcher = remember { NavigationEventDispatcher() }

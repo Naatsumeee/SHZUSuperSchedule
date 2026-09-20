@@ -30,6 +30,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
@@ -41,11 +42,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.shzu.superschedule.data.AppLog
 import com.shzu.superschedule.data.Notifier
 import com.shzu.superschedule.data.ScheduleStore
 import com.shzu.superschedule.model.AppSettings
@@ -84,7 +87,14 @@ internal fun exportFileName(semester: String): String {
 }
 
 /** 设置页内部子页面 */
-internal enum class Page { MAIN, CUSTOM_STYLE, LOG }
+internal enum class Page {
+    MAIN,
+    CUSTOM_STYLE,
+    LOG,
+
+    /** 运行日志（连点「作者」7 下进入） */
+    RUNTIME_LOG,
+}
 
 /**
  * 设置页的跨页面存活状态。
@@ -115,6 +125,13 @@ internal class SettingsUiState {
     /** 反馈邮箱连击计数 */
     var mailTaps by mutableIntStateOf(0)
     var lastMailTapAt by mutableLongStateOf(0L)
+
+    /** 「作者」连击计数：连点 7 下进运行日志（判定规则同「开源说明」彩蛋） */
+    var authorTaps by mutableIntStateOf(0)
+    var lastAuthorTapAt by mutableLongStateOf(0L)
+
+    /** 运行日志页滚动位置 */
+    val runtimeLogScroll = ScrollState(0)
 
     /** 通知权限状态的刷新信号（从系统设置回来后重新检测） */
     var notifTick by mutableIntStateOf(0)
@@ -155,6 +172,11 @@ internal fun SettingsPage(
                 onBack = { ui.stack.pop() },
                 bottomInset = bottomInset,
             )
+            Page.RUNTIME_LOG -> RuntimeLogPage(
+                scroll = ui.runtimeLogScroll,
+                onBack = { ui.stack.pop() },
+                bottomInset = bottomInset,
+            )
             Page.MAIN -> MainSettings(
                 ui = ui,
                 courses = courses,
@@ -166,6 +188,7 @@ internal fun SettingsPage(
                 onRefreshSemesters = onRefreshSemesters,
                 onOpenCustomStyle = { ui.stack.push(Page.CUSTOM_STYLE) },
                 onOpenLog = { ui.stack.push(Page.LOG) },
+                onOpenRuntimeLog = { ui.stack.push(Page.RUNTIME_LOG) },
                 onExportJson = onExportJson,
                 onImportJson = onImportJson,
                 bottomInset = bottomInset,
@@ -190,6 +213,7 @@ private fun MainSettings(
     onRefreshSemesters: () -> Unit,
     onOpenCustomStyle: () -> Unit,
     onOpenLog: () -> Unit,
+    onOpenRuntimeLog: () -> Unit,
     onExportJson: (fileName: String, content: String) -> Unit,
     onImportJson: () -> Unit,
     bottomInset: Dp = 0.dp,
@@ -430,7 +454,31 @@ private fun MainSettings(
                 },
                 onClick = onOpenLog,
             )
-            BasicComponent(title = "作者", summary = AUTHOR_NAME)
+            // 作者：连点 7 下进「运行日志」。
+            // 判定规则与「开源说明」彩蛋完全一致（EGG_TAP_TARGET 次 + 超时归零），
+            // 但用**独立计数器**，两个彩蛋互不干扰。
+            BasicComponent(
+                title = "作者",
+                summary = AUTHOR_NAME,
+                onClick = {
+                    val now = System.currentTimeMillis()
+                    if (now - ui.lastAuthorTapAt > TAP_WINDOW_MS) ui.authorTaps = 0
+                    ui.lastAuthorTapAt = now
+                    ui.authorTaps++
+                    when {
+                        ui.authorTaps >= EGG_TAP_TARGET -> {
+                            ui.authorTaps = 0
+                            onOpenRuntimeLog()
+                        }
+                        ui.authorTaps >= EGG_TAP_TARGET / 2 ->
+                            toast(
+                                context,
+                                "还剩 ${EGG_TAP_TARGET - ui.authorTaps} 次查看运行日志",
+                            )
+                        else -> Unit
+                    }
+                },
+            )
             // 反馈邮箱：点一次提示，再点一次复制到剪贴板
             BasicComponent(
                 title = "反馈邮箱",
@@ -809,6 +857,116 @@ private val CHANGELOG = listOf(
             "今日课程、周课表两个主页面；采用 MiuiX 设计风格。",
     ),
 )
+
+// ---------------- 二级页：运行日志 ----------------
+
+/**
+ * 运行日志页（设置 → 关于 → 连点「作者」7 下进入）。
+ *
+ * 展示 [AppLog] 的全部内容：既是当前进程的内存缓冲，也包含文件里
+ * App 上次运行、乃至**崩溃那一刻**的记录 —— 出问题时把内容复制出来即可。
+ */
+@Composable
+private fun RuntimeLogPage(
+    scroll: ScrollState,
+    onBack: () -> Unit,
+    bottomInset: Dp = 0.dp,
+) {
+    val context = LocalContext.current
+    var lines by remember { mutableStateOf(AppLog.readAll()) }
+    var tick by remember { mutableIntStateOf(0) }
+
+    // 首次进入与每次「刷新」都重新读一遍
+    LaunchedEffect(tick) { lines = AppLog.readAll() }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(scroll)
+            .padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 4.dp + bottomInset),
+    ) {
+        SubPageTopBar(title = "运行日志", onBack = onBack)
+
+        SectionTitle("操作")
+        Card {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
+            ) {
+                Text(
+                    text = "共 ${lines.size} 行。记录应用启动、教务请求、WebView 事件与崩溃异常。" +
+                        "反馈问题时把内容复制出来即可。",
+                    fontSize = 12.sp,
+                    color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
+                )
+                Spacer(Modifier.height(10.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Button(onClick = { tick++ }, modifier = Modifier.weight(1f)) {
+                        Text("刷新")
+                    }
+                    Button(
+                        onClick = {
+                            if (copyToClipboard(context, AppLog.asText())) {
+                                toast(context, "日志已复制到剪贴板")
+                            } else {
+                                toast(context, "复制失败")
+                            }
+                        },
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Text("复制")
+                    }
+                    Button(
+                        onClick = {
+                            AppLog.clear()
+                            tick++
+                            toast(context, "日志已清空")
+                        },
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Text("清空")
+                    }
+                }
+            }
+        }
+
+        Spacer(Modifier.height(4.dp))
+        SectionTitle("明细")
+        Card {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp, vertical = 10.dp),
+            ) {
+                if (lines.isEmpty()) {
+                    Text(
+                        text = "暂无日志",
+                        fontSize = 12.sp,
+                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
+                    )
+                } else {
+                    // 只渲染最近 400 行：日志可能有上千行，全量组合会明显卡顿
+                    lines.takeLast(400).forEach { line ->
+                        Text(
+                            text = line,
+                            fontSize = 11.sp,
+                            fontFamily = FontFamily.Monospace,
+                            lineHeight = 15.sp,
+                            color = MiuixTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 1.dp),
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
 
 @Composable
 private fun ChangelogPage(scroll: ScrollState, onBack: () -> Unit, bottomInset: Dp = 0.dp) {
