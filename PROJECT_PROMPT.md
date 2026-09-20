@@ -109,14 +109,17 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
 ├── MainActivity.kt          入口；手动提供 NavigationEventDispatcherOwner
 ├── model/
 │   ├── Course.kt            课程数据类
+│   ├── QueryTable.kt        教务查询结果（表头+行）+ QueryKind 三个查询入口
 │   └── AppSettings.kt       全部设置项（含 rowHeight 课程高度）
 ├── data/
 │   ├── AppRepository.kt     SharedPreferences + 序列化
 │   ├── CourseParser.kt      Jsoup 解析强智教务页面
+│   ├── JwglQueryParser.kt   考试/成绩查询页的**通用表格**解析器
 │   ├── ScheduleStore.kt     课表 JSON 持久化（files/schedule/<学期>.json）
 │   └── Notifier.kt          上课提醒通知 + sendTest
 └── ui/
     ├── AppRoot.kt           顶层：无数据→ImportPage，有数据→Scaffold+底栏
+    ├── QueryPage.kt         查询页（考试安排/课程成绩/等级考试成绩）
     ├── ImportPage.kt        WebView 导入（双 UA、移动端/桌面端切换）
     ├── TodayPage.kt         今日课程
     ├── WeekPage.kt          本周课表（HorizontalPager 切周）
@@ -197,9 +200,26 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
 
 ### 导航
 
+- 底部导航**四个 tab**：**今日(0) / 课表(1) / 查询(2) / 设置(3)**。
+  ⚠️ 加 tab 时索引会整体后移，`MainScaffold` 的 `when (selectedTab)` 与
+  `BlurredBottomBar` 里的 `NavigationBarItem` 必须**同步改**，漏一处就会串页。
 - `ui/PageStack.kt`：自研 `PageStack<T>`（`push`/`pop`/`canGoBack`）+ `PageHost`（方向感知过渡）。
+- 各页的页面栈与滚动状态由 **`MainScaffold` 持有**（`SettingsUiState` / `QueryUiState`），
+  这样切 tab 再回来时二级页与滚动位置都还在。**新页面照这个模式做**。
 - **预测性返回已移除**（跟手预览体验不佳），回归标准返回处理。
-- 二级页用 `SubPageTopBar(title, onBack)`，**返回按钮在页面顶部**。
+- 二级页用 `SubPageTopBar(title, onBack)`（定义在 `PageHeader.kt`，internal，
+  设置页与查询页共用），**返回按钮在页面顶部**。
+
+### 教务查询页（考试安排 / 成绩）
+
+- `QueryKind` 枚举定义三条查询：**label / menuPath / paths（候选地址）**。
+  教务各校路径不同，`paths` 只取第一个当「直达」，**打不开就让用户在网页里手动点菜单**，
+  抓取逻辑不依赖具体地址。
+- 数据获取走 **WebView 抓 HTML**（不是后端 POST）—— 三类查询接口名各校不同、且考试安排
+  需要用户自选学期，写死表单参数容易失效。
+- `JwglQueryParser` 只做**通用表格解析**（优先 `#dataList/.tbllist` 等，兜底取行数最多的表），
+  不做逐字段建模 —— 教务改版也不会解析失败。
+- 结果**只存内存**（`QueryUiState.tables`），不落盘。
 
 ---
 

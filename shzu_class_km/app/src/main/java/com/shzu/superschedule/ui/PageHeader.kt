@@ -2,8 +2,11 @@ package com.shzu.superschedule.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -11,8 +14,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
 import top.yukonga.miuix.kmp.basic.SmallTitle as MiuixSmallTitle
 import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.extended.Back
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 
 /**
@@ -89,4 +96,35 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxWidth(),
         insideMargin = PaddingValues(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 2.dp),
     )
+}
+
+/**
+ * 二级页面统一顶部栏：左侧返回按钮 + 标题。
+ *
+ * 返回按钮放在**页面顶部**而不是页尾（用户明确要求的设计）。
+ * 原本定义在 SettingsPage 内部，查询页也要用同一套，故提升为公共组件。
+ */
+@Composable
+internal fun SubPageTopBar(title: String, onBack: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 4.dp, end = 16.dp, top = 6.dp, bottom = 2.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        IconButton(onClick = onBack) {
+            Icon(
+                imageVector = MiuixIcons.Back,
+                contentDescription = "返回上一级",
+                tint = MiuixTheme.colorScheme.onSurface,
+            )
+        }
+        Spacer(Modifier.width(4.dp))
+        Text(
+            text = title,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Medium,
+            color = MiuixTheme.colorScheme.onSurface,
+        )
+    }
 }

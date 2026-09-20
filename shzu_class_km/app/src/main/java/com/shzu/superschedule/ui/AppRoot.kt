@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Today
 import androidx.compose.runtime.Composable
@@ -598,6 +599,10 @@ private fun MainScaffold(
     // 滚动位置也不会跳回顶部（#11）。
     val settingsUi = rememberSettingsUiState()
 
+    // 查询页的页面栈与结果缓存同理：由 MainScaffold 持有，
+    // 切到别的 tab 再回来时二级页与已抓到的查询结果都还在。
+    val queryUi = rememberQueryUiState()
+
     // 底栏「背景高斯模糊」所需的离屏图层。必须由 MainScaffold 持有 ——
     // 它同时是页面内容与底栏的父级，两边才能共用同一组图层。
     val barBackdrop = rememberBarBackdrop()
@@ -651,6 +656,11 @@ private fun MainScaffold(
                     bottomInset = bottomInset,
                     onCourseClick = onCourseClick,
                     onEmptyClick = onEmptyClick,
+                )
+                // 查询页排在周视图之后
+                2 -> QueryPage(
+                    ui = queryUi,
+                    bottomInset = bottomInset,
                 )
                 else -> SettingsPage(
                     ui = settingsUi,
@@ -712,6 +722,12 @@ private fun BlurredBottomBar(
             NavigationBarItem(
                 selected = selectedTab == 2,
                 onClick = { onTabSelected(2) },
+                icon = Icons.Filled.Search,
+                label = "查询",
+            )
+            NavigationBarItem(
+                selected = selectedTab == 3,
+                onClick = { onTabSelected(3) },
                 icon = Icons.Filled.Settings,
                 label = "设置",
             )

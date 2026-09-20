@@ -174,33 +174,7 @@ internal fun SettingsPage(
     }
 }
 
-// ---------------- 顶部返回栏 ----------------
-
-/** 二级页面统一顶部栏：左侧返回按钮 + 标题 */
-@Composable
-private fun SubPageTopBar(title: String, onBack: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 4.dp, end = 16.dp, top = 6.dp, bottom = 2.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(onClick = onBack) {
-            Icon(
-                imageVector = MiuixIcons.Back,
-                contentDescription = "返回上一级",
-                tint = MiuixTheme.colorScheme.onSurface,
-            )
-        }
-        Spacer(Modifier.width(4.dp))
-        Text(
-            text = title,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Medium,
-            color = MiuixTheme.colorScheme.onSurface,
-        )
-    }
-}
+// `SubPageTopBar` 已提升为公共组件，定义在 PageHeader.kt（查询页与本页共用）。
 
 // ---------------- 一级页：设置主页 ----------------
 

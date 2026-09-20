@@ -52,10 +52,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-private const val START_URL = "https://jwgl.shzu.edu.cn"
+internal const val START_URL = "https://jwgl.shzu.edu.cn"
 
 /** 课表查询页（「学期理论课表」）直达地址 */
-private const val TIMETABLE_URL = "https://jwgl.shzu.edu.cn/jsxsd/xskb/xskb_list.do"
+internal const val TIMETABLE_URL = "https://jwgl.shzu.edu.cn/jsxsd/xskb/xskb_list.do"
 
 /**
  * 移动端 UA：必须显式指定，否则不同 WebView 内核（尤其国产 ROM 内置内核、
@@ -66,7 +66,7 @@ private const val TIMETABLE_URL = "https://jwgl.shzu.edu.cn/jsxsd/xskb/xskb_list
  * 移动版页面（/static/mobile/css/index.css + weui），得到 width=device-width 的
  * 响应式布局。
  */
-private const val MOBILE_UA =
+internal const val MOBILE_UA =
     "Mozilla/5.0 (Linux; Android 13; SM-G9910) AppleWebKit/537.36 " +
         "(KHTML, like Gecko) Chrome/127.0.0.0 Mobile Safari/537.36"
 
@@ -75,7 +75,7 @@ private const val MOBILE_UA =
  * 手机竖屏 360dp 下必然挤压变形，因此导入课表时切到桌面 UA，
  * 配合 WebView 的宽视口 + 初始缩放，才能完整显示 7 列课表。
  */
-private const val DESKTOP_UA =
+internal const val DESKTOP_UA =
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
         "(KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
 
