@@ -6,6 +6,7 @@ import android.net.http.SslError
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.view.KeyEvent
 import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.JavascriptInterface
@@ -15,6 +16,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -493,6 +495,23 @@ private fun buildQueryWebView(
     // 跨域 CAS（authserver ↔ jwgl）必须接受第三方 Cookie，否则登录态串不起来
     CookieManager.getInstance().setAcceptCookie(true)
     CookieManager.getInstance().setAcceptThirdPartyCookies(this, true)
+
+    // 返回键：WebView 是 View 层级，会抢在 Activity 的返回分发之前拿到 BACK。
+    // 不处理的话，网页一旦有历史记录，系统返回就被它吃掉用于「网页后退」，
+    // 页面栈永远退不出去（而且用户看不出任何变化，像卡死一样）。
+    // 这里按浏览器惯例：**网页能后退就先后退，退无可退再交回 Compose 的页面栈**。
+    setOnKeyListener { _, keyCode, event ->
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+            if (canGoBack()) {
+                goBack()
+            } else {
+                (ctx as? ComponentActivity)?.onBackPressedDispatcher?.onBackPressed()
+            }
+            true
+        } else {
+            false
+        }
+    }
 
     webViewClient = object : WebViewClient() {
         override fun onReceivedSslError(
