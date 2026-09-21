@@ -155,10 +155,37 @@ class WebViewFetcher : QueryHtmlFetcher {
         return readDom(wv)
     }
 
-    /** 把当前页面的 DOM 读回来 */
+    /**
+     * 把当前页面的 DOM 读回来。
+     *
+     * 顺带回传一次**诊断信息**（当前 URL / document.cookie / 是否有表单），
+     * 用来回答「这个 WebView 到底处在什么状态」——
+     * 导航后 URL 没变不代表页面正常，教务可能直接返回一段错误 JSON。
+     */
     private suspend fun readDom(wv: WebView): String? {
         val d = CompletableDeferred<String>()
         withContext(Dispatchers.Main) {
+            wv.evaluateJavascript(
+                "(function(){try{return JSON.stringify({" +
+                    "url:location.href," +
+                    // 只取 Cookie 的**名字**，不带值 —— 会话凭据不进日志
+                    "cookieNames:(function(){try{return document.cookie.split(';')" +
+                    ".map(function(s){return s.trim().split('=')[0];})" +
+                    ".filter(function(x){return x;}).join(',');}catch(e){return 'n/a';}})()," +
+                    "cookieLen:document.cookie.length," +
+                    // sessionStorage 是**每个 WebView 独立**的。
+                    // 如果强智把会话 token 放在这里，就能解释「同一个 App 里
+                    // 导入页 WebView 有会话、抓取页没有」这个现象。
+                    "ssLen:(function(){try{return sessionStorage.length;}catch(e){return -1;}})()," +
+                    "ssKeys:(function(){try{var a=[];for(var i=0;i<sessionStorage.length;i++){" +
+                    "a.push(sessionStorage.key(i));}return a.join(',');}catch(e){return 'n/a';}})()," +
+                    "lsLen:(function(){try{return localStorage.length;}catch(e){return -1;}})()," +
+                    "forms:document.forms.length," +
+                    "len:document.documentElement.outerHTML.length" +
+                    "});}catch(e){return 'PROBE-ERR '+e;}})()",
+            ) { v ->
+                AppLog.i(TAG, "探针：${decodeJsString(v)}")
+            }
             wv.evaluateJavascript("document.documentElement.outerHTML") { v ->
                 d.complete(decodeJsString(v))
             }
@@ -273,6 +300,20 @@ private fun buildFetchWebView(ctx: Context, fetcher: WebViewFetcher): WebView =
         webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 AppLog.i("WebViewFetcher", "抓取用 WebView 加载完成：$url")
+                // 顺带把页面状态探一次：加载成功的 URL 不代表会话有效，
+                // 教务可能直接回一段错误内容而不改 URL。
+                view?.evaluateJavascript(
+                    "(function(){try{return 'cookie=' + document.cookie.length +" +
+                        "' names=' + document.cookie.split(';').map(function(s){" +
+                        "return s.trim().split('=')[0];}).filter(function(x){return x;}).join(',') +" +
+                        "' ss=' + (function(){try{return sessionStorage.length;}catch(e){return -1;}})() +" +
+                        "' ssKeys=' + (function(){try{var a=[];for(var i=0;i<sessionStorage.length;i++){" +
+                        "a.push(sessionStorage.key(i));}return a.join(',');}catch(e){return 'n/a';}})() +" +
+                        "' forms=' + document.forms.length +" +
+                        "' len=' + document.documentElement.outerHTML.length;}catch(e){return 'ERR '+e;}})()",
+                ) { v ->
+                    AppLog.i("WebViewFetcher", "加载后状态：$v")
+                }
                 fetcher.markReady()
                 fetcher.signalPageReady()
             }
