@@ -105,7 +105,8 @@ object JwglQueryFetcher {
                         TAG,
                         "[$tag] POST $path（${params.size} 个字段，" +
                             "学期字段=${params.keys.firstOrNull { it.contains("xnxq", true) } ?: "无"}）" +
-                            " -> HTTP ${post?.code ?: -1} len=${post?.html?.length ?: -1}",
+                            " -> HTTP ${post?.code ?: -1} len=${post?.html?.length ?: -1} " +
+                            "title=「${pageTitleOf(post?.html)}」final=「${post?.finalUrl ?: ""}」",
                     )
                     if (post == null) {
                         lastReason = "提交查询表单失败"
@@ -330,14 +331,37 @@ object JwglQueryFetcher {
 
     // ---------------- 真实地址探测 ----------------
 
-    /** 探测结果缓存（一次运行只探测一轮，否则每个学期都要重跑几十个请求） */
+    /** 探测结果缓存 */
     @Volatile
     private var discovered: Map<String, String>? = null
 
+    /**
+     * 是否已经探测过。
+     *
+     * ⚠️ 必须和 [discovered] 分开记：探测**失败**（比如未登录）时结果也是空 Map，
+     * 若只靠「结果非空」判断有没有探测过，那么每一轮抓取都会重新探测一遍 ——
+     * 6 个学期 × 3 类查询 = 18 次失败，就是 18 次探测，白白多刷几十个请求。
+     */
+    @Volatile
+    private var discoverAttempted = false
+
+    /**
+     * 重置探测缓存。
+     *
+     * 用户重新登录（重新导入课表）后必须调用一次 —— 否则之前「未登录 → 探测不到」
+     * 的空结果会一直被缓存着，后续抓取再也不会重新探测。
+     */
+    fun resetDiscovery() {
+        discovered = null
+        discoverAttempted = false
+        AppLog.i(TAG, "已重置查询地址探测缓存（通常在重新登录后）")
+    }
+
     private fun ensureDiscovered(cookie: String): Map<String, String> {
-        discovered?.takeIf { it.isNotEmpty() }?.let { return it }
+        if (discoverAttempted) return discovered ?: emptyMap()
+        discoverAttempted = true
         val d = discover(cookie)
-        if (d.isNotEmpty()) discovered = d
+        discovered = d
         return d
     }
 
@@ -466,6 +490,14 @@ object JwglQueryFetcher {
         val html = resp.html
         if (html.isBlank()) return false
         if (html.contains("authserver.shzu.edu.cn") || html.contains("authserver/login")) {
+            return true
+        }
+        // 强智未登录时返回的就是一个「空壳跳转页」：几十字节、只有一句 JS 跳转、
+        // 没有 title 也没有表单。这种页面一律按未登录处理 ——
+        // 否则它会被当成「查不到结果」，把登录问题误报成「未查询到数据」。
+        if (html.length < 800 &&
+            (html.contains("location.href") || html.contains("location.replace"))
+        ) {
             return true
         }
 

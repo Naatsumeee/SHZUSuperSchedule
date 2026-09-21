@@ -255,7 +255,9 @@ fun AppRoot() {
                 )
                 showImport = false
                 ScheduleWidgetProvider.refreshAll(context)
-                // 导入完成 = 已登录教务，顺手在后台把考试安排/成绩也抓回来（全程无感）
+                // 导入完成 = 刚登录过：先清掉上次「未登录 → 探测不到」的缓存，
+                // 再顺手把考试安排/成绩也抓回来（全程无感）
+                JwglQueryFetcher.resetDiscovery()
                 refreshQueries(allSemesters.ifEmpty { listOf(sem) })
             },
         )
