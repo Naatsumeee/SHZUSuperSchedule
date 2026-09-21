@@ -64,9 +64,10 @@ enum class QueryKind(
         desc = "各门课的考试时间与考场",
         menuPath = "考试报名 → 我的考试 → 考试安排查询",
         perSemester = true,
+        // 从主框架菜单里扒出来的真实入口：
+        //   kjcdShow('NEW_XSD_KSBM','NEW_XSD_KSBM_WDKS','NEW_XSD_KSBM_WDKS_KSAPCX','/xsks/xsksap_query',…)
         paths = listOf(
             "/jsxsd/xsks/xsksap_query",
-            "/jsxsd/ksbm/ksbm_main",
         ),
     ),
     SCORE(
@@ -75,9 +76,10 @@ enum class QueryKind(
         desc = "各学期课程成绩与学分绩点",
         menuPath = "学籍成绩 → 我的成绩 → 课程成绩查询",
         perSemester = true,
+        // 从主框架菜单里扒出来的真实入口（注意是 _frm，是框架页，不是 cjcx_query）：
+        //   kjcdShow('NEW_XSD_XJCJ','NEW_XSD_XJCJ_WDCJ','NEW_XSD_XJCJ_WDCJ_KCCJCX','/kscj/cjcx_frm',…)
         paths = listOf(
-            "/jsxsd/kscj/cjcx_query",
-            "/jsxsd/kscj/cjcx_list",
+            "/jsxsd/kscj/cjcx_frm",
         ),
     ),
     GRADE(
@@ -86,9 +88,10 @@ enum class QueryKind(
         desc = "四六级等等级考试成绩",
         menuPath = "学籍成绩 → 我的成绩 → 等级考试成绩",
         perSemester = false,
+        // 主框架菜单里没有独立的「等级考试成绩」入口，
+        // 最接近的是「社会考试报名」：kjcdShow(…,'/xsdjks/xsdjks_list','社会考试报名')
         paths = listOf(
-            "/jsxsd/kscj/djkscj_query",
-            "/jsxsd/kscj/djkscj_list",
+            "/jsxsd/xsdjks/xsdjks_list",
         ),
     ),
     ;

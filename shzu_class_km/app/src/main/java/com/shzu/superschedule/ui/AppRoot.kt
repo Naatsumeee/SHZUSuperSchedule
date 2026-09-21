@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Today
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -40,6 +41,7 @@ import com.shzu.superschedule.model.SemesterEntry
 import com.shzu.superschedule.widget.ScheduleWidgetProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import top.yukonga.miuix.kmp.basic.NavigationBar
 import top.yukonga.miuix.kmp.basic.NavigationBarItem
@@ -76,6 +78,13 @@ fun AppRoot() {
     var queryEntries by remember { mutableStateOf(initialQueries.entries) }
     var queryUpdatedAt by remember { mutableStateOf(initialQueries.updatedAt) }
     var queryFetching by remember { mutableStateOf(false) }
+
+    // 抓取用 WebView（1×1，用户不可见）。后台抓取的请求由它发出，
+    // 避免手工带 Cookie 被判未登录（详见 JwglQueryFetcher 注释）。
+    // 这里在 AppRoot 层创建，既注入给抓取器，也传给 MainScaffold 挂载宿主。
+    val fetchHost = remember {
+        WebViewFetcher().also { JwglQueryFetcher.install(it) }
+    }
 
     // 弹窗状态
     var detailCourse by remember { mutableStateOf<Course?>(null) }
@@ -130,6 +139,9 @@ fun AppRoot() {
             queryFetching = true
             val list = semestersToFetch.filter { it.isNotBlank() }
             AppLog.i("AppRoot", "开始后台抓取查询数据：${list.size} 个学期")
+
+            // 临时诊断：抓取前先把主框架菜单结构吐到日志（此时必然已登录）
+            fetchHost.dumpMenuToLog()
 
             val summary = JwglQueryFetcher.fetchAll(list)
 
@@ -343,6 +355,7 @@ fun AppRoot() {
             },
             onExportJson = { name, content -> fileActions.export(name, content) },
             onImportJson = { fileActions.import() },
+            fetchHost = fetchHost,
             queryEntries = queryEntries,
             queryUpdatedAt = queryUpdatedAt,
             queryFetching = queryFetching,
@@ -634,6 +647,7 @@ private fun MainScaffold(
     onRefreshSemesters: () -> Unit,
     onExportJson: (String, String) -> Unit = { _, _ -> },
     onImportJson: () -> Unit = {},
+    fetchHost: WebViewFetcher,
     queryEntries: List<QueryTable> = emptyList(),
     queryUpdatedAt: String = "",
     queryFetching: Boolean = false,
@@ -648,15 +662,6 @@ private fun MainScaffold(
     // 查询页的页面栈与结果缓存同理：由 MainScaffold 持有，
     // 切到别的 tab 再回来时二级页与已抓到的查询结果都还在。
     val queryUi = rememberQueryUiState()
-
-    // 抓取用 WebView（1×1，用户不可见）。
-    //
-    // 后台抓取的请求**由它发出**而不是自己拼 HTTP —— 真机上手工带 Cookie 请求
-    // 会被教务判未登录（详见 JwglQueryFetcher 的注释）。这里把它注入给抓取器，
-    // 宿主挂在本函数的内容里，于是整个 App 生命周期内抓取通道都可用。
-    val fetchHost = remember {
-        WebViewFetcher().also { JwglQueryFetcher.install(it) }
-    }
 
     // 底栏「背景高斯模糊」所需的离屏图层。必须由 MainScaffold 持有 ——
     // 它同时是页面内容与底栏的父级，两边才能共用同一组图层。

@@ -16,6 +16,7 @@ import com.shzu.superschedule.data.JwglSession
 import com.shzu.superschedule.data.QueryHtmlFetcher
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 
@@ -48,6 +49,14 @@ class WebViewFetcher : QueryHtmlFetcher {
         private const val ATTACH_TIMEOUT_MS = 15_000L
         private const val READY_TIMEOUT_MS = 25_000L
         private const val FETCH_TIMEOUT_MS = 30_000L
+
+        /**
+         * 点完菜单后等 iframe 出结果的时间。
+         *
+         * 刻意给得宽松些：教务本身不快，而且**连续快速请求容易被它当成爬虫**
+         * （实测点一次刷新后登录态直接掉）。宁可慢，也别把会话搞丢。
+         */
+        private const val IFRAME_WAIT_MS = 3_000L
     }
 
     @Volatile
@@ -124,99 +133,64 @@ class WebViewFetcher : QueryHtmlFetcher {
             }
         }
 
-        val url = JwglSession.BASE + path
-        AppLog.d(TAG, "发起抓取：${if (form == null) "GET" else "POST"} $path")
-
-        // 关键对照：CookieManager（全局、含 HttpOnly）里到底有没有会话 Cookie。
-        // 只记名字与总长，不记值。
-        // 强制把 CookieManager 里的 Cookie 落盘并同步到 WebView 实例。
-        // 抓取用的 WebView 是 App 启动时创建的（那时还没登录），
-        // 而会话 Cookie 是之后在导入页 WebView 里登录才写进去的 ——
-        // 不刷新的话，这个 WebView 的请求可能仍按旧状态发出。
+        // 🔑 关键认知（从主框架页的菜单结构里读出来的）：
+        //
+        // 强智的查询页**只能在主框架的子 iframe 里打开**。菜单项全是
+        //   kjcdShow('NEW_XSD_XJCJ', …, '/kscj/cjcx_frm', '课程成绩查询')
+        // 这样的 JS 调用 —— 也就是说页面是通过「在框架里换子页」加载的。
+        // 直接 loadUrl 做**顶层导航**会被判「请先登录系统」：
+        // 顶层导航发的是 `Sec-Fetch-Dest: document`，而教务只认 iframe 里的请求。
+        //
+        // 所以这里完全复刻用户点菜单的动作：
+        // 停到主框架页 → 点菜单项 → 等子页加载 → 需要学期的再填表提交 → 读 iframe。
         runCatching { CookieManager.getInstance().flush() }
 
-        val cmCookie = runCatching { CookieManager.getInstance().getCookie(url) }.getOrNull()
-        val cmNames = cmCookie.orEmpty()
-            .split(';')
-            .map { it.substringBefore('=').trim() }
-            .filter { it.isNotEmpty() }
-            .joinToString(",")
-        AppLog.i(TAG, "CookieManager 视角：len=${cmCookie?.length ?: 0} names=[$cmNames]")
+        val menuKey = path.removePrefix("/jsxsd")
+        AppLog.d(TAG, "抓取：点击菜单 $menuKey（${if (form == null) "GET" else "POST"}）")
 
-        // 第一次导航。
-        //
-        // 🔑 强智的查询页（xsksap_query / cjcx_query 等）会**校验 Referer**：
-        // 只有「从主框架页点进来的」请求才认，直接访问一律回
-        // `{"flag1":2,"msgContent":"请先登录系统"}`。
-        // 当初用 HttpURLConnection 时显式带了 Referer 所以成功过一次，
-        // 改用 WebView 导航后 Referer 变成「上一个页面」，查询页就全被拒了。
-        // 这里用 loadUrl(url, headers) 把 Referer 固定成主框架页。
-        val first = CompletableDeferred<Unit>()
-        pageReady = first
-        withContext(Dispatchers.Main) {
-            wv.loadUrl(
-                url,
-                mapOf("Referer" to JwglSession.MAIN_FRAME_URL),
-            )
-        }
-        if (withTimeoutOrNull(FETCH_TIMEOUT_MS) { first.await() } == null) {
-            pageReady = null
-            AppLog.w(TAG, "导航超时：$path")
+        // 1) 确保停主框架页
+        ensureMainFrame(wv)
+
+        // 2) 点菜单项
+        val clicked = evaluate(wv, buildClickMenuJs(menuKey))
+        AppLog.i(TAG, "点击菜单 $menuKey -> $clicked")
+        if (clicked != "ok") {
+            AppLog.w(TAG, "主框架菜单里找不到「$menuKey」，放弃本次抓取")
             return null
         }
 
-        // 需要查学期的，接着在本页填表并提交（等价于用户选完学期点「查询」）
-        if (form != null) {
-            val second = CompletableDeferred<Unit>()
-            pageReady = second
-            withContext(Dispatchers.Main) {
-                wv.evaluateJavascript(buildSubmitJs(form), null)
-            }
-            if (withTimeoutOrNull(FETCH_TIMEOUT_MS) { second.await() } == null) {
-                pageReady = null
-                AppLog.w(TAG, "提交表单后加载超时：$path")
-                return null
-            }
-        }
-        pageReady = null
+        // 3) 等子页加载
+        delay(IFRAME_WAIT_MS)
 
-        return readDom(wv)
+        // 4) 需要按学期查的：在子页里填表并提交（等价于用户选完学期点「查询」）
+        if (form != null) {
+            val submitted = evaluate(wv, buildSubmitJs(form))
+            AppLog.i(TAG, "提交查询表单 -> $submitted")
+            delay(IFRAME_WAIT_MS)
+        }
+
+        // 5) 把所有 iframe 的内容收集起来交给解析器
+        return evaluate(wv, COLLECT_FRAMES_JS)
     }
 
-    /**
-     * 把当前页面的 DOM 读回来。
-     *
-     * 顺带回传一次**诊断信息**（当前 URL / document.cookie / 是否有表单），
-     * 用来回答「这个 WebView 到底处在什么状态」——
-     * 导航后 URL 没变不代表页面正常，教务可能直接返回一段错误 JSON。
-     */
-    private suspend fun readDom(wv: WebView): String? {
+    /** 确保 WebView 停在主框架页 */
+    private suspend fun ensureMainFrame(wv: WebView) {
+        val cur = withContext(Dispatchers.Main) { runCatching { wv.url }.getOrNull() }
+        if (cur?.contains("xsMain") == true) return
+
+        val r = CompletableDeferred<Unit>()
+        pageReady = r
+        withContext(Dispatchers.Main) { wv.loadUrl(JwglSession.MAIN_FRAME_URL) }
+        if (withTimeoutOrNull(READY_TIMEOUT_MS) { r.await() } == null) {
+            AppLog.w(TAG, "加载主框架页超时")
+        }
+    }
+
+    /** 执行一段 JS 并把字符串结果取回来 */
+    private suspend fun evaluate(wv: WebView, js: String): String? {
         val d = CompletableDeferred<String>()
         withContext(Dispatchers.Main) {
-            wv.evaluateJavascript(
-                "(function(){try{return JSON.stringify({" +
-                    "url:location.href," +
-                    // 只取 Cookie 的**名字**，不带值 —— 会话凭据不进日志
-                    "cookieNames:(function(){try{return document.cookie.split(';')" +
-                    ".map(function(s){return s.trim().split('=')[0];})" +
-                    ".filter(function(x){return x;}).join(',');}catch(e){return 'n/a';}})()," +
-                    "cookieLen:document.cookie.length," +
-                    // sessionStorage 是**每个 WebView 独立**的。
-                    // 如果强智把会话 token 放在这里，就能解释「同一个 App 里
-                    // 导入页 WebView 有会话、抓取页没有」这个现象。
-                    "ssLen:(function(){try{return sessionStorage.length;}catch(e){return -1;}})()," +
-                    "ssKeys:(function(){try{var a=[];for(var i=0;i<sessionStorage.length;i++){" +
-                    "a.push(sessionStorage.key(i));}return a.join(',');}catch(e){return 'n/a';}})()," +
-                    "lsLen:(function(){try{return localStorage.length;}catch(e){return -1;}})()," +
-                    "forms:document.forms.length," +
-                    "len:document.documentElement.outerHTML.length" +
-                    "});}catch(e){return 'PROBE-ERR '+e;}})()",
-            ) { v ->
-                AppLog.i(TAG, "探针：${decodeJsString(v)}")
-            }
-            wv.evaluateJavascript("document.documentElement.outerHTML") { v ->
-                d.complete(decodeJsString(v))
-            }
+            wv.evaluateJavascript(js) { v -> d.complete(decodeJsString(v)) }
         }
         return withTimeoutOrNull(10_000L) { d.await() }
     }
@@ -243,27 +217,94 @@ class WebViewFetcher : QueryHtmlFetcher {
             (function(){
               try {
                 var data = {$entries};
-                var f = document.forms[0];
-                if (!f) { return 'noform'; }
-                for (var k in data) {
-                  var el = f.elements[k];
-                  if (!el) { continue; }
-                  if (el.length === undefined) {
-                    el.value = data[k];
-                  } else {
-                    for (var i = 0; i < el.length; i++) {
-                      if (el[i].value == data[k]) { el[i].checked = true; }
+                var docs = [document];
+                var fr = document.querySelectorAll('iframe, frame');
+                for (var i = 0; i < fr.length; i++) {
+                  try { var d = fr[i].contentDocument; if (d) docs.push(d); } catch (e) {}
+                }
+                for (var g = 0; g < docs.length; g++) {
+                  var fs = docs[g].forms;
+                  for (var n = 0; n < fs.length; n++) {
+                    var f = fs[n];
+                    var hit = false;
+                    for (var k in data) { if (f.elements[k]) { hit = true; break; } }
+                    if (!hit) continue;
+                    for (var key in data) {
+                      var el = f.elements[key];
+                      if (!el) continue;
+                      if (el.length === undefined) {
+                        el.value = data[key];
+                      } else {
+                        for (var m = 0; m < el.length; m++) {
+                          if (el[m].value == data[key]) { el[m].checked = true; }
+                        }
+                      }
                     }
+                    f.submit();
+                    return 'ok';
                   }
                 }
-                f.submit();
-              } catch (e) {}
-              return 'ok';
+                return 'noform';
+              } catch (e) { return 'err:' + e; }
             })()
         """.trimIndent()
     }
 
+    /**
+     * 生成「点菜单」的 JS。
+     *
+     * 在所有 iframe 里找 `onclick` 含目标路径的元素，`.click()` 它 ——
+     * 完全等价于用户手动点那个菜单项（教务也就是认这种行为）。
+     */
+    private fun buildClickMenuJs(menuKey: String): String = """
+        (function(){
+          try {
+            var target = '$menuKey';
+            var docs = [document];
+            var fr = document.querySelectorAll('iframe, frame');
+            for (var i = 0; i < fr.length; i++) {
+              try { var d = fr[i].contentDocument; if (d) docs.push(d); } catch (e) {}
+            }
+            for (var f = 0; f < docs.length; f++) {
+              var els = docs[f].querySelectorAll('[onclick]');
+              for (var j = 0; j < els.length; j++) {
+                var oc = els[j].getAttribute('onclick') || '';
+                if (oc.indexOf(target) >= 0) { els[j].click(); return 'ok'; }
+              }
+            }
+            return 'notfound';
+          } catch (e) { return 'err:' + e; }
+        })()
+    """.trimIndent()
+
     private fun esc(s: String): String = s.replace("\\", "\\\\").replace("'", "\\'")
+
+    /**
+     * 临时诊断：把主框架页（含左侧菜单 iframe）里所有菜单项
+     * 的「文本 / href / onclick」吐到日志，用来分析查询页的真实进入方式。
+     */
+    suspend fun dumpMenuToLog() {
+        val wv = webView ?: return
+        val ready2 = CompletableDeferred<Unit>()
+        pageReady = ready2
+        withContext(Dispatchers.Main) {
+            wv.loadUrl(JwglSession.MAIN_FRAME_URL, mapOf("Referer" to JwglSession.BASE))
+        }
+        if (withTimeoutOrNull(READY_TIMEOUT_MS) { ready2.await() } == null) {
+            AppLog.w(TAG, "dumpMenu：加载主框架页超时")
+            return
+        }
+
+        val d = CompletableDeferred<String>()
+        withContext(Dispatchers.Main) {
+            wv.evaluateJavascript(MENU_DUMP_JS) { v -> d.complete(decodeJsString(v)) }
+        }
+        val raw = withTimeoutOrNull(10_000L) { d.await() } ?: return
+        AppLog.i(TAG, "=== 主框架菜单结构 ===")
+        raw.split("\n").forEach { line ->
+            if (line.isNotBlank()) AppLog.i(TAG, "  $line")
+        }
+    }
 
     /** 页面加载完成（由 [buildFetchWebView] 回调） */
     internal fun markReady() {
@@ -356,3 +397,72 @@ private fun buildFetchWebView(ctx: Context, fetcher: WebViewFetcher): WebView =
         // xskb_list.do 是已验证能带会话的普通内容页，落在它上面最稳。
         loadUrl(JwglSession.TIMETABLE_URL)
     }
+
+/**
+ * 收集「所有 iframe 子页」的 HTML。
+ *
+ * 查询页是在主框架的 iframe 里打开的，只读顶层 `documentElement` 拿不到内容。
+ * 把每个有实质内容的 iframe 都取出来拼在一起，交给解析器按「数据行最多的表」去找。
+ */
+private const val COLLECT_FRAMES_JS = """
+(function(){
+  var out = [];
+  var fr = document.querySelectorAll('iframe, frame');
+  for (var i = 0; i < fr.length; i++) {
+    try {
+      var d = fr[i].contentDocument;
+      if (!d || !d.documentElement) continue;
+      var html = d.documentElement.outerHTML;
+      if (html.length < 200) continue;
+      out.push('<!--FRAME' + i + ' src=' + (fr[i].src || '') + '-->');
+      out.push(html);
+    } catch (e) {}
+  }
+  return out.join('\n');
+})()
+"""
+
+/**
+ * 提取主框架页（含各 iframe）里所有菜单项的文本 / href / onclick。
+ * 每行一个菜单项，用 `\n` 分隔，方便日志逐行打印。
+ */
+private const val MENU_DUMP_JS = """
+(function(){
+  var out = [];
+  var docs = [document];
+  var fr = document.querySelectorAll('iframe, frame');
+  for (var i = 0; i < fr.length; i++) {
+    try { var d = fr[i].contentDocument; if (d) docs.push(d); } catch (e) {}
+  }
+  // 菜单点击走的是 JS 函数 kjcdShow，把它的源码也吐出来看看到底干了什么
+  try {
+    if (typeof kjcdShow === 'function') out.push('=== kjcdShow 源码 ===\n' + kjcdShow.toString());
+  } catch (e) { out.push('kjcdShow 取不到: ' + e); }
+  try {
+    var cv = document.querySelectorAll('iframe');
+    for (var q = 0; q < cv.length; q++) {
+      try {
+        var w = cv[q].contentWindow;
+        if (w && typeof w.kjcdShow === 'function') {
+          out.push('=== 子框架 ' + q + ' 的 kjcdShow ===\n' + w.kjcdShow.toString());
+          break;
+        }
+      } catch (e) {}
+    }
+  } catch (e) {}
+  for (var f = 0; f < docs.length; f++) {
+    var links = docs[f].querySelectorAll('a[href], [onclick]');
+    for (var j = 0; j < links.length; j++) {
+      var a = links[j];
+      var txt = (a.textContent || a.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 24);
+      var href = a.getAttribute('href') || '';
+      var onclick = (a.getAttribute('onclick') || '').slice(0, 120);
+      var id = a.getAttribute('id') || '';
+      if (!txt && !href && !onclick && !id) continue;
+      out.push('[iframe' + f + '] txt=' + txt + ' | href=' + href + ' | onclick=' + onclick + ' | id=' + id);
+    }
+  }
+  return out.join('\n');
+})()
+"""
+

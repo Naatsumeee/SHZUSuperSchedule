@@ -3,6 +3,7 @@ package com.shzu.superschedule.data
 import com.shzu.superschedule.model.QueryKind
 import com.shzu.superschedule.model.QueryTable
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
 
@@ -42,6 +43,14 @@ import org.jsoup.Jsoup
 object JwglQueryFetcher {
 
     private const val TAG = "QueryFetcher"
+
+    /**
+     * 每个查询页之间的间隔。
+     *
+     * 实测：连着快速发十几次请求，教务会直接判定为爬虫并**踢掉整个会话**
+     * （用户反馈「点一次刷新后登录就掉了」）。宁可整体慢几十秒，也不能把会话搞丢。
+     */
+    private const val STEP_DELAY_MS = 1_200L
 
     /** 抓取通道；未注入时抓取会明确报「通道未就绪」，而不是静默失败 */
     @Volatile
@@ -205,6 +214,9 @@ object JwglQueryFetcher {
                         AppLog.w(TAG, "${kind.label}：${r.reason}")
                     }
                 }
+                // 每访问一个查询页之间停一下：连续快速请求会被教务当成爬虫，
+                // 实测「点一次刷新后登录态直接掉」就是这么来的。
+                delay(STEP_DELAY_MS)
                 continue
             }
             for (sem in list) {
@@ -224,6 +236,7 @@ object JwglQueryFetcher {
                         AppLog.w(TAG, "${kind.label} $sem：${r.reason}")
                     }
                 }
+                delay(STEP_DELAY_MS)
             }
         }
         AppLog.i(TAG, "批量抓取结束：成功 $ok / 未查询到数据 $empty / 失败 $fail（其中登录失效 $authFail）")
