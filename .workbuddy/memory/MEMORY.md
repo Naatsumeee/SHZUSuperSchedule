@@ -19,13 +19,22 @@ grep -rn '\$[a-zA-Z_][a-zA-Z0-9_]*()' app/src/main/java/
 ```
 
 ## 构建
+**唯一入口** `tools/build_km.ps1`（2026-09-21 合并：原先 27 个逐字节相同的
+`build_km_v*.ps1` / `build_debug.ps1` / `build_dbg2.ps1` 已删除）。
 ```bash
-powershell -ExecutionPolicy Bypass -File build_km.ps1
+powershell -ExecutionPolicy Bypass -File tools/build_km.ps1 -Version 160
+powershell -ExecutionPolicy Bypass -File tools/build_km.ps1 -Variant Debug
 ```
-- 输出日志 `km_build_v<N>.txt`。**注意：PowerShell `Tee-Object` 写出的是 UTF-16**，
-  `grep -q "BUILD SUCCESSFUL"` 会误判为失败。要这样看：
-  `cat km_build_v13.txt | tr -d '\000' | sed 's/\r//' | grep -E "^e: |BUILD"`
-- 只看编译错误：`grep -E "^e: " -A3`
+- `-Version`：日志名，可写 `160` 或 `v160`；省略则用时间戳。
+- `-Variant`：`Release`（默认）/ `Debug`。`-NoLog`：只打控制台。
+- 日志 `km_build_v<tag>[_debug].txt`，**已是干净 UTF-8**，直接 grep 即可：
+  `grep -E "^e: |BUILD" km_build_v160.txt`
+  （旧的 `tr -d '\000' | sed 's/\r//'` 绕法已不需要 —— 那是 `Tee-Object` 写 UTF-16 留下的。）
+- 结尾会打印 APK 路径与**字节数**，装设备后拿它核对 base.apk 是否真被替换。
+- ⚠️ **改这个 .ps1 时必须保持 UTF-8 with BOM**：无 BOM 时 PS 5.1 按 GBK 解码中文注释，
+  错位多字节序列会吞掉 `{`/`}` → 解析失败且**零输出**，极难定位。详见用户级 MEMORY。
+- ⚠️ 脚本里**不要加 `exit $code`**：会杀掉宿主进程，导致整个脚本输出丢失。
+- `tools/build_apk.ps1` 是 Flutter 时代的失效脚本（引用的 `app_src/`、`shzu_class_app/` 已不存在），待清理。
 
 ## MiuiX API 备忘（0.9.3，实测可用）
 - `top.yukonga.miuix.kmp.basic`：`BasicComponent` / `Card` / `Scaffold` / `NavigationBar` /

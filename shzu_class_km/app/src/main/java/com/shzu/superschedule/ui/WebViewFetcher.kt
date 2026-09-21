@@ -219,10 +219,11 @@ class WebViewFetcher : QueryHtmlFetcher {
     /**
      * 临时诊断开关：把各 frame 的 HTML 分片写进日志。
      *
-     * 只在「页面结构认不出来」时打开 —— 它能直接告诉我们要填哪个表单、
-     * 点哪个按钮，比反复猜想快得多。定稿后置 false。
+     * 平时**保持 false**。只在「页面结构认不出来」时才临时打开 ——
+     * 它能直接告诉我们要填哪个表单、点哪个按钮，比反复猜想快得多。
+     * （v158/v159 定位「等级考试表表头是多行的」就靠它。）
      */
-    private val DUMP_TARGET_FRAME = true
+    private val DUMP_TARGET_FRAME = false
 
     /**
      * 把各 frame 的 HTML 分片打进日志（logcat 单条上限约 4K，故按 900 字切片）。
