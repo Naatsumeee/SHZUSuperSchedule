@@ -582,11 +582,9 @@ private fun ManualQueryView(
                 Button(
                     onClick = {
                         status = "正在打开「${kind.label}」…若停在其他页面，请按菜单手动进入"
-                        // 查询页校验 Referer，直接 loadUrl 会被判未登录，带上主框架 Referer
-                        webView?.loadUrl(
-                            kind.urlOf(START_URL),
-                            mapOf("Referer" to "https://jwgl.shzu.edu.cn/jsxsd/framework/xsMain.htmlx"),
-                        )
+                        // 教务的查询页只能在主框架的子 iframe 里打开，直接导航过去会被判未登录。
+                        // 所以这里只把用户送到主框架页，让他自己在菜单里点（那就是教务认的方式）。
+                        webView?.loadUrl("https://jwgl.shzu.edu.cn/jsxsd/framework/xsMain.htmlx")
                     },
                     enabled = !busy,
                     modifier = Modifier.fillMaxWidth(),

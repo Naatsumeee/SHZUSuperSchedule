@@ -57,6 +57,14 @@ enum class QueryKind(
     /** 是否按学期查询：考试安排、课程成绩需要选学期；等级考试不需要 */
     val perSemester: Boolean,
     val paths: List<String>,
+    /**
+     * 教务主框架里打开本查询页的 `kjcdShow(...)` 实参（从菜单 HTML 的 onclick 里扒出来的）。
+     *
+     * 强智的查询页**只能在主框架的子 iframe 里打开**，而菜单项点击最终就是调这个函数。
+     * 直接复用它比自己「找菜单项再 click」可靠得多 —— 菜单是异步渲染的，
+     * 时机不对就找不到元素（实测点击时返回 notfound）。
+     */
+    val menuCall: List<String> = emptyList(),
 ) {
     EXAM(
         key = "exam",
@@ -64,10 +72,12 @@ enum class QueryKind(
         desc = "各门课的考试时间与考场",
         menuPath = "考试报名 → 我的考试 → 考试安排查询",
         perSemester = true,
-        // 从主框架菜单里扒出来的真实入口：
-        //   kjcdShow('NEW_XSD_KSBM','NEW_XSD_KSBM_WDKS','NEW_XSD_KSBM_WDKS_KSAPCX','/xsks/xsksap_query',…)
         paths = listOf(
             "/jsxsd/xsks/xsksap_query",
+        ),
+        menuCall = listOf(
+            "NEW_XSD_KSBM", "NEW_XSD_KSBM_WDKS", "NEW_XSD_KSBM_WDKS_KSAPCX",
+            "/xsks/xsksap_query", "考试安排查询",
         ),
     ),
     SCORE(
@@ -76,10 +86,12 @@ enum class QueryKind(
         desc = "各学期课程成绩与学分绩点",
         menuPath = "学籍成绩 → 我的成绩 → 课程成绩查询",
         perSemester = true,
-        // 从主框架菜单里扒出来的真实入口（注意是 _frm，是框架页，不是 cjcx_query）：
-        //   kjcdShow('NEW_XSD_XJCJ','NEW_XSD_XJCJ_WDCJ','NEW_XSD_XJCJ_WDCJ_KCCJCX','/kscj/cjcx_frm',…)
         paths = listOf(
             "/jsxsd/kscj/cjcx_frm",
+        ),
+        menuCall = listOf(
+            "NEW_XSD_XJCJ", "NEW_XSD_XJCJ_WDCJ", "NEW_XSD_XJCJ_WDCJ_KCCJCX",
+            "/kscj/cjcx_frm", "课程成绩查询",
         ),
     ),
     GRADE(
@@ -88,10 +100,12 @@ enum class QueryKind(
         desc = "四六级等等级考试成绩",
         menuPath = "学籍成绩 → 我的成绩 → 等级考试成绩",
         perSemester = false,
-        // 主框架菜单里没有独立的「等级考试成绩」入口，
-        // 最接近的是「社会考试报名」：kjcdShow(…,'/xsdjks/xsdjks_list','社会考试报名')
         paths = listOf(
             "/jsxsd/xsdjks/xsdjks_list",
+        ),
+        menuCall = listOf(
+            "NEW_XSD_KSBM", "NEW_XSD_KSBM_CJGL", "NEW_XSD_KSBM_CJGL_SHKSBM",
+            "/xsdjks/xsdjks_list", "社会考试报名",
         ),
     ),
     ;

@@ -114,7 +114,7 @@ object JwglQueryFetcher {
             var lastReason = "未找到可用的查询页面"
             for (path in kind.paths) {
                 try {
-                    val get = ch.html(path)
+                    val get = ch.html(path, null, kind.menuCall)
                     AppLog.i(
                         TAG,
                         "[$tag] GET $path -> len=${get?.length ?: -1} " +
@@ -148,7 +148,7 @@ object JwglQueryFetcher {
                         TAG,
                         "[$tag] POST $path（${params.size} 个字段，学期字段=${semesterField ?: "无"}）",
                     )
-                    val post = ch.html(path, params)
+                    val post = ch.html(path, params, kind.menuCall)
                     AppLog.i(
                         TAG,
                         "[$tag] POST $path -> len=${post?.length ?: -1} " +
@@ -248,7 +248,13 @@ object JwglQueryFetcher {
     /** 解析一页；返回 null 表示「这一页上没有结果表」，需要继续尝试 */
     private fun interpret(html: String, kind: QueryKind, semester: String): FetchResult? {
         val parsed = JwglQueryParser.parse(html, kind.key, QueryStore.now()) ?: return null
-        val withSem = parsed.copy(semester = if (kind.perSemester) semester else "")
+        // 标题固定用我们自己的名称。
+        // 不能用页面的 <title>：主框架里常驻着「修改个人信息」之类的 iframe，
+        // 它也会被一起收进来，取到的标题会是那个，看着像抓错了页面。
+        val withSem = parsed.copy(
+            semester = if (kind.perSemester) semester else "",
+            title = kind.label,
+        )
         return if (withSem.rows.isEmpty()) {
             FetchResult.Empty(semester)
         } else {

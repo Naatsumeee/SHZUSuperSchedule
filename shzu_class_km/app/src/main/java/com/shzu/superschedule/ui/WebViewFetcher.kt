@@ -57,6 +57,14 @@ class WebViewFetcher : QueryHtmlFetcher {
          * （实测点一次刷新后登录态直接掉）。宁可慢，也别把会话搞丢。
          */
         private const val IFRAME_WAIT_MS = 3_000L
+
+        /**
+         * 主框架加载完后，等菜单 iframe 渲染出来的时间。
+         *
+         * `onPageFinished` 只代表顶层文档就绪，左侧菜单和「常用功能」
+         * 都是随后的 iframe 异步加载 —— 不等就去找菜单项必然 notfound。
+         */
+        private const val MENU_RENDER_WAIT_MS = 2_500L
     }
 
     @Volatile
@@ -114,7 +122,11 @@ class WebViewFetcher : QueryHtmlFetcher {
         d.complete(html)
     }
 
-    override suspend fun html(path: String, form: Map<String, String>?): String? {
+    override suspend fun html(
+        path: String,
+        form: Map<String, String>?,
+        menuCall: List<String>,
+    ): String? {
         // 等宿主把 WebView 创建出来（导入后立刻抓取时会有这个时序差）
         if (webView == null) {
             withTimeoutOrNull(ATTACH_TIMEOUT_MS) { attachSignal.await() }
@@ -148,14 +160,35 @@ class WebViewFetcher : QueryHtmlFetcher {
         val menuKey = path.removePrefix("/jsxsd")
         AppLog.d(TAG, "抓取：点击菜单 $menuKey（${if (form == null) "GET" else "POST"}）")
 
-        // 1) 确保停主框架页
+        // 1) 确保停主框架页，并且**菜单 iframe 已经渲染出来**。
+        //    主框架的 onPageFinished 只代表顶层文档加载完，
+        //    左侧菜单 / 常用功能都是随后的 iframe 异步加载 ——
+        //    不等一下就去找菜单项，必然是 notfound（实测如此）。
         ensureMainFrame(wv)
+        delay(MENU_RENDER_WAIT_MS)
 
-        // 2) 点菜单项
-        val clicked = evaluate(wv, buildClickMenuJs(menuKey))
-        AppLog.i(TAG, "点击菜单 $menuKey -> $clicked")
-        if (clicked != "ok") {
-            AppLog.w(TAG, "主框架菜单里找不到「$menuKey」，放弃本次抓取")
+        // 2) 打开查询页：优先直接调用教务自己的 kjcdShow(...)，
+        //    它正是菜单项被点击时执行的函数，最贴近「用户手动点菜单」；
+        //    找不到这个函数再回退到「找菜单项并 click」。
+        var opened: String? = null
+        if (menuCall.size >= 5) {
+            opened = evaluate(wv, buildKjcdShowJs(menuCall))
+            AppLog.i(TAG, "调用 kjcdShow(${menuCall[3]}) -> $opened")
+        }
+        if (opened != "ok") {
+            repeat(2) { attempt ->
+                opened = evaluate(wv, buildClickMenuJs(menuKey))
+                AppLog.i(TAG, "点击菜单 $menuKey -> $opened（第 ${attempt + 1} 次）")
+                if (opened == "ok") return@repeat
+                if (attempt == 0) {
+                    AppLog.w(TAG, "没找到菜单项，重载主框架页后重试")
+                    reloadMainFrame(wv)
+                    delay(MENU_RENDER_WAIT_MS)
+                }
+            }
+        }
+        if (opened != "ok") {
+            AppLog.w(TAG, "始终打不开「$menuKey」，放弃本次抓取")
             return null
         }
 
@@ -169,15 +202,45 @@ class WebViewFetcher : QueryHtmlFetcher {
             delay(IFRAME_WAIT_MS)
         }
 
-        // 5) 把所有 iframe 的内容收集起来交给解析器
-        return evaluate(wv, COLLECT_FRAMES_JS)
+        // 5) 收集 iframe 内容交给解析器。
+        //
+        // ⚠️ 不能用「前后长度对比」来筛：kjcdShow 在目标页**已经在 iframe 里**时
+        // 是空操作，第二次起内容就不变了，会被筛成空（实测 len=0）。
+        // 全部收进来即可 —— 解析器按「数据行最多的表」来挑，不受无关 iframe 影响；
+        // 主框架里常驻的「修改个人信息」等也只是混进来，不会有行数优势。
+        return evaluate(wv, buildCollectAllFramesJs())
     }
+
+    /** 收集所有有实质内容的 iframe */
+    private fun buildCollectAllFramesJs(): String = """
+        (function(){
+          try {
+            var out = [];
+            var fr = document.querySelectorAll('iframe, frame');
+            for (var i = 0; i < fr.length; i++) {
+              try {
+                var d = fr[i].contentDocument;
+                if (!d || !d.documentElement) continue;
+                var html = d.documentElement.outerHTML;
+                if (html.length < 200) continue;
+                out.push('<!--FRAME' + i + ' src=' + (fr[i].src || '') + '-->');
+                out.push(html);
+              } catch (e) {}
+            }
+            return out.join('\n');
+          } catch (e) { return 'ERR ' + e; }
+        })()
+    """.trimIndent()
 
     /** 确保 WebView 停在主框架页 */
     private suspend fun ensureMainFrame(wv: WebView) {
         val cur = withContext(Dispatchers.Main) { runCatching { wv.url }.getOrNull() }
         if (cur?.contains("xsMain") == true) return
+        reloadMainFrame(wv)
+    }
 
+    /** 重新加载主框架页并等它加载完 */
+    private suspend fun reloadMainFrame(wv: WebView) {
         val r = CompletableDeferred<Unit>()
         pageReady = r
         withContext(Dispatchers.Main) { wv.loadUrl(JwglSession.MAIN_FRAME_URL) }
@@ -245,6 +308,36 @@ class WebViewFetcher : QueryHtmlFetcher {
                   }
                 }
                 return 'noform';
+              } catch (e) { return 'err:' + e; }
+            })()
+        """.trimIndent()
+    }
+
+    /**
+     * 生成「调用教务自己的 kjcdShow」的 JS。
+     *
+     * 该函数可能挂在顶层 window，也可能挂在某个子框架的 window 上，所以都试一遍。
+     */
+    private fun buildKjcdShowJs(args: List<String>): String {
+        val quoted = args.joinToString(",") { "'${esc(it)}'" }
+        return """
+            (function(){
+              try {
+                var a = [$quoted];
+                var wins = [window];
+                var fr = document.querySelectorAll('iframe, frame');
+                for (var i = 0; i < fr.length; i++) {
+                  try { if (fr[i].contentWindow) wins.push(fr[i].contentWindow); } catch (e) {}
+                }
+                for (var w = 0; w < wins.length; w++) {
+                  try {
+                    if (typeof wins[w].kjcdShow === 'function') {
+                      wins[w].kjcdShow(a[0], a[1], a[2], a[3], a[4]);
+                      return 'ok';
+                    }
+                  } catch (e) {}
+                }
+                return 'nofn';
               } catch (e) { return 'err:' + e; }
             })()
         """.trimIndent()
@@ -399,26 +492,21 @@ private fun buildFetchWebView(ctx: Context, fetcher: WebViewFetcher): WebView =
     }
 
 /**
- * 收集「所有 iframe 子页」的 HTML。
+ * 记录各 iframe 的内容长度，形如 `0=123,1=4567`。
  *
- * 查询页是在主框架的 iframe 里打开的，只读顶层 `documentElement` 拿不到内容。
- * 把每个有实质内容的 iframe 都取出来拼在一起，交给解析器按「数据行最多的表」去找。
+ * 主框架里常驻着「修改个人信息」这类 iframe，直接全收会抓错页面，
+ * 所以点击菜单前后各记一次，只取**长度发生变化**的那个。
  */
-private const val COLLECT_FRAMES_JS = """
+private const val SNAPSHOT_FRAMES_JS = """
 (function(){
   var out = [];
   var fr = document.querySelectorAll('iframe, frame');
   for (var i = 0; i < fr.length; i++) {
-    try {
-      var d = fr[i].contentDocument;
-      if (!d || !d.documentElement) continue;
-      var html = d.documentElement.outerHTML;
-      if (html.length < 200) continue;
-      out.push('<!--FRAME' + i + ' src=' + (fr[i].src || '') + '-->');
-      out.push(html);
-    } catch (e) {}
+    var len = -1;
+    try { var d = fr[i].contentDocument; len = d ? d.documentElement.outerHTML.length : -1; } catch (e) {}
+    out.push(i + '=' + len);
   }
-  return out.join('\n');
+  return out.join(',');
 })()
 """
 

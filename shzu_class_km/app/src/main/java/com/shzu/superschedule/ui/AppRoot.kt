@@ -140,9 +140,6 @@ fun AppRoot() {
             val list = semestersToFetch.filter { it.isNotBlank() }
             AppLog.i("AppRoot", "开始后台抓取查询数据：${list.size} 个学期")
 
-            // 临时诊断：抓取前先把主框架菜单结构吐到日志（此时必然已登录）
-            fetchHost.dumpMenuToLog()
-
             val summary = JwglQueryFetcher.fetchAll(list)
 
             // 只有真抓到东西才落盘：merge 是按 (kind, semester) 替换的，

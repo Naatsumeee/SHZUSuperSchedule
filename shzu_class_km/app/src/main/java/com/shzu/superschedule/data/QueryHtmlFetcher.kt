@@ -21,13 +21,20 @@ package com.shzu.superschedule.data
 interface QueryHtmlFetcher {
 
     /**
-     * 请求一个教务路径并返回其 HTML。
+     * 请求一个教务页面并返回其 HTML。
      *
-     * @param path 以 `/` 开头的站内路径（如 `/jsxsd/xsks/xsksap_query`），
-     *             由实现方拼到教务域名上；用相对路径能让浏览器按同源策略自动带上 Cookie。
+     * @param path 以 `/` 开头的站内路径（如 `/jsxsd/xsks/xsksap_query`）。
      * @param form 非 null 时改用 POST，并按 `application/x-www-form-urlencoded` 编码。
      *             查询学期成绩/考试安排都要走这一步（强智把学期放在表单里）。
+     * @param menuCall 主框架里打开该页的 `kjcdShow(...)` 实参。
+     *             **强智的查询页只能在主框架的子 iframe 里打开** —— 直接做顶层导航
+     *             （`Sec-Fetch-Dest: document`）会被判「请先登录系统」。
+     *             传了就优先用它来打开，比「找菜单项再点击」可靠（菜单是异步渲染的）。
      * @return 页面 HTML；请求失败或超时返回 null。
      */
-    suspend fun html(path: String, form: Map<String, String>? = null): String?
+    suspend fun html(
+        path: String,
+        form: Map<String, String>? = null,
+        menuCall: List<String> = emptyList(),
+    ): String?
 }
