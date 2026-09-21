@@ -65,8 +65,17 @@ object JwglQueryFetcher {
         /** 抓到了数据 */
         data class Ok(val table: QueryTable) : FetchResult
 
-        /** 请求成功，但该学期没有数据 */
-        data class Empty(val semester: String) : FetchResult
+        /**
+         * 请求成功，但该学期没有数据。
+         *
+         * 🔴 [table] 不能省。查询存档是按 (kind, semester) 做**覆盖式合并**的
+         * （见 [QueryStore.merge]），只有出现在 [fetchAll] 结果里的项才会顶掉旧值。
+         * 早先这里不带表，于是「教务现在没数据」这个事实**永远写不回存储**——
+         * 旧版本抓到的占位行（强智在空结果时会给一行「未查询到数据」）
+         * 就一直留在存档里，界面上表现为「考试安排 · 共 6 条」这种假数据。
+         * 带上这张 0 行的表，合并时才能把它替换成空，计数归零。
+         */
+        data class Empty(val semester: String, val table: QueryTable? = null) : FetchResult
 
         /** 请求本身失败（未登录 / 通道不通 / 找不到页面） */
         data class Fail(val reason: String) : FetchResult
@@ -114,62 +123,46 @@ object JwglQueryFetcher {
             var lastReason = "未找到可用的查询页面"
             for (path in kind.paths) {
                 try {
-                    val get = ch.html(path, null, kind.menuCall)
+                    // 一次到位：打开查询页 → 在它的 iframe 里选学期并点「查询」→ 收目标 iframe。
+                    //
+                    // 早先是「先 GET 探页面、再 POST 提交表单」两步。第二步那些表单字段
+                    // 是 Kotlin 侧把**所有 iframe 拼起来**用 Jsoup 找出来的，抓到的往往是
+                    // 主框架里常驻的「修改个人信息」表单 —— 提交了等于没提交
+                    // （实测 GET 与 POST 返回长度一字不差）。现在把选学期、点按钮
+                    // 全部下放到目标 iframe 内部完成，Kotlin 侧只传学期代码。
+                    val html = ch.html(
+                        path,
+                        semester.takeIf { kind.perSemester && it.isNotBlank() },
+                        kind.menuCall,
+                    )
                     AppLog.i(
                         TAG,
-                        "[$tag] GET $path -> len=${get?.length ?: -1} " +
-                            "title=「${pageTitleOf(get)}」${bodyPeek(get)}",
+                        "[$tag] GET $path -> len=${html?.length ?: -1} " +
+                            "title=「${pageTitleOf(html)}」${bodyPeek(html)}",
                     )
+                    logFrameSummary(html)
 
-                    if (get == null) {
+                    if (html == null) {
                         lastReason = "请求超时或被中断"
                         continue
                     }
-                    if (isFetchError(get)) {
-                        lastReason = "请求失败：${fetchErrorOf(get)}"
+                    if (isFetchError(html)) {
+                        lastReason = "请求失败：${fetchErrorOf(html)}"
                         continue
                     }
-                    if (looksLikeLogin(get)) {
+                    if (looksLikeLogin(html)) {
                         lastReason = "登录状态已失效，请重新导入课表完成登录"
                         break
                     }
 
-                    // 1) GET 回来直接带结果表
-                    interpret(get, kind, semester)?.let { return@withContext it }
+                    interpret(html, kind, semester)?.let { return@withContext it }
 
-                    // 2) 是查询表单页 → 带上学期提交
-                    val params = formParams(get, semester)
-                    if (params.isEmpty()) {
-                        AppLog.d(TAG, "[$tag] $path 既无结果表也无表单，换下一个候选")
-                        continue
-                    }
-                    val semesterField = params.keys.firstOrNull { it.contains("xnxq", true) }
-                    AppLog.i(
-                        TAG,
-                        "[$tag] POST $path（${params.size} 个字段，学期字段=${semesterField ?: "无"}）",
-                    )
-                    val post = ch.html(path, params, kind.menuCall)
-                    AppLog.i(
-                        TAG,
-                        "[$tag] POST $path -> len=${post?.length ?: -1} " +
-                            "title=「${pageTitleOf(post)}」",
-                    )
-                    if (post == null) {
-                        lastReason = "提交查询表单超时"
-                        continue
-                    }
-                    if (isFetchError(post)) {
-                        lastReason = "提交查询表单失败：${fetchErrorOf(post)}"
-                        continue
-                    }
-                    if (looksLikeLogin(post)) {
-                        lastReason = "登录状态已失效，请重新导入课表完成登录"
-                        break
-                    }
-                    interpret(post, kind, semester)?.let { return@withContext it }
-
-                    // 3) 表单提交成功但页面里没有数据表 → 该学期确实没数据
-                    AppLog.i(TAG, "[$tag] 表单提交成功但无结果表，判定为「未查询到数据」")
+                    // 页面正常、但没有目标结果表 → 该学期确实没数据
+                    //
+                    // 注意这里**刻意不返回空表**：走这条分支意味着连结果表的表头都没认出来
+                    // （最可能是教务改版），此时存档里若已有旧数据，保留它比清空更有用。
+                    // 与 interpret() 里「表认出来了、只是 0 行」那种明确的无数据区分开。
+                    AppLog.i(TAG, "[$tag] 页面无目标结果表，判定为「未查询到数据」（存档若有旧值则保留）")
                     return@withContext FetchResult.Empty(semester)
                 } catch (t: Throwable) {
                     AppLog.e(TAG, "[$tag] 请求 $path 异常", t)
@@ -196,6 +189,11 @@ object JwglQueryFetcher {
         val list = semesters.filter { it.isNotBlank() }
         AppLog.i(TAG, "开始批量抓取：${list.size} 个学期 × ${QueryKind.entries.size} 类查询")
 
+        // 先把主框架的菜单结构 dump 一份进日志：三类查询各自挂在哪个入口、
+        // kjcdShow 的实参是什么，全在这里，省得每次靠猜。
+        runCatching { channel?.dumpMenu() }
+            .onFailure { AppLog.w(TAG, "菜单诊断失败：${it.message}") }
+
         for (kind in QueryKind.entries) {
             if (!kind.perSemester) {
                 when (val r = fetch(kind, "")) {
@@ -205,6 +203,8 @@ object JwglQueryFetcher {
 
                     is FetchResult.Empty -> {
                         empty++
+                        // 空的表也要收进结果：合并是覆盖式的，不收就等于旧数据永远清不掉
+                        r.table?.let { out.add(it) }
                         AppLog.i(TAG, "${kind.label}：未查询到数据")
                     }
 
@@ -227,6 +227,8 @@ object JwglQueryFetcher {
 
                     is FetchResult.Empty -> {
                         empty++
+                        // 同上：空表写回，才能把该学期的旧数据替换掉
+                        r.table?.let { out.add(it) }
                         AppLog.i(TAG, "${kind.label} $sem：未查询到数据")
                     }
 
@@ -245,9 +247,12 @@ object JwglQueryFetcher {
 
     // ---------------- 内部 ----------------
 
-    /** 解析一页；返回 null 表示「这一页上没有结果表」，需要继续尝试 */
+    /** 解析一页；返回 null 表示「这一页上没有目标结果表」，需要继续尝试 */
     private fun interpret(html: String, kind: QueryKind, semester: String): FetchResult? {
-        val parsed = JwglQueryParser.parse(html, kind.key, QueryStore.now()) ?: return null
+        // 必须带表头关键词：拼进来的 HTML 里混着无关 iframe 的表，
+        // 不靠特征认表就会抓错（考试安排曾经返回了课程成绩的数据）。
+        val parsed = JwglQueryParser.parse(html, kind.key, QueryStore.now(), kind.headerKeywords)
+            ?: return null
         // 标题固定用我们自己的名称。
         // 不能用页面的 <title>：主框架里常驻着「修改个人信息」之类的 iframe，
         // 它也会被一起收进来，取到的标题会是那个，看着像抓错了页面。
@@ -256,43 +261,26 @@ object JwglQueryFetcher {
             title = kind.label,
         )
         return if (withSem.rows.isEmpty()) {
-            FetchResult.Empty(semester)
+            FetchResult.Empty(semester, withSem)
         } else {
             FetchResult.Ok(withSem)
         }
     }
 
     /**
-     * 从页面里读出查询表单的字段，并把学期字段换成目标学期。
+     * 把收集到的各 iframe 摘要写进日志（src / 标题 / 大小 / 表头）。
      *
-     * 「学期字段」的判定：`name` 含 `xnxq`（强智的统一命名，如 `xnxq01id`）。
+     * 抓取时如果目标 iframe 没匹配上就会退回「全收」，出问题时必须能看出
+     * 「到底收了几个、分别是什么」，否则只能瞎猜。
      */
-    private fun formParams(html: String, semester: String): Map<String, String> {
-        val doc = Jsoup.parse(html)
-        val form = doc.select("form").firstOrNull { f ->
-            f.select("input[name], select[name]").isNotEmpty()
-        } ?: return emptyMap()
-
-        val params = LinkedHashMap<String, String>()
-        form.select("input[name]").forEach { inp ->
-            val type = inp.attr("type").lowercase()
-            if (type in setOf("submit", "button", "image", "reset", "file")) return@forEach
-            if (type in setOf("checkbox", "radio") && !inp.hasAttr("checked")) return@forEach
-            params[inp.attr("name")] = inp.attr("value")
+    private fun logFrameSummary(html: String?) {
+        if (html.isNullOrBlank()) return
+        val marks = Regex("<!--FRAME[^>]*-->").findAll(html).take(12).toList()
+        if (marks.isEmpty()) {
+            AppLog.w(TAG, "  未收集到任何 iframe（可能登录态失效或页面未加载完）")
+            return
         }
-        form.select("select[name]").forEach { sel ->
-            val name = sel.attr("name")
-            val opt = sel.selectFirst("option[selected]") ?: sel.selectFirst("option")
-            params[name] = if (semester.isNotBlank() && name.contains("xnxq", ignoreCase = true)) {
-                semester
-            } else {
-                opt?.attr("value").orEmpty()
-            }
-        }
-        form.select("textarea[name]").forEach { ta ->
-            params[ta.attr("name")] = ta.text()
-        }
-        return params
+        marks.forEach { AppLog.i(TAG, "  ${it.value.removePrefix("<!--").removeSuffix("-->")}") }
     }
 
     /**

@@ -41,17 +41,66 @@ object QueryStore {
     fun load(context: Context): Archive = runCatching {
         val f = file(context)
         if (!f.exists()) return Archive()
-        json.decodeFromString<Archive>(f.readText())
+        sanitize(json.decodeFromString<Archive>(f.readText()))
     }.getOrElse {
         AppLog.w("QueryStore", "读取查询存档失败：${it.message}")
         Archive()
     }
 
+    /**
+     * 清掉存档里历史遗留的「未查询到数据」占位行。
+     *
+     * 为什么要在这里做：强智在结果为空时会给一张只有一行的表，那行写着
+     * 「未查询到数据」。早期版本的解析器没滤它，于是「考试安排本来没有」
+     * 被当成 1 条记录存了下来。清在**读取**这一步，老用户不点刷新也能立刻看到正确结果，
+     * 不用等下一次抓取覆盖。
+     *
+     * 只删行、不删条目：条目留着（0 行），界面才会显示「未查询到数据」，
+     * 而不是「尚未获取」——这两者对用户的意义不一样。
+     */
+    private fun sanitize(archive: Archive): Archive {
+        var dropped = 0
+        val cleaned = archive.entries.map { t ->
+            val rows = t.rows.filterNot { JwglQueryParser.isPlaceholderRow(it) }
+            if (rows.size == t.rows.size) {
+                t
+            } else {
+                dropped += t.rows.size - rows.size
+                t.copy(rows = rows)
+            }
+        }
+        if (dropped > 0) {
+            AppLog.i("QueryStore", "存档清理：移除 $dropped 行「未查询到数据」占位记录")
+        }
+        return archive.copy(entries = cleaned)
+    }
+
+    /**
+     * 保存存档。
+     *
+     * ⚠️ **先写临时文件再重命名，不要直接 `writeText`。**
+     * 直接写是「截断 + 覆盖」：一次批量抓取要跑两三分钟，期间用户很容易切走或锁屏，
+     * 应用被系统回收是常事。若恰好在写盘那一瞬被杀，原文件已被截断成半截 JSON，
+     * 下次加载解析失败 → 整个存档归零。临时文件 + `renameTo` 是原子的，
+     * 最坏情况只是丢掉这一次的新数据，旧数据完好。
+     *
+     * 同理，读取时若 `renameTo` 失败退化成直写，也只是兜底，不影响原子性前提。
+     */
     fun save(context: Context, archive: Archive) {
         runCatching {
             val f = file(context)
             f.parentFile?.takeIf { !it.exists() }?.mkdirs()
-            f.writeText(json.encodeToString(archive))
+            val text = json.encodeToString(archive)
+            val tmp = File(f.parentFile, "$FILE_NAME.tmp")
+            tmp.writeText(text)
+            if (!tmp.renameTo(f)) {
+                // 某些实现下目标已存在时 renameTo 会失败，退一步：删掉再重命名
+                f.delete()
+                if (!tmp.renameTo(f)) {
+                    f.writeText(text)
+                    tmp.delete()
+                }
+            }
             AppLog.i("QueryStore", "查询存档已保存：${archive.entries.size} 项")
         }.onFailure {
             AppLog.e("QueryStore", "保存查询存档失败", it)

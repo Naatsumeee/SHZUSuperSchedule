@@ -2,6 +2,7 @@ package com.shzu.superschedule.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.JavascriptInterface
@@ -124,7 +125,7 @@ class WebViewFetcher : QueryHtmlFetcher {
 
     override suspend fun html(
         path: String,
-        form: Map<String, String>?,
+        semester: String?,
         menuCall: List<String>,
     ): String? {
         // 等宿主把 WebView 创建出来（导入后立刻抓取时会有这个时序差）
@@ -158,7 +159,7 @@ class WebViewFetcher : QueryHtmlFetcher {
         runCatching { CookieManager.getInstance().flush() }
 
         val menuKey = path.removePrefix("/jsxsd")
-        AppLog.d(TAG, "抓取：点击菜单 $menuKey（${if (form == null) "GET" else "POST"}）")
+        AppLog.d(TAG, "抓取：打开 $menuKey（学期=${semester ?: "-"}）")
 
         // 1) 确保停主框架页，并且**菜单 iframe 已经渲染出来**。
         //    主框架的 onPageFinished 只代表顶层文档加载完，
@@ -195,39 +196,174 @@ class WebViewFetcher : QueryHtmlFetcher {
         // 3) 等子页加载
         delay(IFRAME_WAIT_MS)
 
-        // 4) 需要按学期查的：在子页里填表并提交（等价于用户选完学期点「查询」）
-        if (form != null) {
-            val submitted = evaluate(wv, buildSubmitJs(form))
-            AppLog.i(TAG, "提交查询表单 -> $submitted")
+        // 目标 iframe 的识别特征：路径最后一段。
+        val frameKey = path.substringAfterLast('/')
+
+        // 4) 需要按学期查的：**在页面内部**选学期并点「查询」。
+        //
+        // ⚠️ 绝对不能拿「所有 iframe 拼起来的 HTML」去 Jsoup 里找表单：
+        // 主框架常驻着「修改个人信息」等 iframe，`forms.first{}` 抓到的是它们的表，
+        // 提交了等于没提交（实测 GET 与 POST 返回的长度一字不差）。
+        if (semester != null) {
+            val detail = evaluate(wv, buildQueryInFrameJs(frameKey, semester))
+            AppLog.i(TAG, "选学期并提交查询 -> $detail")
             delay(IFRAME_WAIT_MS)
         }
 
-        // 5) 收集 iframe 内容交给解析器。
-        //
-        // ⚠️ 不能用「前后长度对比」来筛：kjcdShow 在目标页**已经在 iframe 里**时
-        // 是空操作，第二次起内容就不变了，会被筛成空（实测 len=0）。
-        // 全部收进来即可 —— 解析器按「数据行最多的表」来挑，不受无关 iframe 影响；
-        // 主框架里常驻的「修改个人信息」等也只是混进来，不会有行数优势。
-        return evaluate(wv, buildCollectAllFramesJs())
+        // 5) 递归收集**所有层级**的 frame（结果往往在嵌套的子 frame 里）。
+        val html = evaluate(wv, buildCollectFramesJs(frameKey))
+        if (DUMP_TARGET_FRAME) dumpAllFrames(wv, frameKey)
+        return html
     }
 
-    /** 收集所有有实质内容的 iframe */
-    private fun buildCollectAllFramesJs(): String = """
+    /**
+     * 临时诊断开关：把各 frame 的 HTML 分片写进日志。
+     *
+     * 只在「页面结构认不出来」时打开 —— 它能直接告诉我们要填哪个表单、
+     * 点哪个按钮，比反复猜想快得多。定稿后置 false。
+     */
+    private val DUMP_TARGET_FRAME = true
+
+    /**
+     * 把各 frame 的 HTML 分片打进日志（logcat 单条上限约 4K，故按 900 字切片）。
+     *
+     * ⚠️ HTML 分片**只走 logcat，不走 [AppLog]**。
+     * 一次 dump 近 200 行，而 [AppLog] 的内存缓冲只有 800 条、整轮抓取要 dump 十几次——
+     * 挂到 AppLog 上会把真正的抓取结论（成功几项、哪项没数据）整个挤出缓冲，
+     * 用户到「设置 → 关于 → 作者」7 下打开日志页，只会看到满屏 HTML。
+     * 用 `Log.i` 就只留在 logcat 里，供开发排查，不干扰应用内日志。
+     */
+    private suspend fun dumpAllFrames(wv: WebView, frameKey: String) {
+        val names = evaluate(wv, buildListFramesJs()) ?: return
+        AppLog.i(TAG, "=== frame 清单 === $names")
+        // 只 dump 与目标相关的那几个：按 src 含 frameKey 的最多 3 个
+        val html = evaluate(wv, buildFrameHtmlJs(frameKey)) ?: return
+        Log.i(TAG, "=== iframe[$frameKey] HTML（${html.length} 字）===")
+        html.chunked(900).forEachIndexed { i, part -> Log.i(TAG, "  [$i] $part") }
+    }
+
+    /**
+     * **递归**枚举所有 window（含嵌套 iframe/subframe）。
+     *
+     * 🔴 这是之前最大的盲点：`document.querySelectorAll('iframe, frame')`
+     * **只看顶层**，而强智的查询结果全在**嵌套**的子 frame 里 ——
+     * 课程成绩在 `cjcx_frm` 内层的 `cjcx_list_frm`，
+     * 考试安排在 `xsksap_query` 内层的 `fcenter`。
+     * 顶层那 4 个 frame 里当然一条数据都没有，于是怎么改都「未查询到数据」。
+     *
+     * 深度限 4 层，避免异常结构把栈打爆。
+     */
+    private val FRAME_UTILS_JS = """
+        function __walk(win, depth, out, up) {
+          if (depth > 4 || !win) return out;
+          var fr;
+          try { fr = win.frames; } catch (e) { return out; }
+          if (!fr) return out;
+          for (var i = 0; i < fr.length; i++) {
+            try {
+              var w = fr[i];
+              var d = w.document;
+              if (!d || !d.documentElement) continue;
+              var href = '';
+              try { href = w.location.href || ''; } catch (e) {}
+              var nm = '';
+              try { nm = w.name || ''; } catch (e) {}
+              var me = out.length;
+              out.push({ w: w, d: d, name: nm, href: href, depth: depth, up: up });
+              __walk(w, depth + 1, out, me);
+            } catch (e) {}
+          }
+          return out;
+        }
+        function __allFrames() { return __walk(window, 0, [], -1); }
+        // 自身或任一祖先的 URL 命中 key → 属于目标页的子树
+        function __underKey(list, i, key) {
+          if (!key) return false;
+          var n = i;
+          while (n >= 0) {
+            if ((list[n].href || '').indexOf(key) >= 0) return true;
+            n = list[n].up;
+          }
+          return false;
+        }
+    """.trimIndent()
+
+    /** 诊断用：列出所有 frame 的 `name@href` */
+    private fun buildListFramesJs(): String = """
         (function(){
           try {
+            $FRAME_UTILS_JS
+            return __allFrames().map(function(x, i){
+              return i + ':' + (x.name || '-') + '@' + (x.href || '').slice(0, 70)
+                + '[' + x.d.documentElement.outerHTML.length + ']';
+            }).join(' | ');
+          } catch (e) { return 'ERR ' + e; }
+        })()
+    """.trimIndent()
+
+    /**
+     * 收集**所有层级** frame 的内容。
+     *
+     * 优先只交与 [frameKey] 相关的（目标页自己 + 它内部嵌套的子 frame），
+     * 匹配不到才退回全收 —— 由解析器的表头关键词兜底。
+     *
+     * 每条 `<!--FRAME…-->` 注释在 Kotlin 侧被提取出来写日志
+     * （**JS 里不能调 AppLog** —— 那是 Kotlin 对象，JS 里不存在，
+     * 会抛 ReferenceError 把整个收集函数搞挂，实测踩过）。
+     */
+    private fun buildCollectFramesJs(frameKey: String): String = """
+        (function(){
+          try {
+            $FRAME_UTILS_JS
+            var key = '${esc(frameKey)}';
+            var all = __allFrames();
+            var picked = [];
+            for (var i = 0; i < all.length; i++) {
+              if (__underKey(all, i, key)) picked.push(all[i]);
+            }
+            var use = picked.length > 0 ? picked : all;
             var out = [];
-            var fr = document.querySelectorAll('iframe, frame');
-            for (var i = 0; i < fr.length; i++) {
-              try {
-                var d = fr[i].contentDocument;
-                if (!d || !d.documentElement) continue;
-                var html = d.documentElement.outerHTML;
-                if (html.length < 200) continue;
-                out.push('<!--FRAME' + i + ' src=' + (fr[i].src || '') + '-->');
-                out.push(html);
-              } catch (e) {}
+            for (var k = 0; k < use.length; k++) {
+              var f = use[k];
+              var html;
+              try { html = f.d.documentElement.outerHTML; } catch (e) { continue; }
+              if (!html || html.length < 200) continue;
+              var tb = f.d.querySelectorAll('table');
+              var hdr = '';
+              if (tb.length > 0) {
+                var rows = tb[0].querySelectorAll('tr');
+                if (rows.length > 0) {
+                  hdr = (rows[0].textContent || '').replace(/\s+/g, ' ').trim().slice(0, 70);
+                }
+              }
+              out.push('<!--FRAME d=' + f.depth + ' name=' + (f.name || '-')
+                + ' | src=' + (f.href || '').slice(0, 90)
+                + ' | len=' + html.length
+                + ' | tables=' + tb.length
+                + ' | hdr=' + hdr + '-->');
+              out.push(html);
             }
             return out.join('\n');
+          } catch (e) { return 'ERR ' + e; }
+        })()
+    """.trimIndent()
+
+    /** 取目标页整棵子树的 HTML（诊断用，总量截到 15000 字） */
+    private fun buildFrameHtmlJs(frameKey: String): String = """
+        (function(){
+          try {
+            $FRAME_UTILS_JS
+            var key = '${esc(frameKey)}';
+            var all = __allFrames();
+            var out = '';
+            for (var i = 0; i < all.length && out.length < 15000; i++) {
+              if (!__underKey(all, i, key)) continue;
+              var h = '';
+              try { h = all[i].d.documentElement.outerHTML; } catch (e) { continue; }
+              out += '\n<!--SUBTREE d=' + all[i].depth + ' name=' + (all[i].name || '-')
+                   + ' src=' + (all[i].href || '').slice(0, 80) + '-->' + '\n' + h;
+            }
+            return out.length > 0 ? out.slice(0, 15000) : ('NO-FRAME:' + key);
           } catch (e) { return 'ERR ' + e; }
         })()
     """.trimIndent()
@@ -267,51 +403,104 @@ class WebViewFetcher : QueryHtmlFetcher {
     }
 
     /**
-     * 生成「填表并提交」的 JS。
+     * 生成「**在页面内部**选学期并触发查询」的 JS。
      *
-     * 强智的查询页把学年学期放在表单里，提交后才出结果 ——
-     * 这里把目标学期写进对应控件再 `submit()`，等价于用户手动选完点「查询」。
+     * 这是整条链路最关键的一步。之前的写法是：
+     * Kotlin 侧把所有 iframe 的 HTML 拼起来 → Jsoup 找第一个带 input 的 form
+     * → 把字段表交给 JS 去填。问题是主框架里常驻着「修改个人信息」等 iframe，
+     * 抓到的往往是它们的表单 —— **提交了等于没提交**（实测 GET 与 POST 返回的
+     * 页面长度一字不差）。
+     *
+     * 现在按实测到的真实结构来做：
+     *
+     * 1. **改写 URL 参数直取**：强智的成绩列表页 `cjcx_list` 把学期放在
+     *    query string 里（实测 `?kksj=2026-2027-1&zylx=0`）。凡是有子 frame 的
+     *    URL 里带 `kksj=`，直接换成目标学期并 reload —— 这是最短、最可靠的一条路。
+     * 2. **找不到就模拟用户操作**：在任意层级找 name/id 含 `xnxq` 的学期控件，
+     *    写入 [semester]（**选项里没有该学期就绝不提交**，免得查成别的学期还给用户看），
+     *    再点「查询」按钮。
+     * 3. 点按钮时做**拼接匹配** `value+text+onclick+id`：教务的查询按钮常写成
+     *    `<button type="button" onclick="queryKsap()">查 询</button>` ——
+     *    按钮文字里的空格会让「查询」匹配失败，而 `onclick` 才是可靠特征。
+     *    （早先写成 `value || textContent || onclick` 短路取值，恰好被文字挡住，
+     *    于是永远走不到 `onclick`，白白退化成 `form.submit()`。）
+     *
+     * 返回**诊断串**（frame 清单 / 控件 / 表单 / 点到了什么），直接进日志。
      */
-    private fun buildSubmitJs(form: Map<String, String>): String {
-        val entries = form.entries.joinToString(",") { (k, v) ->
-            "'${esc(k)}':'${esc(v)}'"
-        }
-        return """
-            (function(){
-              try {
-                var data = {$entries};
-                var docs = [document];
-                var fr = document.querySelectorAll('iframe, frame');
-                for (var i = 0; i < fr.length; i++) {
-                  try { var d = fr[i].contentDocument; if (d) docs.push(d); } catch (e) {}
-                }
-                for (var g = 0; g < docs.length; g++) {
-                  var fs = docs[g].forms;
-                  for (var n = 0; n < fs.length; n++) {
-                    var f = fs[n];
-                    var hit = false;
-                    for (var k in data) { if (f.elements[k]) { hit = true; break; } }
-                    if (!hit) continue;
-                    for (var key in data) {
-                      var el = f.elements[key];
-                      if (!el) continue;
-                      if (el.length === undefined) {
-                        el.value = data[key];
-                      } else {
-                        for (var m = 0; m < el.length; m++) {
-                          if (el[m].value == data[key]) { el[m].checked = true; }
-                        }
-                      }
-                    }
-                    f.submit();
-                    return 'ok';
-                  }
-                }
-                return 'noform';
-              } catch (e) { return 'err:' + e; }
-            })()
-        """.trimIndent()
-    }
+    private fun buildQueryInFrameJs(frameKey: String, semester: String): String = """
+        (function(){
+          try {
+            $FRAME_UTILS_JS
+            var key = '${esc(frameKey)}';
+            var sem = '${esc(semester)}';
+            var all = __allFrames();
+            var info = 'frames=' + all.length;
+
+            // ---- 1) 直取：子 frame 的 URL 里带学期参数（kksj=…）就改写它
+            var rewritten = 0;
+            for (var i = 0; i < all.length; i++) {
+              var h = all[i].href || '';
+              if (!/kksj=/i.test(h)) continue;
+              var nh = h.replace(/([?&]kksj=)[^&]*/i, '${'$'}1' + encodeURIComponent(sem));
+              if (nh === h) continue;
+              try { all[i].w.location.replace(nh); rewritten++; } catch (e) {}
+            }
+            if (rewritten > 0) {
+              return info + ' | 直取 kksj 改写=' + rewritten + ' sem=' + sem;
+            }
+
+            // ---- 2) 找学期控件（任意层级）
+            var host = null, ctl = null;
+            for (var p = 0; p < all.length && !ctl; p++) {
+              var cands = all[p].d.querySelectorAll('select, input');
+              for (var c = 0; c < cands.length; c++) {
+                var nm = cands[c].name || cands[c].id || '';
+                if (/xnxq/i.test(nm)) { host = all[p]; ctl = cands[c]; break; }
+              }
+            }
+            info += ' | ctl=' + (ctl ? (ctl.tagName + '#' + (ctl.name || ctl.id)) : 'none');
+            if (!ctl) return info + ' | noctl';
+
+            var form = ctl.form || null;
+            info += ' | form=' + (form ? (form.name || form.id || '?') : 'none');
+            if (form) {
+              info += ' action=' + (form.getAttribute('action') || '')
+                    + ' target=' + (form.getAttribute('target') || '');
+            }
+
+            if (ctl.tagName === 'SELECT') {
+              var hit = -1;
+              for (var o = 0; o < ctl.options.length; o++) {
+                if (ctl.options[o].value === sem) { hit = o; break; }
+              }
+              info += ' | setSem=' + (hit >= 0 ? 'ok' : 'NOOPT/' + ctl.options.length);
+              if (hit < 0) return info;   // 学期不在候选里 → 不提交
+              ctl.selectedIndex = hit;
+            } else {
+              ctl.value = sem;
+              info += ' | setSem=ok';
+            }
+
+            // ---- 3) 点「查询」按钮（value + 文字 + onclick + id 一起看）
+            var scope = host ? host.d : document;
+            var bs = scope.querySelectorAll(
+              'input[type=submit], input[type=button], button, a[onclick]');
+            for (var b = 0; b < bs.length; b++) {
+              var el = bs[b];
+              var t = (el.value || '') + ' ' + (el.textContent || '') + ' '
+                    + (el.getAttribute('onclick') || '') + ' ' + (el.id || '');
+              if (/查询|搜索|检索|search|query|_cx/i.test(t)) {
+                el.click();
+                return info + ' | click=「'
+                  + (el.value || el.textContent || el.id || '').replace(/\s+/g, '').slice(0, 12)
+                  + '」';
+              }
+            }
+            if (form) { form.submit(); return info + ' | submit=form'; }
+            return info + ' | nobody';
+          } catch (e) { return 'err:' + e; }
+        })()
+    """.trimIndent()
 
     /**
      * 生成「调用教务自己的 kjcdShow」的 JS。
@@ -373,9 +562,11 @@ class WebViewFetcher : QueryHtmlFetcher {
     private fun esc(s: String): String = s.replace("\\", "\\\\").replace("'", "\\'")
 
     /**
-     * 临时诊断：把主框架页（含左侧菜单 iframe）里所有菜单项
+     * 诊断：把主框架页（含左侧菜单 iframe）里所有菜单项
      * 的「文本 / href / onclick」吐到日志，用来分析查询页的真实进入方式。
      */
+    override suspend fun dumpMenu() = dumpMenuToLog()
+
     suspend fun dumpMenuToLog() {
         val wv = webView ?: return
         val ready2 = CompletableDeferred<Unit>()
@@ -492,30 +683,17 @@ private fun buildFetchWebView(ctx: Context, fetcher: WebViewFetcher): WebView =
     }
 
 /**
- * 记录各 iframe 的内容长度，形如 `0=123,1=4567`。
- *
- * 主框架里常驻着「修改个人信息」这类 iframe，直接全收会抓错页面，
- * 所以点击菜单前后各记一次，只取**长度发生变化**的那个。
- */
-private const val SNAPSHOT_FRAMES_JS = """
-(function(){
-  var out = [];
-  var fr = document.querySelectorAll('iframe, frame');
-  for (var i = 0; i < fr.length; i++) {
-    var len = -1;
-    try { var d = fr[i].contentDocument; len = d ? d.documentElement.outerHTML.length : -1; } catch (e) {}
-    out.push(i + '=' + len);
-  }
-  return out.join(',');
-})()
-"""
-
-/**
  * 提取主框架页（含各 iframe）里所有菜单项的文本 / href / onclick。
  * 每行一个菜单项，用 `\n` 分隔，方便日志逐行打印。
  */
 private const val MENU_DUMP_JS = """
 (function(){
+  var MENU_IDS = [
+    'NEW_XSD_XJCJ_WDCJ_DJKSCJ',
+    'NEW_XSD_XJCJ_WDCJ_KCCJCX',
+    'NEW_XSD_KSBM_WDKS_KSAPCX',
+    'NEW_XSD_XJCJ_WDCJ'
+  ];
   var out = [];
   var docs = [document];
   var fr = document.querySelectorAll('iframe, frame');
@@ -538,6 +716,23 @@ private const val MENU_DUMP_JS = """
       } catch (e) {}
     }
   } catch (e) {}
+  // 菜单的真实 URL 藏在 JS 里（三级菜单项只有 id，没有 onclick）。
+  // 把所有含 kjcdShow / 目标 id 的脚本文本挖出来，直接看它调了什么。
+  try {
+    for (var sd = 0; sd < docs.length; sd++) {
+      var ss = docs[sd].querySelectorAll('script');
+      for (var si2 = 0; si2 < ss.length; si2++) {
+        var txt = ss[si2].textContent || '';
+        for (var mi = 0; mi < MENU_IDS.length; mi++) {
+          var at = txt.indexOf(MENU_IDS[mi]);
+          if (at >= 0) {
+            out.push('=== SCRIPT 命中 ' + MENU_IDS[mi] + ' ===');
+            out.push(txt.slice(Math.max(0, at - 260), at + 260).replace(/\s+/g, ' '));
+          }
+        }
+      }
+    }
+  } catch (e) { out.push('脚本扫描失败: ' + e); }
   for (var f = 0; f < docs.length; f++) {
     var links = docs[f].querySelectorAll('a[href], [onclick]');
     for (var j = 0; j < links.length; j++) {

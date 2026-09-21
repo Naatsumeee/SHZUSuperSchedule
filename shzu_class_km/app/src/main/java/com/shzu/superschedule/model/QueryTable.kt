@@ -65,6 +65,20 @@ enum class QueryKind(
      * 时机不对就找不到元素（实测点击时返回 notfound）。
      */
     val menuCall: List<String> = emptyList(),
+    /**
+     * 该类结果表的**表头关键词**（任一命中即认）。
+     *
+     * 抓取时已按 iframe 的 `src` 锁定目标页，这里只是**第二道保险**：
+     * 万一目标 iframe 没匹配上而退回了「全收」，也不能抓到别的表。
+     *
+     * 所以三类的词必须**互相排斥**，尤其不能都用「成绩」这种共性词 ——
+     * 等级考试表的表头就是「考试成绩」，用「成绩」会把两类混在一起。
+     * 定稿：
+     * - 成绩表认「学分 / 绩点」（只有课程成绩表有）；
+     * - 等级考试认「证书 / 准考证 / 考试等级」；
+     * - 考试安排认「考场 / 考试场次 / 考试校区」。
+     */
+    val headerKeywords: List<String> = emptyList(),
 ) {
     EXAM(
         key = "exam",
@@ -79,6 +93,8 @@ enum class QueryKind(
             "NEW_XSD_KSBM", "NEW_XSD_KSBM_WDKS", "NEW_XSD_KSBM_WDKS_KSAPCX",
             "/xsks/xsksap_query", "考试安排查询",
         ),
+        // 考试安排表特有的列
+        headerKeywords = listOf("考场", "考试场次", "考试校区"),
     ),
     SCORE(
         key = "score",
@@ -93,20 +109,37 @@ enum class QueryKind(
             "NEW_XSD_XJCJ", "NEW_XSD_XJCJ_WDCJ", "NEW_XSD_XJCJ_WDCJ_KCCJCX",
             "/kscj/cjcx_frm", "课程成绩查询",
         ),
+        // 「学分 / 绩点」是课程成绩表独有的（等级考试 / 考试安排表都没有）
+        headerKeywords = listOf("学分", "绩点"),
     ),
     GRADE(
         key = "grade",
         label = "等级考试成绩",
-        desc = "四六级等等级考试成绩",
+        desc = "四六级、计算机等级考试成绩",
         menuPath = "学籍成绩 → 我的成绩 → 等级考试成绩",
         perSemester = false,
+        // 实测（从「frame 清单」里读出来的真实地址）：
+        //   Frame3@https://jwgl.shzu.edu.cn/jsxsd/kscj/djkscj_list
+        // 它挂在 kscj 模块下，不在 xsdjks 下 —— 第一版按「等级考试」中文
+        // 猜成 /xsdjks/xsdjks_list，那其实是「社会考试报名」，抓错了页。
         paths = listOf(
-            "/jsxsd/xsdjks/xsdjks_list",
+            "/jsxsd/kscj/djkscj_list",
         ),
+        // 🔑 kjcdShow 的真实签名是
+        //     function kjcdShow(yjcode, ejcode, sjcode, url, name)
+        //   函数体只做 `parent.showMenuErji($("li[data-sjcode='"+sjcode+"']"), name, 3)`
+        //   —— **url 参数根本没用**，真正决定打开哪一页的是 sjcode（三级菜单 id）。
+        //   所以这里必须给对的 sjcode；第一版错用了「社会考试报名」的 id，
+        //   抓到的是报名页而不是等级考试成绩页。
         menuCall = listOf(
-            "NEW_XSD_KSBM", "NEW_XSD_KSBM_CJGL", "NEW_XSD_KSBM_CJGL_SHKSBM",
-            "/xsdjks/xsdjks_list", "社会考试报名",
+            "NEW_XSD_XJCJ", "NEW_XSD_XJCJ_WDCJ", "NEW_XSD_XJCJ_WDCJ_DJKSCJ",
+            "/xsdjks/xsdjks_list", "等级考试成绩",
         ),
+        // ⚠️ 关键词必须用**这张表真正独有的列名**。
+        // 实测该表表头是「序号 考级课程(等级) 分数类成绩 等级类成绩 考级开始时间 考级结束时间」，
+        // 先前写「证书 / 考试等级」一个都没命中，于是明明有数据却报「未查询到数据」。
+        // 另外不能用「准考证」—— 考试安排表里就有「准考证号」，会串台。
+        headerKeywords = listOf("等级类成绩", "分数类成绩", "考级课程"),
     ),
     ;
 
