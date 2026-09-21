@@ -127,10 +127,38 @@ class WebViewFetcher : QueryHtmlFetcher {
         val url = JwglSession.BASE + path
         AppLog.d(TAG, "发起抓取：${if (form == null) "GET" else "POST"} $path")
 
-        // 第一次导航
+        // 关键对照：CookieManager（全局、含 HttpOnly）里到底有没有会话 Cookie。
+        // 只记名字与总长，不记值。
+        // 强制把 CookieManager 里的 Cookie 落盘并同步到 WebView 实例。
+        // 抓取用的 WebView 是 App 启动时创建的（那时还没登录），
+        // 而会话 Cookie 是之后在导入页 WebView 里登录才写进去的 ——
+        // 不刷新的话，这个 WebView 的请求可能仍按旧状态发出。
+        runCatching { CookieManager.getInstance().flush() }
+
+        val cmCookie = runCatching { CookieManager.getInstance().getCookie(url) }.getOrNull()
+        val cmNames = cmCookie.orEmpty()
+            .split(';')
+            .map { it.substringBefore('=').trim() }
+            .filter { it.isNotEmpty() }
+            .joinToString(",")
+        AppLog.i(TAG, "CookieManager 视角：len=${cmCookie?.length ?: 0} names=[$cmNames]")
+
+        // 第一次导航。
+        //
+        // 🔑 强智的查询页（xsksap_query / cjcx_query 等）会**校验 Referer**：
+        // 只有「从主框架页点进来的」请求才认，直接访问一律回
+        // `{"flag1":2,"msgContent":"请先登录系统"}`。
+        // 当初用 HttpURLConnection 时显式带了 Referer 所以成功过一次，
+        // 改用 WebView 导航后 Referer 变成「上一个页面」，查询页就全被拒了。
+        // 这里用 loadUrl(url, headers) 把 Referer 固定成主框架页。
         val first = CompletableDeferred<Unit>()
         pageReady = first
-        withContext(Dispatchers.Main) { wv.loadUrl(url) }
+        withContext(Dispatchers.Main) {
+            wv.loadUrl(
+                url,
+                mapOf("Referer" to JwglSession.MAIN_FRAME_URL),
+            )
+        }
         if (withTimeoutOrNull(FETCH_TIMEOUT_MS) { first.await() } == null) {
             pageReady = null
             AppLog.w(TAG, "导航超时：$path")

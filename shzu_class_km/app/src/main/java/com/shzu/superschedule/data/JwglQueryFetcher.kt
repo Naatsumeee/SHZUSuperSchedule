@@ -318,10 +318,16 @@ object JwglQueryFetcher {
         if (html.contains("authserver.shzu.edu.cn") || html.contains("authserver/login")) {
             return true
         }
-        // 强智的 AJAX 接口在未登录时返回一段 33 字节的 JSON（实测原文）：
+        // 强智在未登录时返回一小段 JSON（实测原文）：
         //   {"flag1":2,"msgContent":"请先登录系统"}
-        // 这既没有 title 也没有表单，必须单独认出来。
-        if (html.length < 300 && html.contains("请先登录")) {
+        // 既没有 title 也没有表单，必须单独认出来。
+        //
+        // ⚠️ 判据必须用 **ASCII 字段名**，不能匹配中文：教务这段 JSON 用 GBK 编码
+        // 却没有声明 charset，经 WebView 渲染后中文会变成乱码
+        // （"请先登录系统" → "璇峰厛鐧诲綍绯荤粺"），匹配中文会大面积漏判。
+        if (html.length < 400 &&
+            (html.contains("msgContent") || html.contains("flag1") || html.contains("请先登录"))
+        ) {
             return true
         }
         if (html.length < 800 &&

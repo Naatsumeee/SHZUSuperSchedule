@@ -582,7 +582,11 @@ private fun ManualQueryView(
                 Button(
                     onClick = {
                         status = "正在打开「${kind.label}」…若停在其他页面，请按菜单手动进入"
-                        webView?.loadUrl(kind.urlOf(START_URL))
+                        // 查询页校验 Referer，直接 loadUrl 会被判未登录，带上主框架 Referer
+                        webView?.loadUrl(
+                            kind.urlOf(START_URL),
+                            mapOf("Referer" to "https://jwgl.shzu.edu.cn/jsxsd/framework/xsMain.htmlx"),
+                        )
                     },
                     enabled = !busy,
                     modifier = Modifier.fillMaxWidth(),
