@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Search
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.dp
 import com.shzu.superschedule.data.AppLog
 import com.shzu.superschedule.data.AppRepository
 import com.shzu.superschedule.data.CourseParser
@@ -255,9 +257,7 @@ fun AppRoot() {
                 )
                 showImport = false
                 ScheduleWidgetProvider.refreshAll(context)
-                // 导入完成 = 刚登录过：先清掉上次「未登录 → 探测不到」的缓存，
-                // 再顺手把考试安排/成绩也抓回来（全程无感）
-                JwglQueryFetcher.resetDiscovery()
+                // 导入完成 = 刚登录过，顺手把考试安排/成绩也抓回来（全程无感）
                 refreshQueries(allSemesters.ifEmpty { listOf(sem) })
             },
         )
@@ -649,6 +649,15 @@ private fun MainScaffold(
     // 切到别的 tab 再回来时二级页与已抓到的查询结果都还在。
     val queryUi = rememberQueryUiState()
 
+    // 抓取用 WebView（1×1，用户不可见）。
+    //
+    // 后台抓取的请求**由它发出**而不是自己拼 HTTP —— 真机上手工带 Cookie 请求
+    // 会被教务判未登录（详见 JwglQueryFetcher 的注释）。这里把它注入给抓取器，
+    // 宿主挂在本函数的内容里，于是整个 App 生命周期内抓取通道都可用。
+    val fetchHost = remember {
+        WebViewFetcher().also { JwglQueryFetcher.install(it) }
+    }
+
     // 底栏「背景高斯模糊」所需的离屏图层。必须由 MainScaffold 持有 ——
     // 它同时是页面内容与底栏的父级，两边才能共用同一组图层。
     val barBackdrop = rememberBarBackdrop()
@@ -689,6 +698,14 @@ private fun MainScaffold(
                     top = padding.calculateTopPadding(),
                 ),
         ) {
+            // 抓取用 WebView 的宿主：1×1 像素、不可见、不参与交互。
+            // 必须真实存在于视图树里 —— 完全没挂载的 WebView 在部分 ROM 上
+            // 不会执行 JS、也不发请求。
+            QueryFetchHost(
+                fetcher = fetchHost,
+                modifier = Modifier.size(1.dp),
+            )
+
             when (selectedTab) {
                 0 -> TodayPage(
                     courses = courses,

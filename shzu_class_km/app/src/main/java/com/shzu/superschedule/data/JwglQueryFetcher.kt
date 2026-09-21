@@ -5,18 +5,19 @@ import com.shzu.superschedule.model.QueryTable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
-import java.net.HttpURLConnection
-import java.net.URL
-import java.net.URLEncoder
 
 /**
  * 教务查询数据的**后台**抓取（考试安排 / 课程成绩 / 等级考试成绩）。
  *
- * ## 为什么走 HTTP 而不是再开一个 WebView
+ * ## 请求怎么发（重要转变）
  *
- * 后台抓取不需要渲染页面（用户看不到），也就不需要 WebView 那一坨内存开销。
- * 复用 WebView 已经建立的登录 Cookie（[JwglSession.cookie]），
- * 直接 GET/POST 拿 HTML，再用 [JwglQueryParser] 解析。
+ * 最初这里是自己用 `HttpURLConnection` 带 Cookie 请求的，但在真机上**全部被判未登录**：
+ * 拿到的永远是 164 字节、无 `<title>` 的空壳跳转页，
+ * 而**同一个会话在 WebView 里完全有效**（能正常打开考试安排查询页）。
+ *
+ * 那个差异最终没定位到，于是改成**把请求交给 WebView 发 `fetch`** ——
+ * 通过 [QueryHtmlFetcher] 抽象，实现见 [com.shzu.superschedule.ui.WebViewFetcher]，
+ * 由 UI 层在启动时 [install] 进来。浏览器发的请求天然带对 Cookie / UA / Referer。
  *
  * ## 抓取策略（对「不知道确切接口」的容错）
  *
@@ -31,18 +32,25 @@ import java.net.URLEncoder
  *
  * - [FetchResult.Ok]    拿到了数据
  * - [FetchResult.Empty] 页面正常，但教务就是没有这个学期的数据 → 提示「未查询到数据」
- * - [FetchResult.Fail]  网络/登录/结构问题 → 才算「失败」
+ * - [FetchResult.Fail]  通道/登录/结构问题 → 才算「失败」
  *
  * 混在一起的话，一个「这学期没考试」会被说成「导入失败」，用户会以为程序坏了。
  *
- * 每次请求的 URL / 状态码 / HTML 长度都会写进 [AppLog]，
+ * 每次请求的路径、返回长度、页面标题都会写进 [AppLog]，
  * 万一接口不对，日志里能直接看出教务实际返回了什么。
  */
 object JwglQueryFetcher {
 
     private const val TAG = "QueryFetcher"
-    private const val CONNECT_TIMEOUT = 15000
-    private const val READ_TIMEOUT = 20000
+
+    /** 抓取通道；未注入时抓取会明确报「通道未就绪」，而不是静默失败 */
+    @Volatile
+    private var channel: QueryHtmlFetcher? = null
+
+    fun install(fetcher: QueryHtmlFetcher) {
+        channel = fetcher
+        AppLog.i(TAG, "抓取通道已注入：${fetcher.javaClass.simpleName}")
+    }
 
     sealed interface FetchResult {
         /** 抓到了数据 */
@@ -51,100 +59,15 @@ object JwglQueryFetcher {
         /** 请求成功，但该学期没有数据 */
         data class Empty(val semester: String) : FetchResult
 
-        /** 请求本身失败（未登录 / 网络 / 找不到页面） */
+        /** 请求本身失败（未登录 / 通道不通 / 找不到页面） */
         data class Fail(val reason: String) : FetchResult
     }
-
-    /** 抓取单个查询（[semester] 为空表示该查询与学期无关） */
-    suspend fun fetch(kind: QueryKind, semester: String): FetchResult =
-        withContext(Dispatchers.IO) {
-            val tag = "${kind.key}/${semester.ifBlank { "-" }}"
-            val cookie = JwglSession.cookie()
-            if (cookie.isNullOrBlank()) {
-                AppLog.w(TAG, "[$tag] 中止：无可用 Cookie（未登录）")
-                return@withContext FetchResult.Fail("尚未登录教务系统")
-            }
-
-            var lastReason = "未找到可用的查询页面"
-            for (path in kind.paths) {
-                val url = JwglSession.BASE + path
-                try {
-                    val get = request(url, cookie, "GET", null, JwglSession.MAIN_FRAME_URL)
-                    // 把返回页面的 <title> 也记下来 —— 路径猜错时，
-                    // 一眼就能从标题看出教务到底返回的是什么页（错误页？登录页？框架页？）
-                    AppLog.i(
-                        TAG,
-                        "[$tag] GET $path -> HTTP ${get?.code ?: -1} " +
-                            "len=${get?.html?.length ?: -1} title=「${pageTitleOf(get?.html)}」",
-                    )
-
-                    if (get == null) {
-                        lastReason = "网络请求失败"
-                        continue
-                    }
-                    if (get.code == 404) {
-                        lastReason = "页面不存在（$path）"
-                        continue
-                    }
-                    if (looksLikeLogin(get)) {
-                        lastReason = "登录状态已失效，请重新导入课表完成登录"
-                        break
-                    }
-
-                    // 1) GET 回来直接带结果表
-                    interpret(get.html, kind, semester)?.let { return@withContext it }
-
-                    // 2) 是查询表单页 → 带上学期提交
-                    val params = formParams(get.html, semester)
-                    if (params.isEmpty()) {
-                        AppLog.d(TAG, "[$tag] $path 既无结果表也无表单，换下一个候选")
-                        continue
-                    }
-                    val post = post(url, cookie, params, referer = url)
-                    AppLog.i(
-                        TAG,
-                        "[$tag] POST $path（${params.size} 个字段，" +
-                            "学期字段=${params.keys.firstOrNull { it.contains("xnxq", true) } ?: "无"}）" +
-                            " -> HTTP ${post?.code ?: -1} len=${post?.html?.length ?: -1} " +
-                            "title=「${pageTitleOf(post?.html)}」final=「${post?.finalUrl ?: ""}」",
-                    )
-                    if (post == null) {
-                        lastReason = "提交查询表单失败"
-                        continue
-                    }
-                    if (looksLikeLogin(post)) {
-                        lastReason = "登录状态已失效，请重新导入课表完成登录"
-                        break
-                    }
-                    interpret(post.html, kind, semester)?.let { return@withContext it }
-
-                    // 3) 表单提交成功但页面里没有数据表 → 该学期确实没数据
-                    AppLog.i(TAG, "[$tag] 表单提交成功但无结果表，判定为「未查询到数据」")
-                    return@withContext FetchResult.Empty(semester)
-                } catch (t: Throwable) {
-                    AppLog.e(TAG, "[$tag] 请求 $path 异常", t)
-                    lastReason = t.message ?: t.javaClass.simpleName
-                }
-            }
-
-            // 候选路径全军覆没 → 从主框架页里把真实地址扒出来再试一次。
-            // 教务是 iframe 框架布局，查询页地址藏在菜单里，靠猜是猜不到的。
-            ensureDiscovered(cookie)[kind.key]?.let { url ->
-                AppLog.i(TAG, "[$tag] 用探测到的地址重试：$url")
-                request(url, cookie, "GET", null, JwglSession.MAIN_FRAME_URL)?.let { resp ->
-                    interpret(resp.html, kind, semester)?.let { return@withContext it }
-                }
-            }
-
-            AppLog.w(TAG, "[$tag] 抓取失败：$lastReason")
-            FetchResult.Fail(lastReason)
-        }
 
     /**
      * 批量抓取结果统计。
      *
      * 必须把「成功 / 教务没数据 / 请求失败」三种分开报给用户：
-     * 一个「这学期没考试」和「路径不对抓不到」是完全不同的两件事，
+     * 一个「这学期没考试」和「通道不通」是完全不同的两件事，
      * 混成一句「导入失败」会让用户以为程序坏了。
      */
     data class Summary(
@@ -159,8 +82,7 @@ object JwglQueryFetcher {
          * 给用户看的短提示。
          *
          * 「登录失效」必须单独拎出来说 —— 真机上最常见的就是教务会话超时，
-         * 这时候让用户跑去翻日志、怀疑路径，纯属浪费时间；
-         * 直接告诉他去重新登录一次就行。
+         * 这时候让用户跑去翻日志、怀疑路径，纯属浪费时间。
          */
         val hint: String
             get() = when {
@@ -171,12 +93,90 @@ object JwglQueryFetcher {
             }
     }
 
+    /** 抓取单个查询（[semester] 为空表示该查询与学期无关） */
+    suspend fun fetch(kind: QueryKind, semester: String): FetchResult =
+        withContext(Dispatchers.IO) {
+            val tag = "${kind.key}/${semester.ifBlank { "-" }}"
+            val ch = channel ?: run {
+                AppLog.w(TAG, "[$tag] 抓取通道未就绪")
+                return@withContext FetchResult.Fail("抓取通道未就绪，请先打开一次课表或查询页")
+            }
+
+            var lastReason = "未找到可用的查询页面"
+            for (path in kind.paths) {
+                try {
+                    val get = ch.html(path)
+                    AppLog.i(
+                        TAG,
+                        "[$tag] GET $path -> len=${get?.length ?: -1} " +
+                            "title=「${pageTitleOf(get)}」${bodyPeek(get)}",
+                    )
+
+                    if (get == null) {
+                        lastReason = "请求超时或被中断"
+                        continue
+                    }
+                    if (isFetchError(get)) {
+                        lastReason = "请求失败：${fetchErrorOf(get)}"
+                        continue
+                    }
+                    if (looksLikeLogin(get)) {
+                        lastReason = "登录状态已失效，请重新导入课表完成登录"
+                        break
+                    }
+
+                    // 1) GET 回来直接带结果表
+                    interpret(get, kind, semester)?.let { return@withContext it }
+
+                    // 2) 是查询表单页 → 带上学期提交
+                    val params = formParams(get, semester)
+                    if (params.isEmpty()) {
+                        AppLog.d(TAG, "[$tag] $path 既无结果表也无表单，换下一个候选")
+                        continue
+                    }
+                    val semesterField = params.keys.firstOrNull { it.contains("xnxq", true) }
+                    AppLog.i(
+                        TAG,
+                        "[$tag] POST $path（${params.size} 个字段，学期字段=${semesterField ?: "无"}）",
+                    )
+                    val post = ch.html(path, params)
+                    AppLog.i(
+                        TAG,
+                        "[$tag] POST $path -> len=${post?.length ?: -1} " +
+                            "title=「${pageTitleOf(post)}」",
+                    )
+                    if (post == null) {
+                        lastReason = "提交查询表单超时"
+                        continue
+                    }
+                    if (isFetchError(post)) {
+                        lastReason = "提交查询表单失败：${fetchErrorOf(post)}"
+                        continue
+                    }
+                    if (looksLikeLogin(post)) {
+                        lastReason = "登录状态已失效，请重新导入课表完成登录"
+                        break
+                    }
+                    interpret(post, kind, semester)?.let { return@withContext it }
+
+                    // 3) 表单提交成功但页面里没有数据表 → 该学期确实没数据
+                    AppLog.i(TAG, "[$tag] 表单提交成功但无结果表，判定为「未查询到数据」")
+                    return@withContext FetchResult.Empty(semester)
+                } catch (t: Throwable) {
+                    AppLog.e(TAG, "[$tag] 请求 $path 异常", t)
+                    lastReason = t.message ?: t.javaClass.simpleName
+                }
+            }
+
+            AppLog.w(TAG, "[$tag] 抓取失败：$lastReason")
+            FetchResult.Fail(lastReason)
+        }
+
     /**
      * 批量抓取：遍历 [semesters] × 需要按学期查的 kind，
      * 外加一次与学期无关的查询（等级考试）。
      *
-     * 任何一项失败都不会中断整体（导入课表不该被它拖垮），
-     * 失败的项只写日志。
+     * 任何一项失败都不会中断整体（导入课表不该被它拖垮），失败的项只写日志。
      */
     suspend fun fetchAll(semesters: List<String>): Summary = withContext(Dispatchers.IO) {
         val out = mutableListOf<QueryTable>()
@@ -243,59 +243,6 @@ object JwglQueryFetcher {
         }
     }
 
-    private data class Resp(
-        val code: Int,
-        val html: String,
-        /** 跟随重定向后的最终地址（用来识别「被踢回登录页」） */
-        val finalUrl: String = "",
-    )
-
-    private fun request(
-        url: String,
-        cookie: String,
-        method: String,
-        body: String?,
-        referer: String,
-    ): Resp? = runCatching {
-        val conn = (URL(url).openConnection() as HttpURLConnection).apply {
-            requestMethod = method
-            setRequestProperty("Cookie", cookie)
-            setRequestProperty("User-Agent", JwglSession.DESKTOP_UA)
-            setRequestProperty("Referer", referer)
-            setRequestProperty(
-                "Accept",
-                "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            )
-            setRequestProperty("Accept-Language", "zh-CN,zh;q=0.9")
-            connectTimeout = CONNECT_TIMEOUT
-            readTimeout = READ_TIMEOUT
-            instanceFollowRedirects = true
-            if (method == "POST") {
-                doOutput = true
-                setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-            }
-        }
-        if (body != null) {
-            conn.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
-        }
-        val code = conn.responseCode
-        // 跟随重定向后的最终地址：未登录会被甩到 /jsxsd/sso.jsp
-        val finalUrl = conn.url.toString()
-        val stream = if (code in 200..299) conn.inputStream else conn.errorStream
-        val text = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
-        conn.disconnect()
-        Resp(code, text, finalUrl)
-    }.onFailure {
-        AppLog.e(TAG, "请求 $url 失败", it)
-    }.getOrNull()
-
-    private fun post(url: String, cookie: String, params: Map<String, String>, referer: String): Resp? {
-        val body = params.entries.joinToString("&") { (k, v) ->
-            "${URLEncoder.encode(k, "UTF-8")}=${URLEncoder.encode(v, "UTF-8")}"
-        }
-        return request(url, cookie, "POST", body, referer)
-    }
-
     /**
      * 从页面里读出查询表单的字段，并把学期字段换成目标学期。
      *
@@ -329,135 +276,23 @@ object JwglQueryFetcher {
         return params
     }
 
-    // ---------------- 真实地址探测 ----------------
-
-    /** 探测结果缓存 */
-    @Volatile
-    private var discovered: Map<String, String>? = null
-
     /**
-     * 是否已经探测过。
+     * 短响应直接把内容打进日志。
      *
-     * ⚠️ 必须和 [discovered] 分开记：探测**失败**（比如未登录）时结果也是空 Map，
-     * 若只靠「结果非空」判断有没有探测过，那么每一轮抓取都会重新探测一遍 ——
-     * 6 个学期 × 3 类查询 = 18 次失败，就是 18 次探测，白白多刷几十个请求。
+     * 教务返回异常时往往只给几十字节（重定向壳 / 错误 JSON），
+     * 光看长度完全猜不出是什么；把内容打出来一眼就能定位。
+     * 只在 < 300 字节时打，正常页面不受影响，也不会把大段 HTML 灌进日志。
      */
-    @Volatile
-    private var discoverAttempted = false
-
-    /**
-     * 重置探测缓存。
-     *
-     * 用户重新登录（重新导入课表）后必须调用一次 —— 否则之前「未登录 → 探测不到」
-     * 的空结果会一直被缓存着，后续抓取再也不会重新探测。
-     */
-    fun resetDiscovery() {
-        discovered = null
-        discoverAttempted = false
-        AppLog.i(TAG, "已重置查询地址探测缓存（通常在重新登录后）")
+    private fun bodyPeek(html: String?): String {
+        if (html == null || html.length >= 300) return ""
+        return " body=「${html.replace('\n', ' ').replace('\r', ' ').trim()}」"
     }
 
-    private fun ensureDiscovered(cookie: String): Map<String, String> {
-        if (discoverAttempted) return discovered ?: emptyMap()
-        discoverAttempted = true
-        val d = discover(cookie)
-        discovered = d
-        return d
-    }
+    /** JS fetch 失败时注入的哨兵 */
+    private fun isFetchError(html: String): Boolean = html.startsWith("<!--FETCH-ERROR")
 
-    /**
-     * 从主框架页里探测三类查询的真实地址。
-     *
-     * ## 为什么必须探测
-     *
-     * 强智是 **iframe 框架式布局**：主框架页（`xsMain.htmlx`）的地址**永远不变**，
-     * 点菜单只是在内部 iframe 里换子页面 —— 用户看地址栏根本看不到子页地址，
-     * 开发者也没法靠「看一眼 URL」拿到。所以只能：
-     *
-     * 1. 拉主框架页，把里面所有 `.do` / `.htmlx` 链接、以及内联 JS 里的路径全捞出来
-     *    （强智的菜单多半是 JS 拼出来的，光看 `<a href>` 不够）；
-     * 2. 逐个 GET，凡是能解析出「结果表」的，按标题关键词归类到三类查询。
-     *
-     * 全程写日志：用户把日志复制出来，开发者就能据此把 [QueryKind.paths] 修正掉。
-     */
-    private fun discover(cookie: String): Map<String, String> {
-        val found = LinkedHashMap<String, String>()
-        for (frameUrl in listOf(JwglSession.MAIN_FRAME_URL, JwglSession.MAIN_FRAME_URL_LEGACY)) {
-            val resp = request(frameUrl, cookie, "GET", null, JwglSession.BASE) ?: continue
-            AppLog.i(
-                TAG,
-                "探测主框架 $frameUrl -> HTTP ${resp.code} len=${resp.html.length} " +
-                    "title=「${pageTitleOf(resp.html)}」",
-            )
-            if (resp.code !in 200..299 || resp.html.isBlank()) continue
-            if (looksLikeLogin(resp)) {
-                // 未登录时探测毫无意义（每个候选都会被打回登录页），
-                // 直接收工，免得白刷几十个请求
-                AppLog.w(TAG, "探测中止：未登录（被重定向到 ${resp.finalUrl}）")
-                return found
-            }
-
-            val candidates = candidateUrls(resp.html)
-            AppLog.i(TAG, "主框架页提取到 ${candidates.size} 个候选地址")
-            candidates.forEach { AppLog.i(TAG, "  候选: $it") }
-            if (candidates.isEmpty()) continue
-
-            for (u in candidates) {
-                val r = request(u, cookie, "GET", null, frameUrl) ?: continue
-                val title = pageTitleOf(r.html)
-                val rows = JwglQueryParser.parse(r.html, "probe", QueryStore.now())?.count ?: 0
-                AppLog.i(TAG, "  试探 $u -> HTTP ${r.code} 标题「$title」表格行数=$rows")
-                if (rows <= 0) continue
-                val kind = kindByText(title, u) ?: continue
-                if (!found.containsKey(kind.key)) {
-                    found[kind.key] = u
-                    AppLog.i(TAG, "  ✔ 识别为「${kind.label}」→ $u")
-                }
-            }
-            break // 新版主框架页能用就不用再试老版
-        }
-        AppLog.i(TAG, "探测结束，识别出 ${found.size} 类查询地址")
-        return found
-    }
-
-    /** 把主框架页里所有可能的子页地址捞出来 */
-    private fun candidateUrls(html: String): List<String> {
-        val out = LinkedHashSet<String>()
-        val doc = Jsoup.parse(html)
-
-        fun add(raw: String?) {
-            val s = raw?.trim().orEmpty()
-            if (s.isEmpty() || s.startsWith("javascript:") || s.startsWith("#")) return
-            val full = when {
-                s.startsWith("http") -> s
-                s.startsWith("/") -> JwglSession.BASE + s
-                else -> return
-            }
-            if (!full.contains("jwgl.shzu.edu.cn")) return
-            if (!Regex("\\.(do|htmlx|jsp)(\\?|$)").containsMatchIn(full)) return
-            out.add(full)
-        }
-
-        doc.select("a[href]").forEach { add(it.attr("href")) }
-        doc.select("iframe[src]").forEach { add(it.attr("src")) }
-        doc.select("frame[src]").forEach { add(it.attr("src")) }
-        // 强智的菜单常由 JS 拼出，链接只存在于脚本字符串里
-        Regex("['\"]([^'\"]{3,140}?\\.(?:do|htmlx))['\"]").findAll(html).forEach {
-            add(it.groupValues[1])
-        }
-        return out.take(80).toList()
-    }
-
-    /** 按页面标题 + URL 关键词判断这是哪一类查询 */
-    private fun kindByText(title: String, url: String): QueryKind? {
-        val t = "$title $url"
-        return when {
-            t.contains("等级") || t.contains("djks") -> QueryKind.GRADE
-            t.contains("考试") || t.contains("xsks") || t.contains("ksap") -> QueryKind.EXAM
-            t.contains("成绩") || t.contains("cjcx") -> QueryKind.SCORE
-            else -> null
-        }
-    }
+    private fun fetchErrorOf(html: String): String =
+        html.removePrefix("<!--FETCH-ERROR").removeSuffix("-->").trim().take(80)
 
     /** 页面标题（截 40 字），仅用于日志诊断 */
     private fun pageTitleOf(html: String?): String {
@@ -468,39 +303,32 @@ object JwglQueryFetcher {
     /**
      * 是否被踢回了登录/认证流程。
      *
-     * ⚠️ 这里有个很坑的地方（实测确认）：未登录时教务返回 **302 → `/jsxsd/sso.jsp`**，
-     * 而 sso.jsp 本身是 **HTTP 200**，内容只有一段 JS 跳转脚本：
+     * ⚠️ 实测确认：未登录时教务会给一个**空壳跳转页**（实测仅 164 / 16 字节），
+     * 里面既没有 `<title>` 也没有表单，只有一句 JS 跳转：
      *
      * ```html
-     * <script languge='javascript'>
-     *   window.location.href='http://authserver.shzu.edu.cn/authserver/login?service=...'
-     * </script>
+     * <script>window.location.href='http://authserver.shzu.edu.cn/authserver/login?service=...'</script>
      * ```
      *
-     * 它**既没有 `<title>` 也没有表单** —— 只按「标题含登录/有没有登录表单」去判，
-     * 会认不出来，于是请求就被误判成「路径不对，找不到查询页」，
-     * 白白把矛头指向 URL（我一开始就栽在这上面）。
-     *
-     * 所以三重判据：最终地址、响应体里的 authserver 特征串、以及传统登录表单。
+     * 只按「标题含登录 / 有没有登录表单」判会漏掉它，从而把登录问题误报成
+     * 「找不到查询页」，把人往 URL 方向带偏（我一开始就栽在这上面）。
      */
-    private fun looksLikeLogin(resp: Resp): Boolean {
-        val url = resp.finalUrl
-        if (url.contains("sso.jsp") || url.contains("authserver")) return true
-
-        val html = resp.html
+    private fun looksLikeLogin(html: String): Boolean {
         if (html.isBlank()) return false
         if (html.contains("authserver.shzu.edu.cn") || html.contains("authserver/login")) {
             return true
         }
-        // 强智未登录时返回的就是一个「空壳跳转页」：几十字节、只有一句 JS 跳转、
-        // 没有 title 也没有表单。这种页面一律按未登录处理 ——
-        // 否则它会被当成「查不到结果」，把登录问题误报成「未查询到数据」。
+        // 强智的 AJAX 接口在未登录时返回一段 33 字节的 JSON（实测原文）：
+        //   {"flag1":2,"msgContent":"请先登录系统"}
+        // 这既没有 title 也没有表单，必须单独认出来。
+        if (html.length < 300 && html.contains("请先登录")) {
+            return true
+        }
         if (html.length < 800 &&
             (html.contains("location.href") || html.contains("location.replace"))
         ) {
             return true
         }
-
         val doc = Jsoup.parse(html)
         if (doc.selectFirst("form[action*=casLogin], #loginForm, #casLoginForm") != null) {
             return true
