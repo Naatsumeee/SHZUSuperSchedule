@@ -86,7 +86,7 @@ object JwglQueryFetcher {
                         lastReason = "页面不存在（$path）"
                         continue
                     }
-                    if (looksLikeLogin(get.html)) {
+                    if (looksLikeLogin(get)) {
                         lastReason = "登录状态已失效，请重新导入课表完成登录"
                         break
                     }
@@ -111,7 +111,7 @@ object JwglQueryFetcher {
                         lastReason = "提交查询表单失败"
                         continue
                     }
-                    if (looksLikeLogin(post.html)) {
+                    if (looksLikeLogin(post)) {
                         lastReason = "登录状态已失效，请重新导入课表完成登录"
                         break
                     }
@@ -125,6 +125,16 @@ object JwglQueryFetcher {
                     lastReason = t.message ?: t.javaClass.simpleName
                 }
             }
+
+            // 候选路径全军覆没 → 从主框架页里把真实地址扒出来再试一次。
+            // 教务是 iframe 框架布局，查询页地址藏在菜单里，靠猜是猜不到的。
+            ensureDiscovered(cookie)[kind.key]?.let { url ->
+                AppLog.i(TAG, "[$tag] 用探测到的地址重试：$url")
+                request(url, cookie, "GET", null, JwglSession.MAIN_FRAME_URL)?.let { resp ->
+                    interpret(resp.html, kind, semester)?.let { return@withContext it }
+                }
+            }
+
             AppLog.w(TAG, "[$tag] 抓取失败：$lastReason")
             FetchResult.Fail(lastReason)
         }
@@ -141,13 +151,21 @@ object JwglQueryFetcher {
         val ok: Int,
         val empty: Int,
         val fail: Int,
+        /** 其中因「登录失效」失败的项数 */
+        val authFail: Int = 0,
     ) {
-        /** 给用户看的短提示 */
+        /**
+         * 给用户看的短提示。
+         *
+         * 「登录失效」必须单独拎出来说 —— 真机上最常见的就是教务会话超时，
+         * 这时候让用户跑去翻日志、怀疑路径，纯属浪费时间；
+         * 直接告诉他去重新登录一次就行。
+         */
         val hint: String
             get() = when {
                 ok > 0 -> "已更新 $ok 组数据"
-                fail > 0 -> "获取失败（$fail 项）。请确认已登录教务；" +
-                    "连点「设置 → 关于 → 作者」7 下可查看运行日志"
+                authFail > 0 -> "教务登录已失效，请到「设置 → 重新导入课表」登录一次后重试"
+                fail > 0 -> "获取失败（$fail 项）。连点「设置 → 关于 → 作者」7 下可查看运行日志"
                 else -> "未查询到数据"
             }
     }
@@ -164,6 +182,7 @@ object JwglQueryFetcher {
         var ok = 0
         var empty = 0
         var fail = 0
+        var authFail = 0
         val list = semesters.filter { it.isNotBlank() }
         AppLog.i(TAG, "开始批量抓取：${list.size} 个学期 × ${QueryKind.entries.size} 类查询")
 
@@ -181,6 +200,7 @@ object JwglQueryFetcher {
 
                     is FetchResult.Fail -> {
                         fail++
+                        if (r.reason.contains("登录")) authFail++
                         AppLog.w(TAG, "${kind.label}：${r.reason}")
                     }
                 }
@@ -199,13 +219,14 @@ object JwglQueryFetcher {
 
                     is FetchResult.Fail -> {
                         fail++
+                        if (r.reason.contains("登录")) authFail++
                         AppLog.w(TAG, "${kind.label} $sem：${r.reason}")
                     }
                 }
             }
         }
-        AppLog.i(TAG, "批量抓取结束：成功 $ok / 未查询到数据 $empty / 失败 $fail")
-        Summary(out, ok, empty, fail)
+        AppLog.i(TAG, "批量抓取结束：成功 $ok / 未查询到数据 $empty / 失败 $fail（其中登录失效 $authFail）")
+        Summary(out, ok, empty, fail, authFail)
     }
 
     // ---------------- 内部 ----------------
@@ -221,7 +242,12 @@ object JwglQueryFetcher {
         }
     }
 
-    private data class Resp(val code: Int, val html: String)
+    private data class Resp(
+        val code: Int,
+        val html: String,
+        /** 跟随重定向后的最终地址（用来识别「被踢回登录页」） */
+        val finalUrl: String = "",
+    )
 
     private fun request(
         url: String,
@@ -252,10 +278,12 @@ object JwglQueryFetcher {
             conn.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
         }
         val code = conn.responseCode
+        // 跟随重定向后的最终地址：未登录会被甩到 /jsxsd/sso.jsp
+        val finalUrl = conn.url.toString()
         val stream = if (code in 200..299) conn.inputStream else conn.errorStream
         val text = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
         conn.disconnect()
-        Resp(code, text)
+        Resp(code, text, finalUrl)
     }.onFailure {
         AppLog.e(TAG, "请求 $url 失败", it)
     }.getOrNull()
@@ -300,15 +328,147 @@ object JwglQueryFetcher {
         return params
     }
 
+    // ---------------- 真实地址探测 ----------------
+
+    /** 探测结果缓存（一次运行只探测一轮，否则每个学期都要重跑几十个请求） */
+    @Volatile
+    private var discovered: Map<String, String>? = null
+
+    private fun ensureDiscovered(cookie: String): Map<String, String> {
+        discovered?.takeIf { it.isNotEmpty() }?.let { return it }
+        val d = discover(cookie)
+        if (d.isNotEmpty()) discovered = d
+        return d
+    }
+
+    /**
+     * 从主框架页里探测三类查询的真实地址。
+     *
+     * ## 为什么必须探测
+     *
+     * 强智是 **iframe 框架式布局**：主框架页（`xsMain.htmlx`）的地址**永远不变**，
+     * 点菜单只是在内部 iframe 里换子页面 —— 用户看地址栏根本看不到子页地址，
+     * 开发者也没法靠「看一眼 URL」拿到。所以只能：
+     *
+     * 1. 拉主框架页，把里面所有 `.do` / `.htmlx` 链接、以及内联 JS 里的路径全捞出来
+     *    （强智的菜单多半是 JS 拼出来的，光看 `<a href>` 不够）；
+     * 2. 逐个 GET，凡是能解析出「结果表」的，按标题关键词归类到三类查询。
+     *
+     * 全程写日志：用户把日志复制出来，开发者就能据此把 [QueryKind.paths] 修正掉。
+     */
+    private fun discover(cookie: String): Map<String, String> {
+        val found = LinkedHashMap<String, String>()
+        for (frameUrl in listOf(JwglSession.MAIN_FRAME_URL, JwglSession.MAIN_FRAME_URL_LEGACY)) {
+            val resp = request(frameUrl, cookie, "GET", null, JwglSession.BASE) ?: continue
+            AppLog.i(
+                TAG,
+                "探测主框架 $frameUrl -> HTTP ${resp.code} len=${resp.html.length} " +
+                    "title=「${pageTitleOf(resp.html)}」",
+            )
+            if (resp.code !in 200..299 || resp.html.isBlank()) continue
+            if (looksLikeLogin(resp)) {
+                // 未登录时探测毫无意义（每个候选都会被打回登录页），
+                // 直接收工，免得白刷几十个请求
+                AppLog.w(TAG, "探测中止：未登录（被重定向到 ${resp.finalUrl}）")
+                return found
+            }
+
+            val candidates = candidateUrls(resp.html)
+            AppLog.i(TAG, "主框架页提取到 ${candidates.size} 个候选地址")
+            candidates.forEach { AppLog.i(TAG, "  候选: $it") }
+            if (candidates.isEmpty()) continue
+
+            for (u in candidates) {
+                val r = request(u, cookie, "GET", null, frameUrl) ?: continue
+                val title = pageTitleOf(r.html)
+                val rows = JwglQueryParser.parse(r.html, "probe", QueryStore.now())?.count ?: 0
+                AppLog.i(TAG, "  试探 $u -> HTTP ${r.code} 标题「$title」表格行数=$rows")
+                if (rows <= 0) continue
+                val kind = kindByText(title, u) ?: continue
+                if (!found.containsKey(kind.key)) {
+                    found[kind.key] = u
+                    AppLog.i(TAG, "  ✔ 识别为「${kind.label}」→ $u")
+                }
+            }
+            break // 新版主框架页能用就不用再试老版
+        }
+        AppLog.i(TAG, "探测结束，识别出 ${found.size} 类查询地址")
+        return found
+    }
+
+    /** 把主框架页里所有可能的子页地址捞出来 */
+    private fun candidateUrls(html: String): List<String> {
+        val out = LinkedHashSet<String>()
+        val doc = Jsoup.parse(html)
+
+        fun add(raw: String?) {
+            val s = raw?.trim().orEmpty()
+            if (s.isEmpty() || s.startsWith("javascript:") || s.startsWith("#")) return
+            val full = when {
+                s.startsWith("http") -> s
+                s.startsWith("/") -> JwglSession.BASE + s
+                else -> return
+            }
+            if (!full.contains("jwgl.shzu.edu.cn")) return
+            if (!Regex("\\.(do|htmlx|jsp)(\\?|$)").containsMatchIn(full)) return
+            out.add(full)
+        }
+
+        doc.select("a[href]").forEach { add(it.attr("href")) }
+        doc.select("iframe[src]").forEach { add(it.attr("src")) }
+        doc.select("frame[src]").forEach { add(it.attr("src")) }
+        // 强智的菜单常由 JS 拼出，链接只存在于脚本字符串里
+        Regex("['\"]([^'\"]{3,140}?\\.(?:do|htmlx))['\"]").findAll(html).forEach {
+            add(it.groupValues[1])
+        }
+        return out.take(80).toList()
+    }
+
+    /** 按页面标题 + URL 关键词判断这是哪一类查询 */
+    private fun kindByText(title: String, url: String): QueryKind? {
+        val t = "$title $url"
+        return when {
+            t.contains("等级") || t.contains("djks") -> QueryKind.GRADE
+            t.contains("考试") || t.contains("xsks") || t.contains("ksap") -> QueryKind.EXAM
+            t.contains("成绩") || t.contains("cjcx") -> QueryKind.SCORE
+            else -> null
+        }
+    }
+
     /** 页面标题（截 40 字），仅用于日志诊断 */
     private fun pageTitleOf(html: String?): String {
         if (html.isNullOrBlank()) return ""
         return runCatching { Jsoup.parse(html).title().trim().take(40) }.getOrDefault("")
     }
 
-    /** 是否被踢回了登录/认证页 */
-    private fun looksLikeLogin(html: String): Boolean {
+    /**
+     * 是否被踢回了登录/认证流程。
+     *
+     * ⚠️ 这里有个很坑的地方（实测确认）：未登录时教务返回 **302 → `/jsxsd/sso.jsp`**，
+     * 而 sso.jsp 本身是 **HTTP 200**，内容只有一段 JS 跳转脚本：
+     *
+     * ```html
+     * <script languge='javascript'>
+     *   window.location.href='http://authserver.shzu.edu.cn/authserver/login?service=...'
+     * </script>
+     * ```
+     *
+     * 它**既没有 `<title>` 也没有表单** —— 只按「标题含登录/有没有登录表单」去判，
+     * 会认不出来，于是请求就被误判成「路径不对，找不到查询页」，
+     * 白白把矛头指向 URL（我一开始就栽在这上面）。
+     *
+     * 所以三重判据：最终地址、响应体里的 authserver 特征串、以及传统登录表单。
+     */
+    private fun looksLikeLogin(resp: Resp): Boolean {
+        val url = resp.finalUrl
+        if (url.contains("sso.jsp") || url.contains("authserver")) return true
+
+        val html = resp.html
         if (html.isBlank()) return false
+        if (html.contains("authserver.shzu.edu.cn") || html.contains("authserver/login")) {
+            return true
+        }
+
         val doc = Jsoup.parse(html)
         if (doc.selectFirst("form[action*=casLogin], #loginForm, #casLoginForm") != null) {
             return true

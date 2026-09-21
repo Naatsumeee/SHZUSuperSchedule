@@ -591,11 +591,8 @@ private fun ManualQueryView(
                 Button(
                     onClick = {
                         busy = true
-                        status = "正在读取当前页面…"
-                        webView?.evaluateJavascript(
-                            "AndroidBridge.sendHtml(document.documentElement.outerHTML)",
-                            null,
-                        )
+                        status = "正在读取当前页面（含框架内的子页）…"
+                        webView?.evaluateJavascript("AndroidBridge.sendHtml($COLLECT_HTML_JS)", null)
                     },
                     enabled = !busy,
                     modifier = Modifier.fillMaxWidth(),
@@ -604,6 +601,34 @@ private fun ManualQueryView(
         }
     }
 }
+
+/**
+ * 收集「当前页 + 所有 iframe 子页」的 HTML。
+ *
+ * ⚠️ 教务是 **iframe 框架布局**：主框架地址永远不变，真正的内容在子 iframe 里。
+ * 只抓 `document.documentElement.outerHTML` 会拿到一个空壳（`<iframe>` 标签本身
+ * 不含其内部文档），必然解析不到表格 —— 这正是「手动抓取总说没找到结果表」的原因。
+ *
+ * 这里把每个 iframe 的内容也一并取出、拼成一段 HTML 交给解析器。
+ * 解析器本来就按「数据行最多的表」来找，混在一起也不受影响。
+ */
+private const val COLLECT_HTML_JS = """
+(function(){
+  var out = [document.documentElement.outerHTML];
+  var fr = document.querySelectorAll('iframe, frame');
+  for (var i = 0; i < fr.length; i++) {
+    var f = fr[i];
+    out.push('<!--IFRAME src=' + (f.src || '') + '-->');
+    try {
+      var d = f.contentDocument;
+      if (d && d.documentElement) out.push(d.documentElement.outerHTML);
+    } catch (e) {
+      out.push('<!--IFRAME-FAIL ' + e + '-->');
+    }
+  }
+  return out.join('\n');
+})()
+"""
 
 // ---------------- WebView 构建 ----------------
 

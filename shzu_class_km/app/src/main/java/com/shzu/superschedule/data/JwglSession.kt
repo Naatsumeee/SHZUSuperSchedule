@@ -22,8 +22,19 @@ object JwglSession {
     /** 「学期理论课表」页面 */
     const val TIMETABLE_URL = "$BASE/jsxsd/xskb/xskb_list.do"
 
-    /** 教务主框架页（用作 Referer） */
-    const val MAIN_FRAME_URL = "$BASE/jsxsd/framework/xsMain.jsp"
+    /**
+     * 教务主框架页。
+     *
+     * ⚠️ 强智是**iframe 框架式布局**：主框架（本页）地址**永远不变**，
+     * 点菜单只是在内部 iframe 里换子页面 —— 所以用户看地址栏是拿不到
+     * 各查询页真实地址的，必须从主框架页的 HTML/JS 里把菜单地址扒出来。
+     *
+     * 新版后缀是 `.htmlx`，老版是 `.jsp`，两个都准备着。
+     */
+    const val MAIN_FRAME_URL = "$BASE/jsxsd/framework/xsMain.htmlx"
+
+    /** 老版主框架页（备用） */
+    const val MAIN_FRAME_URL_LEGACY = "$BASE/jsxsd/framework/xsMain.jsp"
 
     /**
      * 桌面端 UA。
