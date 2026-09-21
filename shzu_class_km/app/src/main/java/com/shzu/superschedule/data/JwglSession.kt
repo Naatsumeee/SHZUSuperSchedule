@@ -64,6 +64,15 @@ object JwglSession {
                 if (!merged.containsKey(name)) merged[name] = kv
             }
         }
-        return merged.values.takeIf { it.isNotEmpty() }?.joinToString("; ")
+        val result = merged.values.takeIf { it.isNotEmpty() }?.joinToString("; ")
+
+        // 只记录 Cookie 的**名字**和数量，不记录值 —— 便于判断「后台请求为什么被判未登录」
+        // （比如 WebView 明明已登录，但这里取不到 JSESSIONID），又不会把会话凭据写进日志。
+        AppLog.i(
+            "JwglSession",
+            "提取 Cookie：${merged.size} 项 [${merged.keys.joinToString(",")}] " +
+                "总长=${result?.length ?: 0}",
+        )
+        return result
     }
 }
