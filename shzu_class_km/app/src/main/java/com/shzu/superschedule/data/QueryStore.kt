@@ -23,6 +23,9 @@ object QueryStore {
     private const val FILE_NAME = "queries.json"
     private const val CURRENT_VERSION = 1
 
+    /** logcat 用的 tag（`logShape` 里按 Android 惯例直接用工程名） */
+    private const val TAG = "QueryStore"
+
     @Serializable
     data class Archive(
         val version: Int = CURRENT_VERSION,
@@ -41,10 +44,38 @@ object QueryStore {
     fun load(context: Context): Archive = runCatching {
         val f = file(context)
         if (!f.exists()) return Archive()
-        sanitize(json.decodeFromString<Archive>(f.readText()))
+        val archive = sanitize(json.decodeFromString<Archive>(f.readText()))
+        logShape(archive)
+        archive
     }.getOrElse {
         AppLog.w("QueryStore", "读取查询存档失败：${it.message}")
         Archive()
+    }
+
+    /**
+     * 把存档里每张表的**形状**打一行到 logcat（只记表头名，不记任何单元格的值）。
+     *
+     * 用途：教务改版后最先失真的就是列名与列数（双层表头最容易错位），
+     * 而**读取存档**是唯一"用户什么都不用做"就能触发诊断的时机 ——
+     * 解析器的日志只在抓取时打印，用户不点刷新就永远是空的。
+     *
+     * 走 `android.util.Log` 而不是 `AppLog`：这类诊断信息不必占用界面上那 800 行
+     * 业务日志缓冲，留在 logcat 里排查时再看即可。
+     */
+    private fun logShape(archive: Archive) {
+        archive.entries.forEach { t ->
+            android.util.Log.i(
+                TAG,
+                "存档 ${t.kind}/${t.semester}：表头 ${t.headers.size} 列 / ${t.rows.size} 行" +
+                    " / 首行 ${t.rows.firstOrNull()?.size ?: 0} 格",
+            )
+            if (t.headers.isNotEmpty()) {
+                android.util.Log.i(
+                    TAG,
+                    "存档 ${t.kind} 表头明细：${t.headers.joinToString(" | ")}",
+                )
+            }
+        }
     }
 
     /**

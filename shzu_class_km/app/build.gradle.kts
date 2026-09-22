@@ -13,8 +13,8 @@ android {
         applicationId = "com.shzu.superschedule"
         minSdk = 24
         targetSdk = 36
-        versionCode = 15
-        versionName = "BETA-v1.3.2"
+        versionCode = 16
+        versionName = "BETA-v1.4"
     }
 
     compileOptions {

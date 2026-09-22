@@ -102,8 +102,14 @@ object JwglQueryParser {
         val (headers, rows) = readTable(table)
         Log.i(
             TAG,
-            "解析 $kind：title=$title 表头=${headers.size} 列 数据=${rows.size} 行",
+            "解析 $kind：title=$title 表头=${headers.size} 列 数据=${rows.size} 行" +
+                " / 首行 ${rows.firstOrNull()?.size ?: 0} 格",
         )
+        // 表头名单独打一行：教务改版后最先失真的就是列名与列数
+        // （等级考试那张双层表头尤其容易错位），排查时这一行最有价值
+        if (headers.isNotEmpty()) {
+            Log.i(TAG, "解析 $kind 表头明细：${headers.joinToString(" | ")}")
+        }
         // 表在、但一行数据都没有 → 仍然返回结果（rows 为空），由调用方判定成
         // 「未查询到数据」。若这里直接返回 null，调用方就没法区分
         // 「教务确实没有数据」和「页面结构认不出来」，只能一律报「失败」，
@@ -160,6 +166,67 @@ object JwglQueryParser {
         val blob = headers.filter { it.isNotBlank() }.joinToString("\u0000")
         if (blob.isEmpty()) return false
         return vals.all { blob.contains(it) }
+    }
+
+    /**
+     * 把「误入数据区的第二层表头行」从数据里摘出来，并**用它补回丢失的子列名**。
+     *
+     * ## 为什么是"补名"而不是"丢掉"
+     *
+     * 实测（2026-09-22 抓真机存档日志）：等级考试成绩表的表头是
+     * `序号 | 考级课程(等级) | 分数类成绩 ×4 | 等级类成绩 ×3 | 考级开始时间 | 考级结束时间`
+     * —— 「分数类成绩」重复出现 4 次。这是因为该表的 thead 只有一行、
+     * 父列用 `colspan` 铺开（1+1+4+3+1+1 = 11 列），**真正的子列名
+     * （笔试 / 机试 / 总成绩 …）单独占了 tbody 的第一行**。
+     *
+     * 只把那一行删掉的话，4 列「分数类成绩」就全是同名 —— 界面无法分辨哪一列才有分数，
+     * 只能退化成"取第一个非空值"，于是挑中教务用来表示"这项没成绩"的 `0`
+     * （用户反馈：显示分数要挑有具体分数的，分数一般不为 0）。
+     *
+     * 所以这里把那一行**当作第二层表头**用：按列号把子名拼到父名后面
+     * （`分数类成绩` + `总成绩` → `分数类成绩 / 总成绩`），再把它从数据里剔除。
+     *
+     * 仅在**表头存在重名**时补名 —— 那是"子列名丢了"的确定信号；
+     * 否则（解析器已正确读到双层表头的情况）只做剔除，不动表头。
+     *
+     * 幂等：补过名之后表头不再重名，下次调用只剔除、不改名。
+     *
+     * @return (新表头, 新数据行)
+     */
+    fun repairStrayHeader(
+        headers: List<String>,
+        rows: List<List<String>>,
+    ): Pair<List<String>, List<List<String>>> {
+        val stray = rows.firstOrNull { isStrayHeaderRow(it, headers) }
+            ?: return headers to rows
+
+        val hasDuplicateName = headers
+            .filter { it.isNotBlank() }
+            .groupingBy { it }
+            .eachCount()
+            .any { it.value > 1 }
+
+        val newHeaders = if (hasDuplicateName) {
+            headers.toMutableList().also { h ->
+                stray.forEachIndexed { i, childRaw ->
+                    val child = childRaw.trim()
+                    if (child.isEmpty() || i >= h.size) return@forEachIndexed
+                    val parent = h[i].trim()
+                    // 父名与子名相同（colspan 复制出来的）时不重复拼
+                    if (parent == child) return@forEachIndexed
+                    h[i] = if (parent.isEmpty()) child else "$parent / $child"
+                }
+            }
+        } else {
+            headers
+        }
+
+        Log.i(
+            TAG,
+            "发现误入数据区的第二层表头行，已剔除" +
+                if (hasDuplicateName) "并补回子列名：${newHeaders.joinToString(" | ")}" else "",
+        )
+        return newHeaders to rows.filterNot { it === stray }
     }
 
     // ---------------- 找表 ----------------
@@ -340,12 +407,6 @@ object JwglQueryParser {
                 continue
             }
 
-            // 漏进 tbody 的第二层表头行也不算数据（详见 isStrayHeaderRow 的说明）
-            if (isStrayHeaderRow(cells, headers)) {
-                Log.d(TAG, "跳过杂散表头行：${cells.joinToString("|")}")
-                continue
-            }
-
             // 没有 thead 时，若首行含 th 且不含数字 → 当作表头
             if (headers.isEmpty() && rows.isEmpty() && tr.select("> th").isNotEmpty()) {
                 val h = cells.filter { it.isNotEmpty() }
@@ -354,9 +415,11 @@ object JwglQueryParser {
                     continue
                 }
             }
+            // 漏进 tbody 的第二层表头行也先收进来，最后交给 repairStrayHeader 统一处理 ——
+            // 它不只是剔除，还要用那一行的子列名把丢失的列名补回来（详见该函数注释）
             rows.add(cells)
         }
-        return headers to rows
+        return repairStrayHeader(headers, rows)
     }
 
     // ---------------- 页面元信息 ----------------

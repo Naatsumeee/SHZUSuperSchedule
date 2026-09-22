@@ -70,7 +70,7 @@ import top.yukonga.miuix.kmp.preference.OverlayDropdownPreference
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import java.time.LocalDate
 
-const val APP_VERSION = "BETA-v1.3.2"
+const val APP_VERSION = "BETA-v1.4"
 const val AUTHOR_NAME = "@Natsume"
 const val AUTHOR_EMAIL = "xu.tianhao@outlook.com"
 
@@ -773,6 +773,22 @@ private data class LogItem(val version: String, val summary: String)
  * BETA-v1.3.2 起所有版本号统一加 `BETA-` 前缀，明示这是测试版。
  */
 private val CHANGELOG = listOf(
+    LogItem(
+        "BETA-v1.4",
+        "新增「查询」页：考试安排 / 课程成绩 / 等级考试成绩三类结果，导入课表后自动在后台" +
+            "抓取全部学期，无需手动操作（数据走内嵌浏览器内的请求，绕开此前会话丢失的问题）；\n" +
+            "考试安排：考试时间与考场加粗置顶，日期后自动标出「第N周周X」（如 2026年11月28日（第13周周六） 10:00-11:30）；\n" +
+            "课程成绩：课程名作标题加粗，成绩放大加粗，不及格标红；\n" +
+            "开课学期与课程编号收进卡片底部小字，不再与成绩抢位置；\n" +
+            "等级考试成绩：考级课程作标题加粗，同一门只显示真正有分数的成绩，" +
+            "不再出现「分数类成绩 0」；按 CET-4 → CET-6 → NCRE 一级 → NCRE 二级 → 其他 排序；\n" +
+            "修复等级考试成绩的列错位与「笔试」空记录（教务把第二层表头写进了数据区）；\n" +
+            "查询页大标题改用与设置页完全相同的字号与留白；\n" +
+            "左右翻动周视图时，上方的日期条与星期表头跟随课表一起滚动；\n" +
+            "「本周」标签移到「第 N 周」之前；\n" +
+            "「今日课程」与「本周课表」两个大标题严格对齐；\n" +
+            "构建脚本合并为单一入口（原 27 个逐字节相同的脚本）。",
+    ),
     LogItem(
         "BETA-v1.3.2",
         "移除预测性返回手势功能（跟手预览体验不佳，回归标准返回处理与过渡动画）；\n" +

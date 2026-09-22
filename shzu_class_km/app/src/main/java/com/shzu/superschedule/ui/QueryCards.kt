@@ -264,9 +264,9 @@ private fun GradeCard(table: QueryTable, row: List<String>) {
         ?: items.firstOrNull { it.first.contains("课程名称") }
         ?: items.first()
 
-    // 每组只取一条有数据的（[items] 已滤掉空值，所以这里拿到的必然是"有数据的那条"）
-    val scorePair = items.firstOrNull { it.first.contains("分数类成绩") }
-    val gradePair = items.firstOrNull { it.first.contains("等级类成绩") }
+    // 每组只挑一条**真正有分数**的（详见 [pickGroup]）
+    val scorePair = pickGroup(items, "分数类成绩")
+    val gradePair = pickGroup(items, "等级类成绩")
 
     // ⚠️ 这里要按**整组**排除，不能只排除被选中的那一列：
     //    「分数类成绩」下可能挂着 笔试 / 机试 / 总成绩 三列，只排掉第一列的话，
@@ -286,13 +286,55 @@ private fun GradeCard(table: QueryTable, row: List<String>) {
                 color = MiuixTheme.colorScheme.onSurface,
             )
             // 成绩排在标题下面第一行，比其它属性更靠前
-            scorePair?.let { FieldRow("分数类成绩", it.second, first = false) }
-            gradePair?.let { FieldRow("等级类成绩", it.second, first = false) }
+            scorePair?.let { FieldRow("分数类成绩", it, first = false) }
+            gradePair?.let { FieldRow("等级类成绩", it, first = false) }
             rest.forEach { (k, v) ->
                 FieldRow(k.replace(LABEL_SEP, "·"), v, first = false)
             }
         }
     }
+}
+
+/** 教务用来表示「这项没有成绩」的占位值 */
+private val PLACEHOLDER_VALUES = setOf(
+    "-", "--", "—", "－", "–", "/", "\\", "无", "没有", "空", "n/a", "na", "null",
+)
+
+/**
+ * 该值是不是**真实的成绩**（而不是教务用来表示「没有」的占位值）。
+ *
+ * 🔴 `0` 也算占位，这一点很关键：教务对「这项不适用 / 没考」不是留空，而是填 `0`。
+ *    考级成绩（四六级 0–710、计算机等级 0–100）不会出现真实的 0 分，
+ *    所以把 0 当空处理是安全的 —— 反过来若把 0 当有效值，
+ *    "第一个非空子列"就会挑中那个 0，而真正有分数的子列被丢掉。
+ */
+private fun isRealValue(raw: String): Boolean {
+    val t = raw.trim()
+    if (t.isEmpty()) return false
+    if (t.lowercase() in PLACEHOLDER_VALUES) return false
+    val num = t.toDoubleOrNull()
+    if (num != null && num == 0.0) return false
+    return true
+}
+
+/**
+ * 从某个父表头（「分数类成绩」/「等级类成绩」）下面，挑出**那一条真正有分数的子列**。
+ *
+ * 强智这张表是双层表头，「分数类成绩」下挂着「笔试 / 机试 / 总成绩」等子列，
+ * 而**大多数记录只有一个子列有分数，其余是 `0`**（见 [isRealValue]）。
+ * 所以不能简单地取"第一个非空值"——实测就会挑到 `0`，
+ * 界面上表现为「分数类成绩 0」而真正的总分不见了（用户反馈的问题）。
+ *
+ * 取值顺序：先滤掉占位值，再优先「总成绩 / 总评 / 总分」，其次「笔试 / 机试」，
+ * 都没有就按表头顺序取第一个。整组都没有真实分数时返回 null（那一行干脆不显示）。
+ */
+private fun pickGroup(items: List<Pair<String, String>>, parent: String): String? {
+    val group = items.filter { (k, v) -> k.contains(parent) && isRealValue(v) }
+    if (group.isEmpty()) return null
+    for (want in listOf("总成绩", "总评", "总分", "笔试", "机试")) {
+        group.firstOrNull { (k, _) -> k.contains(want) }?.let { return it.second }
+    }
+    return group.first().second
 }
 
 /**

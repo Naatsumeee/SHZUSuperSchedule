@@ -10,8 +10,8 @@
 2. 声明文件命名：`版本说明_<版本>.md`，与 APK 一一对应。
 3. 新增版本时：复制 APK → 新增同名声明 → 在本文件「版本索引」表格里补一行。
 4. **不要删旧版本**。这里的价值就是能随时回退到任何一个历史状态。
-5. **对外发布**：打 tag（`git tag -a BETA-v1.3.2 -m "..."`）→ `git push origin <tag>` →
-   在 GitHub 上基于该 tag 创建 Release，把 APK 作为附件上传。
+5. **对外发布**：打 tag（`git tag -a BETA-v1.4 -m "..."`）→ `git push origin <tag>` →
+   在 GitHub 上基于该 tag 创建 Release（标记为 **prerelease**），把 APK 作为附件上传。
    ⚠️ **Release 附件名只能用 ASCII**：GitHub 会**静默丢掉非 ASCII 字符**
    （实测 `石大超级课表_BETA-v1.3.2.apk` 被存成 `_BETA-v1.3.2.apk`），
    所以附件统一命名为 `SHZUSuperSchedule_<版本>.apk`。
@@ -27,7 +27,8 @@
 | 5 | 1.2 | `com.shzu.superschedule` | 12 | 14.66 MB | 2026-09-18 23:54 | `石大超级课表_BETA-v1.2.apk` | [声明](版本说明_BETA-v1.2.md) |
 | 6 | 1.3 | `com.shzu.superschedule` | 13 | 14.67 MB | 2026-09-19 00:42 | `石大超级课表_BETA-v1.3.apk` | [声明](版本说明_BETA-v1.3.md) |
 | 7 | 1.3.1 | `com.shzu.superschedule` | 14 | 14.73 MB | 2026-09-19 02:49 | `石大超级课表_BETA-v1.3.1.apk` | [声明](版本说明_BETA-v1.3.1.md) |
-| 8 | **BETA-v1.3.2（当前）** | `com.shzu.superschedule` | 15 | 14.78 MB | 2026-09-19 18:53 | `石大超级课表_BETA-v1.3.2.apk` | [声明](版本说明_BETA-v1.3.2.md) |
+| 8 | 1.3.2 | `com.shzu.superschedule` | 15 | 14.78 MB | 2026-09-19 18:53 | `石大超级课表_BETA-v1.3.2.apk` | [声明](版本说明_BETA-v1.3.2.md) |
+| 9 | **BETA-v1.4（当前）** | `com.shzu.superschedule` | 16 | 14.31 MB | 2026-09-22 15:19 | `石大超级课表_BETA-v1.4.apk` | [声明](版本说明_BETA-v1.4.md) |
 
 ## 三个关键节点的说明
 

@@ -3,11 +3,12 @@
 ## 工程概况
 - Kotlin + Compose Multiplatform 1.11.1 + **MiuiX 0.9.3**（`top.yukonga.miuix.kmp`）
 - AGP 9.4.0 / Gradle 9.7.1 / JDK 17；`compileSdk 37`、`minSdk 24`、`targetSdk 36`
-- 包名 `com.shzu.superschedule`；版本 **`BETA-v1.3.2`（versionCode 15）**
+- 包名 `com.shzu.superschedule`；版本 **`BETA-v1.4`（versionCode 16）**
 - 工程目录 `shzu_class_km/`，源码 `app/src/main/java/com/shzu/superschedule/`；
   **git 仓库根是上级目录 `SHZUClassList/`**（`tools/`、`.gitignore` 都在这一层）
 - 工具链 `C:\Users\xutia\WorkBuddy\android-toolchain\`（jdk17 / android-sdk / gradle-9.7.1）
-- 真机 APK 字节数参考：v160 = 14,992,995；v162 = 15,009,379
+- 真机 APK 字节数参考：v160 = 14,992,995；v162 = 15,009,379；v165(BETA-v1.4) = 15,009,375
+  ⚠️ **多版字节数可能只差几字节，别用大小判断是否重编译** —— 一律比 `md5sum`
 
 ## ⚠️ Kotlin 字符串模板（已踩 3 次）
 变量后面紧跟 `(`、中文、字母数字，**一律写 `${...}`**：
@@ -140,16 +141,35 @@ Compose 没有「背景模糊」修饰符，`RenderEffect` 只糊自己这层 �
 ## 强智表格解析（`JwglQueryParser`）
 - 三类查询表**不做逐字段建模**，统一收敛成「表头 + 行」；按 iframe `src` 锁目标页 +
   表头关键词做第二道保险（三类关键词必须互相排斥，见 `QueryKind.headerKeywords`）
-- **表头可能是多行的**：等级考试成绩表第一行 6 列、数据行 11 格。必须按列号铺开**全部 thead 行**
-  （处理 `colspan` / `rowspan`，rowspan 用 `carry` 挂起），否则值从第 7 列起全错位
-- 两种"不是数据"的行必须滤掉：
-  1. **占位行**：跨列写着「未查询到数据」（非空单元格 ≤1）
-  2. **杂散表头行**（2026-09-22 新增）：第二层表头被写在 `<tbody>` 里，被当成数据行收进来。
-     它前两列空、第一个非空单元格是「笔试」，于是界面上多出一条标题为「笔试」、
-     内容全是「机试/总成绩」的空卡片。判据 `isStrayHeaderRow`：非空格 ≥2 **且整行无数字**
-     **且**（行内有复读值 或 每个值都能在表头里找到）
-- 改解析器救不了**老存档**里的脏行 → `QueryStore.sanitize` 在**读取**时一并清掉
-  （日志 `存档清理：移除 N 行…`），用户不刷新也能立刻看到正确结果
+
+### 🔑 三类表的真实表头（2026-09-22 从真机日志实测，改版排查的第一手依据）
+
+| 表 | 列数 | 表头 |
+|---|---|---|
+| 考试安排 | 13 | 序号 \| 校区 \| 考试校区 \| 考试场次 \| 课程编号 \| 课程名称 \| 授课教师 \| 考试时间 \| 考场 \| 座位号 \| 准考证号 \| 备注 \| 操作 |
+| 课程成绩 | 17 | 序号 \| 开课学期 \| 课程编号 \| 课程名称 \| 成绩 \| 成绩标识 \| 学分 \| 总学时 \| 绩点 \| 补重学期 \| 考核方式 \| 考试性质 \| 课程属性 \| 课程性质 \| 通选课类别 \| 及格重修 \| 说明 |
+| 等级考试 | 11 | 序号 \| 考级课程(等级) \| 分数类成绩 ×4 \| 等级类成绩 ×3 \| 考级开始时间 \| 考级结束时间 |
+
+- 诊断方式：`QueryStore.load` 里的 `logShape()` 把每张表的**形状 + 表头名**打一行到 logcat
+  （**只打表头，不打单元格值**；走 `android.util.Log` 不占界面的 800 行缓冲）。
+  用户什么都不用做，**App 一启动**就能读到 —— 解析器自身的日志只在抓取时打印，不刷新就永远是空的。
+- **表头可能是多行的**：必须按列号铺开**全部 thead 行**（处理 `colspan` / `rowspan`，
+  rowspan 用 `carry` 挂起），否则值从第 7 列起全错位
+- 三种"不是数据"的行必须处理：
+  1. **占位行**：跨列写着「未查询到数据」（非空单元格 ≤1）→ 直接丢
+  2. **漏进 tbody 的第二层表头行**（等级考试表特有）：thead 只有一行、父列用 `colspan`
+     铺开（`1+1+4+3+1+1 = 11` 列），真正的子列名（笔试/机试/总成绩…）**单独占了 tbody 第一行**。
+     → 不能只丢！要用 `repairStrayHeader(headers, rows)` **当第二层表头用**：
+     按列号把子名拼到父名后面（`分数类成绩` + `总成绩` → `分数类成绩 / 总成绩`）再剔除。
+     **仅在表头存在重名时补名**（那是"子列名丢了"的确定信号），幂等。
+     只丢不补的后果：4 列「分数类成绩」同名无法分辨 → 只能取第一个非空值 →
+     挑中教务表示"这项没成绩"的 `0`，真正有分数的子列反而被丢掉。
+  3. 判据 `isStrayHeaderRow`：非空格 ≥2 **且整行无数字** **且**（行内有复读值 或
+     每个值都能在表头里找到）。真数据行几乎必然带序号/日期/分数，所以"无数字"这条很稳。
+- **占位值的约定**：教务对「这项没有成绩」不是留空，而是填 **`0`**（也有 `-` / `无`）。
+  取值时一律当空处理（`isRealValue`）：四六级 0–710、计算机等级 0–100 不会出现真实的 0 分。
+- 改解析器救不了**老存档**里的脏行 → `QueryStore.sanitize` 在**读取**时做同一套清理 + 补名
+  （日志 `存档清理：移除 N 行…` / `发现误入数据区的第二层表头行…`），用户不刷新也能看到正确结果
 
 ## 查询存档（`QueryStore`）
 - `merge` 是**按 (kind, semester) 覆盖式**：不在 `incoming` 里的项**保留旧值**。
@@ -161,8 +181,27 @@ Compose 没有「背景模糊」修饰符，`RenderEffect` 只糊自己这层 �
 ## 真机调试铁律
 - **先 `adb devices -l` 看序列号**。曾中途换机（`b18b0725` → `e87a3fe4`／2410DPN6CC 1440×3200），
   两台机的版本/登录态/存档完全不同，日志混着推理会得出完全错误的根因
-- **MIUI 下 `adb install -r` 不保证立刻替换 APK**：装完核对设备 `base.apk` 字节数 == 本地产物
+- **MIUI 下 `adb install -r` 不保证立刻替换 APK**。核对用**设备 `base.apk` 的 md5**：
+  `adb shell md5sum "$(adb shell pm path <pkg> | sed 's/^package://')"` 与本地产物比对。
+  ⚠️ **不要只比字节数** —— 本项目 v162 / v164 / v165 三个包只差 0~4 字节，字节核对完全失效。
+  复核是否真重编译：`unzip -p x.apk classes.dex | grep -c "<新增的字符串>"`
+- `adb install` **不认 MSYS 形式路径**（`/c/Users/...` 报 `failed to stat`），必须用 `C:/Users/...`；
+  中文文件名先 `cp` 到纯 ASCII 临时路径再装（`C:/Users/<u>/AppData/Local/Temp/`）
+- 设备会**反复掉线又自己回来**（`device not found`），装机脚本要容忍并重试
 - 查日志先 `adb logcat -G 16M`（默认 2 MiB 会被系统噪声冲掉）
+
+## 发版流程（`Backups/` 目录 + GitHub Release）
+- **本机没有 `gh` CLI、没有 SSH key**，全程 `git` + GitHub REST API。
+  推送能直接成功（Git Credential Manager 里存着凭据）；
+  要 token 可用 `printf "protocol=https\nhost=github.com\n\n" | git credential fill`（别把 token 打进 URL）
+- 每次发版三件事：① APK 复制到 `Backups/石大超级课表_<versionName>.apk`；
+  ② 新增 `Backups/版本说明_<版本>.md`；③ 在 `Backups/README.md` 版本索引表补一行。
+  还要同步：`app/build.gradle.kts` 的 versionName/versionCode、
+  `SettingsPage.kt` 的 `APP_VERSION` + `CHANGELOG` 列表、`docs/APP使用说明.md` 版本号
+- tag 用 annotated（`git tag -a BETA-v1.4 -m "..."`），Release 标 **prerelease**
+- 🔴 **GitHub Release 附件名只能用 ASCII**：非 ASCII 会被**静默丢掉**
+  （`石大超级课表_BETA-v1.3.2.apk` 存成 `_BETA-v1.3.2.apk`）。
+  附件统一命名 `SHZUSuperSchedule_<版本>.apk`。仓库内文件的中文名不受影响
 
 ## 用户偏好
 - MiuiX 风格，**不要橙色主题**；不要无意义的名句/引言
