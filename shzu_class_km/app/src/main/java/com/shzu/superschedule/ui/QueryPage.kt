@@ -53,6 +53,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.shzu.superschedule.data.AppLog
 import com.shzu.superschedule.data.JwglQueryParser
 import com.shzu.superschedule.data.QueryStore
+import com.shzu.superschedule.model.AppSettings
 import com.shzu.superschedule.model.QueryKind
 import com.shzu.superschedule.model.QueryTable
 import top.yukonga.miuix.kmp.basic.BasicComponent
@@ -127,6 +128,8 @@ internal fun QueryPage(
     fetching: Boolean = false,
     /** 触发后台刷新 */
     onRefresh: () -> Unit = {},
+    /** 只为「考试时间 → 第 N 周周 X」的换算取 schoolStartDate */
+    settings: AppSettings = AppSettings(),
 ) {
     PageHost(
         stack = ui.stack,
@@ -159,6 +162,7 @@ internal fun QueryPage(
                         fetching = fetching,
                         onRefresh = onRefresh,
                         onBack = { ui.stack.pop() },
+                        settings = settings,
                     )
                 }
             }
@@ -184,7 +188,13 @@ private fun QueryMain(
             .verticalScroll(ui.mainScroll)
             .padding(start = 12.dp, end = 12.dp, top = 4.dp, bottom = 4.dp + bottomInset),
     ) {
-        PageHeader(title = "查询", subtitle = "从教务系统读取考试安排与成绩")
+        // 大标题与设置页**完全同款**（miuixDefault = MiuiX 规范的字号与留白）。
+        // 查询页与设置页是底部导航里相邻的两项，标题字号/内边距只要差一点，
+        // 来回切换时就会有明显的"跳一下"的割裂感。
+        //
+        // 也不再挂 subtitle：原先那句「从教务系统读取考试安排与成绩」
+        // 是用户明确要求删掉的（多一行小字会让标题整体下移，与设置页错位）。
+        PageHeader(title = "查询", miuixDefault = true)
 
         SectionTitle("教务查询")
         Card {
@@ -272,6 +282,7 @@ private fun QueryDetail(
     fetching: Boolean,
     onRefresh: () -> Unit,
     onBack: () -> Unit,
+    settings: AppSettings,
 ) {
     // 该类查询下已有的数据（持久化的 + 本次手动抓的，手动优先）
     val tables = remember(entries, ui.manualTables, kind) {
@@ -342,6 +353,7 @@ private fun QueryDetail(
                     picked = picked,
                     current = current,
                     scroll = ui.detailScroll,
+                    settings = settings,
                     onPickSemester = { ui.pickSemester(kind.key, it) },
                     onGoManual = { mode = DetailMode.WEB },
                 )
@@ -366,6 +378,7 @@ private fun DataView(
     picked: String,
     current: QueryTable?,
     scroll: ScrollState,
+    settings: AppSettings,
     onPickSemester: (String) -> Unit,
     onGoManual: () -> Unit,
 ) {
@@ -384,6 +397,11 @@ private fun DataView(
             return@Column
         }
 
+        // 等级考试不按教务返回的原顺序展示，改按「考试种类 + 时间」重排（见 docs）
+        val rows = remember(current, kind) {
+            if (kind == QueryKind.GRADE) gradeRowsSorted(current) else current.rows
+        }
+
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -391,7 +409,7 @@ private fun DataView(
                 .verticalScroll(scroll)
                 .padding(horizontal = 12.dp),
         ) {
-            current.rows.forEach { row -> ResultCard(current, row) }
+            rows.forEach { row -> QueryResultCard(current, row, settings) }
             Spacer(Modifier.height(8.dp))
         }
     }
@@ -475,43 +493,8 @@ private fun semesterLabel(code: String): String {
     return "$y1-$y2 第${parts[2]}学期"
 }
 
-/** 单条记录的卡片：首字段作标题，其余按「字段名 → 值」排列 */
-@Composable
-private fun ResultCard(table: QueryTable, row: List<String>) {
-    val items = table.labeled(row).filter { it.second.isNotBlank() }
-    if (items.isEmpty()) return
-    val head = items.first()
-
-    Card(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
-        Column(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
-        ) {
-            Text(
-                text = head.second,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Medium,
-                color = MiuixTheme.colorScheme.onSurface,
-            )
-            items.drop(1).forEach { (k, v) ->
-                Spacer(Modifier.height(5.dp))
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = k,
-                        fontSize = 12.sp,
-                        color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
-                        modifier = Modifier.width(80.dp),
-                    )
-                    Text(
-                        text = v,
-                        fontSize = 13.sp,
-                        color = MiuixTheme.colorScheme.onSurface,
-                        modifier = Modifier.weight(1f),
-                    )
-                }
-            }
-        }
-    }
-}
+// 单条记录的卡片渲染挪到了 QueryCards.kt —— 三类查询的信息重心完全不同，
+// 用一套通用版式（首字段当标题 + 其余按字段名排）会把真正重要的东西埋掉。
 
 // ---------------- WebView 手动查询（兜底通道） ----------------
 

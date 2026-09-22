@@ -109,6 +109,11 @@ fun WeekPage(
 
     Column(modifier = Modifier.fillMaxSize()) {
         // 页面顶部标题栏（与今日课程页同款）
+        //
+        // ⚠️ 两个大标题的**顶边必须落在同一水平线**上。今日页的标题之外还叠了
+        //    LazyColumn 的 4dp contentPadding，本页外层没有额外内边距，
+        //    所以这里补一个等高的 Spacer 把差值抵掉 —— 否则今日页会低 4dp。
+        Spacer(Modifier.height(4.dp))
         PageHeader(title = "本周课表")
 
         // 周切换栏
@@ -126,13 +131,8 @@ fun WeekPage(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text = "第 $shownWeek 周",
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Medium,
-                )
                 if (shownWeek == currentWeek) {
-                    Spacer(Modifier.width(6.dp))
+                    // 蓝色的「本周」放在「第 N 周」**之前**：先给定位，再读数字
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(50))
@@ -141,7 +141,13 @@ fun WeekPage(
                     ) {
                         Text("本周", fontSize = 10.sp, color = MiuixTheme.colorScheme.primary)
                     }
+                    Spacer(Modifier.width(6.dp))
                 }
+                Text(
+                    text = "第 $shownWeek 周",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Medium,
+                )
                 if (settings.semester.isNotBlank()) {
                     Spacer(Modifier.width(8.dp))
                     Text(
@@ -158,42 +164,60 @@ fun WeekPage(
             }
         }
 
-        WeekStrip(week = shownWeek, settings = settings)
-
-        // 星期表头
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = GRID_H_PADDING),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Spacer(Modifier.width(SECTION_COL_WIDTH))
-            for (i in 1..7) {
-                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    Text(
-                        text = WEEK_CN[i - 1],
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = if (i >= 6) MiuixTheme.colorScheme.primary
-                        else MiuixTheme.colorScheme.onSurface,
-                    )
-                }
-            }
-        }
-        Spacer(Modifier.height(2.dp))
-
         HorizontalPager(
             state = pagerState,
             modifier = Modifier.weight(1f),
         ) { page ->
             val week = currentWeek + (page - BASE)
-            WeekGrid(
-                courses = visibleCourses,
-                week = week,
-                settings = settings,
-                rowHeight = rowHeight,
-                bottomInset = bottomInset,
-                onCourseClick = { onCourseClick(it, week) },
-                onEmptyClick = { day, sec -> onEmptyClick(day, sec) },
-            )
+            // ⚠️ 日期条与星期表头都放在 pager **内部**（而不是上面 Column 的平级位置）：
+            //    HorizontalPager 只滚动「自己这一页」的内容，放在外面它们不会跟着动 ——
+            //    翻周时会看到「上面的日期还是上一周、下面的格子已经换了一页」的割裂感。
+            //    放进来后由 pager 统一驱动，滚动像素级同步，也免去手算偏移量
+            //    （手算要依赖 currentPageOffsetFraction 的正负号约定，易错且难验证）。
+            Column(modifier = Modifier.fillMaxSize()) {
+                WeekStrip(week = week, settings = settings)
+                WeekdayHeader()
+                Spacer(Modifier.height(2.dp))
+                Box(modifier = Modifier.weight(1f).fillMaxWidth()) {
+                    WeekGrid(
+                        courses = visibleCourses,
+                        week = week,
+                        settings = settings,
+                        rowHeight = rowHeight,
+                        bottomInset = bottomInset,
+                        onCourseClick = { onCourseClick(it, week) },
+                        onEmptyClick = { day, sec -> onEmptyClick(day, sec) },
+                    )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * 星期表头（周一…周日）。
+ *
+ * 它本身每周都一样，但**仍要放进 pager 页内** —— 否则翻周时只有下面的日期在动、
+ * 这一行纹丝不动，视觉上像是两层东西各滚各的。内容相同不影响观感，
+ * 滑动过程中「左边滑走、右边滑进」的连贯感才是用户要的。
+ */
+@Composable
+private fun WeekdayHeader() {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = GRID_H_PADDING),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Spacer(Modifier.width(SECTION_COL_WIDTH))
+        for (i in 1..7) {
+            Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                Text(
+                    text = WEEK_CN[i - 1],
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = if (i >= 6) MiuixTheme.colorScheme.primary
+                    else MiuixTheme.colorScheme.onSurface,
+                )
+            }
         }
     }
 }

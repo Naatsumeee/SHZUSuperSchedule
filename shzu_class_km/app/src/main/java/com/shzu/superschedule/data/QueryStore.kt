@@ -48,29 +48,40 @@ object QueryStore {
     }
 
     /**
-     * 清掉存档里历史遗留的「未查询到数据」占位行。
+     * 清掉存档里两类**不是真实数据**的行：
      *
-     * 为什么要在这里做：强智在结果为空时会给一张只有一行的表，那行写着
-     * 「未查询到数据」。早期版本的解析器没滤它，于是「考试安排本来没有」
-     * 被当成 1 条记录存了下来。清在**读取**这一步，老用户不点刷新也能立刻看到正确结果，
-     * 不用等下一次抓取覆盖。
+     * 1. 「未查询到数据」占位行 —— 强智在结果为空时会给一张只有一行的表，那行写着
+     *    「未查询到数据」。早期版本的解析器没滤它，于是「考试安排本来没有」
+     *    被当成 1 条记录存了下来。清在**读取**这一步，老用户不点刷新也能立刻看到正确结果，
+     *    不用等下一次抓取覆盖。
+     * 2. 漏进数据区的**第二层表头行** —— 等级考试成绩表的名字/子列名行。
+     *    它的前两列是空的，第一个非空单元格是「笔试」，于是界面上凭空多出一条
+     *    标题为「笔试」、内容全是「机试 / 总成绩」的空卡片（用户反馈的问题）。
+     *    这类行是修复解析器**之前**抓进存档的，光改解析器救不了老数据，
+     *    必须在这里一起清掉。
      *
      * 只删行、不删条目：条目留着（0 行），界面才会显示「未查询到数据」，
      * 而不是「尚未获取」——这两者对用户的意义不一样。
      */
     private fun sanitize(archive: Archive): Archive {
-        var dropped = 0
+        var placeholder = 0
+        var strayHeader = 0
         val cleaned = archive.entries.map { t ->
-            val rows = t.rows.filterNot { JwglQueryParser.isPlaceholderRow(it) }
-            if (rows.size == t.rows.size) {
-                t
-            } else {
-                dropped += t.rows.size - rows.size
-                t.copy(rows = rows)
+            val rows = t.rows.filterNot { row ->
+                val drop = JwglQueryParser.isPlaceholderRow(row) ||
+                    JwglQueryParser.isStrayHeaderRow(row, t.headers)
+                if (drop) {
+                    if (JwglQueryParser.isPlaceholderRow(row)) placeholder++ else strayHeader++
+                }
+                drop
             }
+            if (rows.size == t.rows.size) t else t.copy(rows = rows)
         }
-        if (dropped > 0) {
-            AppLog.i("QueryStore", "存档清理：移除 $dropped 行「未查询到数据」占位记录")
+        if (placeholder > 0) {
+            AppLog.i("QueryStore", "存档清理：移除 $placeholder 行「未查询到数据」占位记录")
+        }
+        if (strayHeader > 0) {
+            AppLog.i("QueryStore", "存档清理：移除 $strayHeader 行误入数据区的表头记录")
         }
         return archive.copy(entries = cleaned)
     }

@@ -132,6 +132,36 @@ object JwglQueryParser {
         return NO_DATA_HINTS.any { joined.contains(it) }
     }
 
+    /**
+     * 该行是否其实是**漏进数据区的表头行**（而不是真数据）。
+     *
+     * 🔴 强智的等级考试成绩表是**双层表头**：「分数类成绩」「等级类成绩」各自
+     * 再分「笔试 / 机试 / 总成绩」等子列。多校版本的这张表把**第二层表头
+     * 写在了 `<tbody>` 里**（而不是 `<thead>`），于是解析器把它当成普通数据行收了进来。
+     *
+     * 后果很直观：这一行的前两列（序号 / 考级课程）是空的，第一个非空单元格就是
+     * 「笔试」—— 卡片标题因此渲染成「笔试」，后面跟着的字段名是「机试」「总成绩」，
+     * 整张卡片没有一个真实数据，看起来就是一条莫名其妙的「笔试」记录。
+     *
+     * 判据（三者需同时满足，宁可漏杀不可错杀）：
+     * 1. 非空单元格 ≥ 2 —— 单值行交给 [isPlaceholderRow] 处理；
+     * 2. **整行一个数字都没有** —— 真实数据行几乎必然带数字（序号 / 日期 / 分数 / 学号），
+     *    表头行则清一色是词；
+     * 3. 行内**有重复值**（「笔试 机试 总成绩 笔试 机试 总成绩」这种两层子列复读），
+     *    或者每个值都能在表头文本里找到。
+     */
+    fun isStrayHeaderRow(cells: List<String>, headers: List<String>): Boolean {
+        val vals = cells.filter { it.isNotBlank() }
+        if (vals.size < 2) return false
+        if (vals.any { v -> v.any { it.isDigit() } }) return false
+        // ① 行内复读 —— 需要 ≥3 个值，避免把「课程名 == 等级名」这类正常两值行误杀
+        if (vals.size >= 3 && vals.size != vals.distinct().size) return true
+        // ② 全部是表头里出现过的词
+        val blob = headers.filter { it.isNotBlank() }.joinToString("\u0000")
+        if (blob.isEmpty()) return false
+        return vals.all { blob.contains(it) }
+    }
+
     // ---------------- 找表 ----------------
 
     private fun pickTable(doc: Document, keywords: List<String>): Element? {
@@ -307,6 +337,12 @@ object JwglQueryParser {
             // 「未查询到数据」占位行不算数据行（详见 NO_DATA_HINTS 的说明）
             if (isPlaceholderRow(cells)) {
                 Log.d(TAG, "跳过占位行：${cells.joinToString("")}")
+                continue
+            }
+
+            // 漏进 tbody 的第二层表头行也不算数据（详见 isStrayHeaderRow 的说明）
+            if (isStrayHeaderRow(cells, headers)) {
+                Log.d(TAG, "跳过杂散表头行：${cells.joinToString("|")}")
                 continue
             }
 

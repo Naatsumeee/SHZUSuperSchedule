@@ -40,6 +40,23 @@ object WeekCalc {
         }
     }
 
+    /**
+     * 指定日期属于第几教学周；**无法判定时返回 null**。
+     *
+     * 与 [currentWeek] 的区别：那个是"当前周"，任何异常都兜底成 1；
+     * 这个用在「考试时间 → 第几周」的标注上，宁可不标也不能标错 ——
+     * 未设置开学日期、或日期早于开学日（跨学期/补考）都返回 null。
+     */
+    fun weekOf(schoolStart: String, date: LocalDate): Int? {
+        if (schoolStart.isBlank()) return null
+        return try {
+            val days = ChronoUnit.DAYS.between(LocalDate.parse(schoolStart), date)
+            if (days < 0) null else (days / 7).toInt() + 1
+        } catch (_: Exception) {
+            null
+        }
+    }
+
     /** 学期结束日期估算：开学日 + 20 周 */
     fun semesterEnd(schoolStart: String): LocalDate? {
         if (schoolStart.isBlank()) return null

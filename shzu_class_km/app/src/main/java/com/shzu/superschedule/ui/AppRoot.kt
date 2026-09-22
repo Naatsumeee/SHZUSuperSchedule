@@ -730,6 +730,7 @@ private fun MainScaffold(
                     updatedAt = queryUpdatedAt,
                     fetching = queryFetching,
                     onRefresh = onRefreshQueries,
+                    settings = settings,
                 )
                 else -> SettingsPage(
                     ui = settingsUi,
