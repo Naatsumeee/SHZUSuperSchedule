@@ -203,6 +203,29 @@ Compose 没有「背景模糊」修饰符，`RenderEffect` 只糊自己这层 �
   （`石大超级课表_BETA-v1.3.2.apk` 存成 `_BETA-v1.3.2.apk`）。
   附件统一命名 `SHZUSuperSchedule_<版本>.apk`。仓库内文件的中文名不受影响
 
+## 工程目录约定（2026-09-25 整理后）
+- **根目录只留"活着的东西"**：`shzu_class_km/` `Backups/` `History/` `docs/` `tools/`
+  `reference/`、`Icon-256.ico`、`README.md`、`PROJECT_PROMPT.md`、` .gitignore`、`.workbuddy/`
+- 构建日志 → 用完归 `History/logs/build/`；调试 dump → `History/logs/device/` 或 `dumps/`；
+  截图 → `History/screenshots/`；弃用实现 → `History/legacy/`。
+  **临时测试 APK 用完即删**（正式包在 `Backups/`）—— 09-25 清理时根目录堆了 172 MB 这种东西。
+- 🔴 **`.gitignore` 的 `build/` 会连带忽略任何层级下叫 build 的目录**，
+  所以 `History/logs/build/` 需要先解禁目录本身再解禁文件名：
+  `!History/logs/build/` + `!History/logs/build/km_build_v*.txt`。
+  只写后者不生效（父目录被排除时无法靠否定规则重新纳入其中的文件）。
+  判断用 `git check-ignore -v <路径>`。
+- 用户**三次**提「整理工程 + 保存历史 + 写 Prompt 声明」—— 他把这个工程当作
+  要长期交给别人/别的 Agent 维护的资产，不是自己一个人用的东西。
+
+## 网络环境
+- git 与 GitHub API 都依赖代理 `127.0.0.1:7897`（`.git/config` 的 `http.proxy`）。
+  **代理软件没开时，代理与直连都会失败**（直连 `github.com:443` 超时）。
+  表现：`git push` 报 `Could not connect to github.com:443`、
+  Python urllib 报 `WinError 10061 目标计算机积极拒绝`。
+  → 这是环境问题不是代码问题，等代理开起来重跑即可；**别去排查代码**。
+- 用 urllib 访问 GitHub 时要显式设代理；代理没开时用 `ProxyHandler({})` 显式关闭，
+  否则会去读一个可能存在的空代理配置而报"连接被拒"。
+
 ## 用户偏好
 - MiuiX 风格，**不要橙色主题**；不要无意义的名句/引言
 - 倾向紧凑排版：标题字号与留白要压，但大标题要保留
