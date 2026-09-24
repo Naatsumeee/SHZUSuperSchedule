@@ -5,8 +5,8 @@
 | APK | `石大超级课表_BETA-v1.4.apk`（14.31 MB） |
 | 包名 | `com.shzu.superschedule` |
 | versionName / versionCode | **`BETA-v1.4`** / `16` |
-| 构建时间 | 2026-09-22 15:19（构建序号 v165） |
-| APK md5 | `441da29447a47765c69443a47fcbc739` |
+| 构建时间 | 2026-09-25 01:08（构建序号 **v166**） |
+| APK md5 | `4de4faf3542d646c1ddc18c788cb9148` |
 | compileSdk / targetSdk / minSdk | 37 / 36 / 24 |
 | 技术栈 | Kotlin + Compose Multiplatform 1.11.1 + MiuiX 0.9.3 + AGP 9.4.0 + Gradle 9.7.1 |
 
@@ -94,4 +94,20 @@ powershell -ExecutionPolicy Bypass -File tools/build_km.ps1 -Variant Debug    # 
 | v161–v162 | 查询页三类结果分类型排版、周视图跟随滚动、标题对齐、脚本合并 |
 | v163 | 等级考试只取真正有分数的子列（跳过教务的 `0` 占位） |
 | v164 | 二级表头行改造为「补回子列名」、版本号升到 BETA-v1.4 |
-| **v165** | **补应用内更新日志（最终出包）** |
+| v165 | 补应用内更新日志 |
+| **v166** | **修 `QueryStore.sanitize` 漏接 `repairStrayHeader`（最终出包）** |
+
+### v166 修订详情
+
+真机日志对照时发现：等级考试表的表头明细仍然打印
+`分数类成绩 ×4 | 等级类成绩 ×3` —— 四列全同名，说明**补名根本没生效**。
+
+根因是 `repairStrayHeader` 写好后只接进了 `JwglQueryParser.readTable`（**新抓取**路径），
+而 `QueryStore.sanitize`（**读老存档**路径）还是原来的 `filterNot { isStrayHeaderRow }`
+写法 —— 只剔除、不补名。于是「老存档不用刷新也能看到正确列名」这条承诺落空。
+
+修法：`sanitize` 改为「先滤占位行 → 再 `repairStrayHeader(headers, kept)`」，
+并新增日志 `存档清理：补回 N 张表丢失的子列名` 便于对照。
+
+教训：**新增一个"既有剔除又有改造"的函数时，两个调用点都要接上**。
+只写 `isStrayHeaderRow` 的判据、却在另一处用旧写法重写一遍逻辑，是最容易漏的那种。

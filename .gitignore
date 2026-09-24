@@ -42,7 +42,17 @@ Thumbs.db
 
 # ---------- 日志与临时 ----------
 *.log
+
+# 构建日志：散在根目录的不入库（随时可重新生成），
+# 归档进 History/logs/build/ 的**要入库**（那是历史记录的一部分）。
+#
+# ⚠️ 上面第 3 行的 `build/` 会连带忽略**任何层级**下叫 build 的目录，
+#    所以这里必须先把 `History/logs/build/` 这个目录本身解禁，
+#    再解禁里面的日志文件名 —— 只写后者是不生效的
+#    （git 规则：父目录被排除时，无法靠否定规则重新纳入其中的文件）。
+!History/logs/build/
 km_build_v*.txt
+!History/logs/build/km_build_v*.txt
 
 # ---------- Python（教务爬虫） ----------
 __pycache__/

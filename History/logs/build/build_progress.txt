@@ -1,0 +1,10 @@
+﻿=== ~/.gradle ===
+不存在
+=== 项目 android/.gradle ===
+不存在
+=== 项目 build 目录 ===
+不存在
+=== flutter engine artifacts ===
+arm64-release 存在
+=== gradle wrapper ===
+gradlew.bat 存在

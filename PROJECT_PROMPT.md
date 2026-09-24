@@ -1,42 +1,52 @@
-# PROJECT_PROMPT — 石大超级课表
+# PROJECT_PROMPT — 石大超级课表（SHZUSuperSchedule）
 
 > **给接手的 Agent（或三个月后的自己）**：把这一段完整读一遍再动手。
-> 它包含跑起来所需的全部环境信息，以及**几条会让编译直接失败的红线**。
-> 本文件与 `History/prompts/交接提示词.md` 同源。
+> 它包含跑起来所需的全部环境信息，以及**几条会让编译直接失败、或让结果悄悄出错的红线**。
+> 本文件与 `History/prompts/交接提示词.md` 同源，是那份的**当前生效版**。
 
 ---
 
 ## 0. 三十秒上手
 
 ```powershell
-# 构建（推荐，脚本已设好全部环境变量）
+# 构建（唯一入口；脚本已设好全部环境变量）
 cd C:\Users\xutia\WorkBuddy\SHZUClassList
-powershell -ExecutionPolicy Bypass -File tools\build_km_v145.ps1
+powershell -ExecutionPolicy Bypass -File tools\build_km.ps1 -Version 166
 
-# 看结果（⚠️ 日志是 UTF-16，必须这样看）
-cat km_build_v145.txt | tr -d '\000' | sed 's/\r//' | grep -E "^e: |BUILD"
-
-# 安装到设备
-adb install -r 石大超级课表_BETA-v1.3.2.apk
+# Debug 包
+powershell -ExecutionPolicy Bypass -File tools\build_km.ps1 -Variant Debug
 ```
 
-源码在 `shzu_class_km/`，**唯一正式工程**。产物：
-`shzu_class_km/app/build/outputs/apk/release/app-release.apk`
+```bash
+# 看结果：日志已是干净 UTF-8，直接 grep
+grep -E "^e: |BUILD" km_build_v166.txt
+```
+
+- 源码：`shzu_class_km/`（**唯一正式工程**，改代码只动这里）
+- 产物：`shzu_class_km/app/build/outputs/apk/release/app-release.apk`
+- 装设备：`adb -s <serial> install -r <C:/... 的 ASCII 路径>`（见 §7）
 
 ---
 
 ## 1. 项目是什么
 
-面向石河子大学学生的课表 App。核心流程：
+面向石河子大学学生的课表 App，主打**轻量、快启动、无广告**。
 
-1. 内嵌 WebView 打开教务系统 → 用户自己在网页里登录；
-2. 切到「学期理论课表」页 → 点 App 底部「导入当前页面课表」→ Jsoup 解析 HTML；
-3. 课表以 JSON 持久化到本地，之后离线查看今日课程 / 本周课表；
-4. 可选：桌面小组件、上课提醒通知。
+1. 内嵌 WebView 打开教务系统 → 用户在网页里自己登录；
+2. 切到「学期理论课表」→ 点「导入当前页面课表」→ Jsoup 解析 HTML；
+3. 课表 JSON 持久化到本地，之后离线查看今日课程 / 本周课表；
+4. **导入的同时会在后台自动抓取**「考试安排 / 课程成绩 / 等级考试成绩」全部学期并落盘；
+5. 可选：桌面小组件、上课提醒通知。
 
-- 包名 `com.shzu.superschedule`，当前 **BETA-v1.3.2**（versionCode 15）
-- 版本定义在 `shzu_class_km/app/build.gradle.kts`
-- **不是** Flutter 项目（早期是，已彻底废弃，旧源码在 `History/legacy/`）
+| 项 | 值 |
+|---|---|
+| 包名 | `com.shzu.superschedule` |
+| 当前版本 | **BETA-v1.4**（versionCode 16） |
+| 版本定义 | `shzu_class_km/app/build.gradle.kts` + `ui/SettingsPage.kt` 的 `APP_VERSION` |
+| 仓库 | https://github.com/Naatsumeee/SHZUSuperSchedule |
+| 教务入口 | `https://jwgl.shzu.edu.cn` |
+
+**不是** Flutter 项目（早期是，已彻底废弃，旧源码在 `History/legacy/`）。
 
 ---
 
@@ -45,14 +55,14 @@ adb install -r 石大超级课表_BETA-v1.3.2.apk
 ### ① Kotlin 字符串模板必须加花括号 —— 已踩 3 次
 
 ```kotlin
-"$sections小节"    // ❌ 中文是合法 Kotlin 标识符字符，被解析成标识符 sections小节
+"$sections小节"    // ❌ 中文是合法 Kotlin 标识符字符 → 被解析成标识符 sections小节
 "$startMinutes()"  // ❌ 编译错误：Function invocation 'startMinutes()' expected
 "${sections}小节"   // ✅
 "${startMinutes()}" // ✅
 ```
 
 **凡是变量后面紧跟 `(`、中文、字母数字，一律写 `${...}`。**
-改完代码必自检：
+改完代码必自检（本项目已列为收尾动作）：
 
 ```bash
 grep -rn '\$[a-zA-Z_][a-zA-Z0-9_]*()' shzu_class_km/app/src/main/java/
@@ -67,8 +77,8 @@ AGP / Gradle / Kotlin / Compose Multiplatform / MiuiX 五者**强绑定**，
 |------|------|-------------|
 | Gradle | 9.7.1 | AGP 9.4.0 要求 ≥ 9.6.0；8.x AGP 又与 9.6+ 不兼容 |
 | AGP | 9.4.0 | 9.0+ **内置 Kotlin**，必须**移除** `org.jetbrains.kotlin.android` 插件 |
-| compileSdk | 37 | miuix 0.9.x 要求 `minCompileSdk=37`；本机是复制 android-36 伪造的 |
-| CMP | 1.11.1 | 1.12.0 对 compileSdk 37 的 compose 依赖更多；1.11.1 与 miuix 0.9.3 一致 |
+| compileSdk | 37 | MiuiX 0.9.x 要求 `minCompileSdk=37`；本机是复制 android-36 伪造的 |
+| CMP | 1.11.1 | 1.12.0 对 compileSdk 37 的 compose 依赖更多；1.11.1 与 MiuiX 0.9.3 一致 |
 | MiuiX | 0.9.3 | |
 | activity-compose | 1.10.1 | 1.13.0 要求 compileSdk 37 的更多依赖 |
 
@@ -77,32 +87,53 @@ AGP / Gradle / Kotlin / Compose Multiplatform / MiuiX 五者**强绑定**，
 MiuiX 下拉 / 弹层依赖 `LocalNavigationEventDispatcherOwner`，该 CompositionLocal
 **只在 NavHost 中自动提供**。本项目没有导航库，必须在 `MainActivity` 的
 `setContent` 外层**手动提供**，否则点开任何下拉菜单就 `IllegalStateException` 闪退。
+依赖：`androidx.navigationevent:navigationevent(-compose):1.1.2`
 
-### ④ 构建日志是 UTF-16
+### ④ 内存参数不许调大
 
-PowerShell `Tee-Object` 写出的日志是 UTF-16LE。直接 `grep "BUILD SUCCESSFUL"`
-**会误判为失败**（因为字符间有 `\000`）。必须：
-
-```bash
-cat km_build_vXXX.txt | tr -d '\000' | sed 's/\r//' | grep -E "^e: |BUILD"
-```
-
-### ⑤ 内存参数不许调大
-
-机器 15GB 但可用常 < 4GB。当前 `gradle.properties`：
-`org.gradle.jvmargs=-Xmx1536m`、`kotlin.daemon.jvmargs=-Xmx768m`、
-`org.gradle.workers.max=1`、`parallel=false`。
+机器 15GB 但可用常 < 4GB。当前 `gradle.properties`：`org.gradle.jvmargs=-Xmx1536m`、
+`kotlin.daemon.jvmargs=-Xmx768m`、`org.gradle.workers.max=1`、`parallel=false`。
 **调大会被 OOM 杀掉**，现象是日志无任何错误、约 2 分钟后中断。
 
-### ⑥ Android Toast 不能指定毫秒
+### ⑤ Android Toast 不能指定毫秒
 
 只有 `LENGTH_SHORT`(~2s) / `LENGTH_LONG`(~3.5s) 两档。本项目统一 1.2s，
 实现在 `ui/FileActions.kt`：按 `LENGTH_SHORT` 弹出 + `Handler.postDelayed(1200)`
 到点 `cancel()`。**改时长只改 `TOAST_DURATION_MS` 一个常量**，别去动调用点。
 
+### ⑥ 构建脚本 `.ps1` 的三个静默杀手
+
+Windows PowerShell 5.1 跑 `.ps1` 时，下面三点各自都能让脚本"成功退出但零输出"：
+
+1. **必须存为 UTF-8 with BOM**。无 BOM 时 PS 5.1 按 GBK 解码中文注释，
+   错位的多字节序列会吞掉 `{` `}` → 解析失败**且一行错误信息都不输出**。
+   校验：`head -c 3 tools/build_km.ps1 | xxd` 应输出 `efbbbf`。
+2. **不要写 `exit $code`** —— 会杀掉宿主进程，整个脚本的输出全部丢失。
+3. **不要用 `Tee-Object` 落日志** —— 它没有 `-Encoding`，落盘固定 UTF-16，
+   `grep "BUILD SUCCESSFUL"` 会永远匹配不到。用「捕获后 `Out-File -Encoding utf8`」。
+
 ---
 
 ## 3. 目录地图
+
+### 工程根（**只保留这些**）
+
+```
+SHZUClassList/
+├── shzu_class_km/      ⭐ 唯一正式工程
+├── Backups/            📦 每个 release 的 APK + 版本声明（发版规范见其 README）
+├── History/            🗄️ 全部历史记录（思考链/提示词/日志/截图/旧源码/弃用爬虫）
+├── docs/               📖 APP使用说明 + 示例课表数据
+├── tools/              🔧 build_km.ps1（唯一构建入口）+ download_kotlin_deps.ps1
+├── .workbuddy/memory/  🧠 当前生效的工作记忆（每日日志 + MEMORY.md）
+├── README.md / PROJECT_PROMPT.md（本文件）
+```
+
+> ⚠️ **根目录不许堆东西**：构建日志、调试 dump、临时测试 APK 用完即归位到 `History/`
+> 或直接删除（正式包在 `Backups/`）。2026-09-25 清理时根目录已堆了 23 份日志 +
+> 12 个临时 APK（172 MB）。
+
+### 源码
 
 ```
 shzu_class_km/app/src/main/java/com/shzu/superschedule/
@@ -113,26 +144,33 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
 │   └── AppSettings.kt       全部设置项（含 rowHeight 课程高度）
 ├── data/
 │   ├── AppRepository.kt     SharedPreferences + 序列化
-│   ├── CourseParser.kt      Jsoup 解析强智教务页面
-│   ├── JwglQueryParser.kt   考试/成绩查询页的**通用表格**解析器
+│   ├── AppLog.kt            应用内日志（内存 800 行 + files/app.log）
+│   ├── CourseParser.kt      Jsoup 解析强智教务课表页
+│   ├── JwglQueryParser.kt   ⭐ 三类查询的通用表格解析器（含双层表头修复）
+│   ├── JwglQueryFetcher.kt  后台批量抓取三类查询（步骤间必须延时）
+│   ├── JwglSession.kt       取教务 Cookie（URL 必须带 /jsxsd 路径）
+│   ├── QueryHtmlFetcher.kt  WebView 内 JS fetch 通道
+│   ├── QueryStore.kt        ⭐ 查询结果落盘（原子写 + 读取时清洗）
 │   ├── ScheduleStore.kt     课表 JSON 持久化（files/schedule/<学期>.json）
 │   └── Notifier.kt          上课提醒通知 + sendTest
-└── ui/
-    ├── AppRoot.kt           顶层：无数据→ImportPage，有数据→Scaffold+底栏
-    ├── QueryPage.kt         查询页（考试安排/课程成绩/等级考试成绩）
-    ├── ImportPage.kt        WebView 导入（双 UA、移动端/桌面端切换）
-    ├── TodayPage.kt         今日课程
-    ├── WeekPage.kt          本周课表（HorizontalPager 切周）
-    ├── SettingsPage.kt      设置页（含 App 内 CHANGELOG）
-    ├── BlurBar.kt           ⭐ 底栏真实背景模糊（三层图层方案，别乱改）
-    ├── PageStack.kt         自研页面栈 + AnimatedContent 过渡
-    ├── PageHeader.kt        大标题 / SubPageTopBar
-    ├── CourseColors.kt      配色集与色板
-    ├── CourseDialogs.kt     课程详情 / 增删
-    ├── HslColorPicker.kt    HSL 色盘
-    ├── FileActions.kt       导入导出 + 统一 toast
-    ├── Theme.kt             MiuixTheme
-    └── WeekCalc.kt          教学周计算
+├── ui/
+│   ├── AppRoot.kt           顶层：无数据→ImportPage，有数据→Scaffold+底栏+四个 tab
+│   ├── QueryPage.kt         查询页（一级列表 / 二级详情 / WebView 手动兜底）
+│   ├── QueryCards.kt        ⭐ 三类结果的卡片排版（按 kind 分派）
+│   ├── ImportPage.kt        WebView 导入（双 UA、移动端/桌面端切换）
+│   ├── WebViewFetcher.kt    1×1 不可见 WebView，供后台抓取发请求
+│   ├── TodayPage.kt         今日课程
+│   ├── WeekPage.kt          本周课表（HorizontalPager 切周，日期条在页内）
+│   ├── SettingsPage.kt      设置页（含 App 内 CHANGELOG）
+│   ├── BlurBar.kt           ⭐ 底栏真实背景模糊（三层图层方案，别乱改）
+│   ├── PageStack.kt         自研页面栈 + AnimatedContent 过渡
+│   ├── PageHeader.kt        大标题 / SectionTitle / SubPageTopBar
+│   ├── CourseColors.kt      配色集与色板
+│   ├── CourseDialogs.kt     课程详情 / 增删
+│   ├── HslColorPicker.kt    HSL 色盘
+│   ├── FileActions.kt       导入导出 + 统一 toast（1.2s）
+│   ├── Theme.kt             MiuixTheme
+│   └── WeekCalc.kt          教学周计算（含 weekOf：算不出返回 null）
 └── widget/
     ├── ScheduleWidgetProvider.kt     自适应小组件
     └── FixedSizeWidgetProviders.kt   Small/Wide/Tall/Big 四档
@@ -145,7 +183,7 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
 ### 课表布局模型
 
 - 整个课表 = **固定 10 行 × 7 列**网格，10 行对应 1-10 课时，**行距严格相等**。
-- 「课程高度」滑块（`AppSettings.rowHeight`，默认 52dp，范围 34-96）统一调节所有课高度，
+- 「课程高度」滑块（`AppSettings.rowHeight`，默认 56dp，范围 34-96）统一调节所有课高度，
   并决定网格行距：`rowStride = rowHeight + CELL_GAP * 2`。
 - 一门课占 N 个课时就铺满 N 格。周视图用 `Layout` + `Constraints.fixed` 的 overlay 定位，
   **多行格必须 `Constraints.fixed`，否则会被父容器 clamp 压成 1 行**。
@@ -155,6 +193,33 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
 - 冲突判定只看**本周内同课时**；冲突时占课时少的课程优先占位。
 - 虚线网格 `Modifier.gridBackground(enabled)`：`PathEffect.dashPathEffect(10f, 8f)`。
 - 「课程数量」/ 今日页节数都按**课程名去重的学科门数**统计，不是节数。
+
+### 周视图翻页（2026-09-22 改）
+
+`WeekStrip`（日期条）与星期表头**必须放在 `HorizontalPager` 的页内容里**，不能与 pager 平级。
+平级时翻周只有下面的格子动、上面两条纹丝不动，割裂感很强。
+放进去由 pager 统一驱动，像素级同步，**不需要手算 `currentPageOffsetFraction`**
+（那个 API 的正负号约定容易搞反，手算的偏移量还很难离线验证）。
+
+### 页面大标题对齐（2026-09-22 定稿）
+
+`PageHeader(title, subtitle, fontSize, horizontalPadding, miuixDefault)`：
+`miuixDefault = true` 走 MiuiX 规范 `title2`（**24sp**）+ `start/end 16dp, top 16dp, bottom 8dp`；
+否则是紧凑档（`fontSize=22sp` + `top 8dp, bottom 4dp`）。
+
+实测落点（外层容器内边距 + 组件内边距）：
+
+| 页面 | 容器 | 水平 | 垂直 |
+|---|---|---|---|
+| 设置 | `padding(12,12,4,…)` | 12+16 = **28** | 4+16 = **20** |
+| 查询 | 同上 | 12+16 = **28** | 4+16 = **20** |
+| 今日课程 | LazyColumn `contentPadding(10,10,top=4)` | 10+6 = **16** | 4+8 = **12** |
+| 本周课表 | 无额外内边距 | 0+16 = **16** | 4+8 = **12** |
+
+- 今日 vs 本周：水平本就对齐，**垂直曾差 4dp**（今日页叠了 LazyColumn 的 `top=4dp`）
+  → 本周课表页标题前补 `Spacer(Modifier.height(4.dp))`。
+- 查询与设置同档，**且不能有 subtitle**（多一行小字会把标题整体下移，正是"割裂感"的来源）。
+- ⚠️ 课表组（16dp）与查询/设置组（28dp）之间仍有 12dp 落差，用户只要求**组内**一致。
 
 ### 底栏模糊（`ui/BlurBar.kt`）—— 本轮最难的坑，改动前务必读完
 
@@ -176,6 +241,8 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
    每层用 `CompositingStrategy.Offscreen` + `DstIn` 渐变淡出，底色顶边完全透明。
 
 ⚠️ `Modifier.blur` 内部 `clip = true`，要模糊栏外内容必须改用显式 `RenderEffect`。
+⚠️ MiuiX `NavigationBar` 内部硬编码 `.background(color)`，默认是不透明 `surface`，
+会把磨砂层整个盖住 —— 必须显式传 `color = Color.Transparent` **且** `showDivider = false`。
 
 ### 桌面小组件
 
@@ -187,16 +254,6 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
   扣除固定开销后均分（`setMinimumHeight`），不要用 `wrap_content + minHeight`。
 - 排查：logcat 过滤 tag `flutter :`，关键行 `[AppWidgetHostView] INFLATE path` /
   `_buildWithLayoutParams`。**有 INFLATE 但没有 `_buildWithLayoutParams` = 膨胀被吞 → 查白名单**。
-
-### 教务系统对接
-
-- 入口 `https://jwgl.shzu.edu.cn`，课表页 `https://jwgl.shzu.edu.cn/jsxsd/xskb/xskb_list.do`
-- WebView **双 UA**：移动端 UA 命中移动版登录页；**导入课表时切桌面 UA**让宽表格完整显示。
-- 学期下拉 `select#xnxq01id`，兜底 `#xnm`(学年) × `#xqm`(学期) 联级框。
-- 学期代码统一规范化为 `2026-2027-1`。
-- 静默抓学期列表：读 `CookieManager.getCookie("https://jwgl.shzu.edu.cn")` →
-  `HttpURLConnection` 拉 HTML → Jsoup 解析。
-  ⚠️ **取 Cookie 的 URL 必须带 `/jsxsd` 路径**，否则拿不到登录会话（v1.3.1 修过这个 bug）。
 
 ### 导航
 
@@ -210,20 +267,96 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
 - 二级页用 `SubPageTopBar(title, onBack)`（定义在 `PageHeader.kt`，internal，
   设置页与查询页共用），**返回按钮在页面顶部**。
 
-### 教务查询页（考试安排 / 成绩）
+---
 
-- `QueryKind` 枚举定义三条查询：**label / menuPath / paths（候选地址）**。
+## 5. 教务查询（考试安排 / 课程成绩 / 等级考试成绩）⭐ 改这块前必读
+
+### 数据怎么来的
+
+- `QueryKind` 枚举定义三条查询：**label / menuPath / paths（候选地址）/ menuCall / headerKeywords**。
   教务各校路径不同，`paths` 只取第一个当「直达」，**打不开就让用户在网页里手动点菜单**，
   抓取逻辑不依赖具体地址。
-- 数据获取走 **WebView 抓 HTML**（不是后端 POST）—— 三类查询接口名各校不同、且考试安排
-  需要用户自选学期，写死表单参数容易失效。
-- `JwglQueryParser` 只做**通用表格解析**（优先 `#dataList/.tbllist` 等，兜底取行数最多的表），
-  不做逐字段建模 —— 教务改版也不会解析失败。
-- 结果**只存内存**（`QueryUiState.tables`），不落盘。
+- **后台抓取必须走 WebView 内 JS fetch**（`QueryHtmlFetcher` + `WebViewFetcher`）。
+  ⚠️ `HttpURLConnection` 复用 `CookieManager` 的 Cookie **拿不到 `JSESSIONID`**
+  （教务是多机负载均衡，Cookie 里只有 `SERVERID` / `bzb_njw` / `jsxsd`），
+  请求回来是 164 字节的无 title 空壳页。
+- 教务会话极脆：**连续快速请求会被判定爬虫并踢掉会话**
+  （第 1 个正常、第 2 个起全空壳）。`JwglQueryFetcher.STEP_DELAY_MS = 1200` **不是可选项**。
+- 结果**落盘**在 `files/queries.json`（`QueryStore`），不是只存内存。
+
+### 🔑 三类表的真实表头（2026-09-22 从真机日志实测）
+
+| 表 | 列数 | 表头 |
+|---|---|---|
+| 考试安排 | 13 | 序号 \| 校区 \| 考试校区 \| 考试场次 \| 课程编号 \| 课程名称 \| 授课教师 \| 考试时间 \| 考场 \| 座位号 \| 准考证号 \| 备注 \| 操作 |
+| 课程成绩 | 17 | 序号 \| 开课学期 \| 课程编号 \| 课程名称 \| 成绩 \| 成绩标识 \| 学分 \| 总学时 \| 绩点 \| 补重学期 \| 考核方式 \| 考试性质 \| 课程属性 \| 课程性质 \| 通选课类别 \| 及格重修 \| 说明 |
+| 等级考试 | 11 | 序号 \| 考级课程(等级) \| 分数类成绩 ×4 \| 等级类成绩 ×3 \| 考级开始时间 \| 考级结束时间 |
+
+**取值一律按表头关键词查找，绝不写死列序号** —— 与「不做逐字段建模」的设计一致。
+
+### 两个大坑
+
+#### 坑一：教务用 `0` 表示「这项没有成绩」
+
+不是留空。四六级 0–710、计算机等级 0–100 **不会出现真实的 0 分**，
+所以取「分数类成绩」时必须把 `0` / `-` / `无` / `N/A` 当空跳过（`QueryCards.isRealValue`），
+否则会挑中占位值而真正的分数被丢掉 —— 这就是用户反馈的「分数类成绩 0」。
+
+#### 坑二：等级考试表的第二层表头被写进了 `<tbody>`
+
+该表 thead 只有一行、父列用 `colspan` 铺开（`1+1+4+3+1+1 = 11` 列），
+**真正的子列名（笔试 / 机试 / 总成绩 …）单独占了 `<tbody>` 的第一行**。后果有两个：
+
+1. 那行前两列是空的，第一个非空单元格就是「笔试」→ 界面上凭空多出一条
+   **标题为「笔试」、内容全是「机试 / 总成绩」的空卡片**；
+2. 4 列「分数类成绩」全部同名 → 无法分辨哪一列才有分数 → 退化成"取第一个非空值"
+   → 挑中教务的 `0` 占位。
+
+修法 `JwglQueryParser.repairStrayHeader(headers, rows)`：把那一行**当第二层表头用** ——
+按列号把子名拼到父名后面（`分数类成绩` + `总成绩` → `分数类成绩 / 总成绩`），
+再把它从数据里剔除。**仅在表头存在重名时补名**（那是"子列名丢了"的确定信号），幂等。
+
+⚠️ **这个函数有两个调用点，必须都接上**：`JwglQueryParser.readTable`（新抓取路径）
+和 `QueryStore.sanitize`（读老存档路径）。只接一处会导致"老存档不用刷新也能修好"
+这条承诺落空 —— 2026-09-25 就是因为漏了后者返工了一版。
+
+判据 `isStrayHeaderRow`：非空格 ≥2 **且整行无数字** **且**（行内有复读值 或
+每个值都能在表头里找到）。真数据行几乎必然带序号 / 日期 / 分数，所以"无数字"这条很稳。
+
+### QueryStore 的语义（容易踩）
+
+- `merge` 是**按 (kind, semester) 覆盖式**：不在 `incoming` 里的项**保留旧值**。
+  → 任何「现在没数据」的结论都必须**带一张 0 行的表**写回去，否则旧数据永远清不掉。
+- 落盘必须**原子**（`.tmp` + `renameTo`）。批量抓取跑 2~3 分钟，中途被回收而直接
+  `writeText` → 半截 JSON → 下次加载整个存档归零。
+- `sanitize` 在**读取**时清洗（占位行 + 杂散表头行 + 补名），改了解析器也要改这里，
+  用户不刷新就能看到正确结果。
+
+### 三类结果的排版（`ui/QueryCards.kt`）
+
+- **考试安排**：`考试时间` / `考场` **加粗置顶**；时间经 `formatExamTime()` 重排成
+  `2026年11月28日（第13周周六） 10:00-11:30`（正则逐段替换，一格多场也各自带周次；
+  周次用 `WeekCalc.weekOf()`，**算不出就不标**，不兜底成第 1 周）。
+- **课程成绩**：课程名当标题（Bold 16sp），成绩右对齐放大 22sp 加粗，**不及格标红**
+  （数值 <60；文字制只在明确写「不及格/不合格/未通过」时标红，**别把"合格"标红**）；
+  `开课学期 / 课程编号` 收进底部 11sp 小字脚注。
+- **等级考试**：考级课程当标题加粗；`分数类成绩` / `等级类成绩` **每组只留一条有数据的**；
+  排序 `gradeRowsSorted()` = **CET-4 → CET-6 → NCRE一级 → NCRE二级 → 其他** 为主序，
+  同种类内按 `考级开始时间` **倒序**（与课程成绩页学期 `sortedDescending()` 一致）。
+
+### 看不见用户数据时的诊断技巧
+
+release 包 `run-as` 报 `package not debuggable`，`adb root` 也不可用，
+换成 debug 包签名不同、覆盖安装会**清掉你要查的数据**。
+
+有效办法：`QueryStore.logShape()` 在**读取存档时**把每张表的「形状 + 表头名」
+打一行到 logcat（**只打表头，不打单元格值**；走 `android.util.Log` 不占界面缓冲）。
+用户什么都不用做，**App 一启动**就能读到 —— 解析器的日志只在抓取时打印，
+不刷新就永远是空的。
 
 ---
 
-## 5. 用户偏好（必须遵守）
+## 6. 用户偏好（必须遵守）
 
 - 界面用 **MiuiX 风格**，**不要橙色主题**；**不要无意义的名句 / 引言 / 标语**。
 - **倾向紧凑排版**：标题字号与留白要压，但大标题要保留。
@@ -235,63 +368,104 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
 
 ### 协作方式
 
-- **每次改完必须编译验证**，不能只写代码不构建。
+- **每次改完必须编译验证**（`BUILD SUCCESSFUL` 才算数），不能只写代码不构建。
 - 用户说自己会测试时，**交付并停止**，不要自作主张继续改。
-- 用户反馈非常具体（例如「划到位但还没松手时动画应当已播完」），
-  按字面实现，别自己 reinterpret。
+- 反馈非常具体（「划到位但还没松手时动画应当已播完」），**按字面实现**，别 reinterpret。
+- **会自己验收并推翻参数**（toast 0.5s → 1.2s 就是这样）——别跟测量值争论。
+- 会一次性提一批需求（例如 7 条排版），期望**一次性全部落地**，然后自己逐条验收。
+- 反馈常自带判据（「分数要选有具体分数的，分数一般不为 0」），判据直接可用。
 
 ---
 
-## 6. 调试与验证
+## 7. 构建 / 装机 / 验证
 
 ```bash
 ADB="C:/Users/xutia/WorkBuddy/android-toolchain/android-sdk/platform-tools/adb.exe"
-"$ADB" devices                      # 设备 e87a3fe4
-"$ADB" install -r <apk>
-"$ADB" shell monkey -p com.shzu.superschedule -c android.intent.category.LAUNCHER 1  # 拉起
-"$ADB" shell screencap -p /sdcard/s.png && "$ADB" pull /sdcard/s.png
-"$ADB" shell uiautomator dump /sdcard/ui.xml && "$ADB" pull /sdcard/ui.xml
+"$ADB" devices -l                    # ⚠️ 先确认序列号：本机 e87a3fe4（2410DPN6CC 1440×3200）
+"$ADB" -s <serial> install -r "C:/.../app.apk"
+"$ADB" -s <serial> shell monkey -p com.shzu.superschedule -c android.intent.category.LAUNCHER 1
+"$ADB" -s <serial> logcat -G 16M     # 默认 2 MiB 会被系统噪声冲掉
+"$ADB" -s <serial> logcat -d -v time | grep -E "QueryStore|JwglQueryParser"
 ```
 
-设备参数：屏 1440×3200，density 600；底栏 315px（y = 2885~3200）。
+### 🔴 装机后必须用 md5 核对，不要用字节数
 
+MIUI 下 `adb install -r` **不保证立刻替换**。核对：
+
+```bash
+P=$("$ADB" -s <serial> shell pm path com.shzu.superschedule | sed 's/^package://' | tr -d '\r')
+"$ADB" -s <serial> shell md5sum "$P"     # 与本地产物比对
+```
+
+⚠️ **别比字节数**：v162 / v164 / v165 三个包分别是 15,009,379 / 15,009,375 / 15,009,375，
+**只差 0~4 字节**，字节核对完全失效。想确认"改了代码但包有没有真变"，到 dex 里找新字符串。
+
+### 其它坑
+
+- `adb install` **不认 MSYS 形式路径**（`/c/Users/...` → `failed to stat`），必须写 `C:/Users/...`。
+- **中文文件名**先 `cp` 到纯 ASCII 临时路径再装。
+- 设备**会反复掉线又自己回来**（`device not found`），装机前用重试循环。
+- 设备参数：屏 1440×3200，density 600；底栏 315px（y = 2885~3200）。
 - **toast 不进 `uiautomator dump`**，验证用
   `adb shell dumpsys window windows | grep -ci toast` 高频采样计数。
-- **测滚动帧率要用设置页**，课表页不需要纵向滚动（swipe 不产生重绘）。
-  页面滑到底后 `input swipe` 不产生新帧，必须重启 App 复位。
 - 像素级验证脚本在 `History/scripts/`（`blurcmp.py` / `finalcheck.py` / `sharp.py`）。
-  ⚠️ **跨运行对比会骗人**：`input swipe` 滚动落点每次可能不同，
-  必须先确认两次运行页面统计一致，或用同一张图内「栏上方 vs 栏内」自比。
+  ⚠️ **跨运行对比会骗人**：`input swipe` 滚动落点每次可能不同。
 
 ---
 
-## 7. 发版流程
+## 8. 发版流程
 
 1. 改 `shzu_class_km/app/build.gradle.kts` 的 `versionCode` / `versionName`。
-2. 同时更新 `ui/SettingsPage.kt` 里的 `CHANGELOG`（App 内「关于 → 更新日志」读的就是它）。
+2. 同时更新 `ui/SettingsPage.kt` 的 `APP_VERSION` **和 `CHANGELOG` 列表**
+   （App 内「关于 → 更新日志」读的就是它）—— **两处都要改，只改一处会对不上**。
 3. 构建并确认 `BUILD SUCCESSFUL`。
 4. APK 复制到 **`Backups/`**，命名 `石大超级课表_<versionName>.apk`。
-5. 在 `Backups/` 新增 `版本说明_<版本>.md`（照已有 8 份的格式写），
+5. 在 `Backups/` 新增 `版本说明_<版本>.md`（照已有 9 份的格式写），
    并在 `Backups/README.md` 索引表里补一行。
-6. 视情况更新 `docs/APP使用说明.md`。
+6. 视情况更新 `docs/APP使用说明.md`（用户可见的功能说明）。
+7. 打 annotated tag：`git tag -a BETA-v1.4 -m "..."` → `git push origin <tag>`。
+8. GitHub Release（标 **prerelease**）+ 上传 APK 附件。
+
+### 发版的两个坑
+
+- 🔴 **Release 附件名只能用 ASCII**：GitHub 会**静默丢掉非 ASCII 字符**
+  （实测 `石大超级课表_BETA-v1.3.2.apk` 被存成 `_BETA-v1.3.2.apk`）。
+  附件统一命名 `SHZUSuperSchedule_<版本>.apk`。仓库内文件的中文名不受影响。
+- **本机没有 `gh` CLI**：只能走 GitHub REST API。token 用
+  `printf "protocol=https\nhost=github.com\n\n" | git credential fill` 现取，
+  只在进程内使用、不落盘不打印。
+  ⚠️ 未认证的 `api.github.com` 一律 **403**，那是**速率限制**不是网络问题。
+  ⚠️ 走 urllib 时要显式设代理 `http://127.0.0.1:7897`；
+  代理软件没开时用 `ProxyHandler({})` 显式关闭代理（否则会读不到任何代理配置而连接被拒）。
 
 ---
 
-## 8. 接手后第一件事
+## 9. 接手后第一件事
 
-1. 读 `History/memory/MEMORY.md` —— 项目长期笔记，所有决策依据。
-2. 读 `History/memory/2026-09-19.md` —— 最近一天的完整改动过程。
-3. 读 `Backups/版本说明_BETA-v1.3.2.md` —— 当前版本做了什么。
+1. 读 **`.workbuddy/memory/MEMORY.md`** —— 项目长期笔记（技术栈、红线、各模块模型、
+   教务表头、发版流程）。⚠️ 是 `.workbuddy/` 不是 `History/`（`History/memory/` 只是快照）。
+2. 读最近一篇 `.workbuddy/memory/2026-XX-XX.md` —— 按日期的改动过程与根因分析。
+3. 读 `Backups/版本说明_BETA-v1.4.md` —— 当前版本做了什么。
 4. **先跑一次构建确认环境正常**，再改代码。
 
-需要找历史资料时去 `History/`，索引见 `History/README.md`。
+需要找历史资料时去 `History/`，索引见 [History/README.md](History/README.md)：
+
+| 想找什么 | 去哪 |
+|----------|------|
+| 技术决策的来龙去脉 | `History/memory/` + `.workbuddy/memory/` |
+| 某个功能当初怎么提的 | `History/prompts/用户指令序列.md` |
+| 某次构建为什么失败 | `History/logs/build/`（90 份） |
+| 设备端行为 / logcat / 教务页面 dump | `History/logs/device/` |
+| 某次视觉验证怎么做的 | `History/screenshots/` + `History/scripts/` |
+| 被废弃的 Flutter 版 / Python 爬虫 | `History/legacy/` |
 
 ---
 
-## 9. 上游依赖
+## 10. 上游依赖
 
-- **[MiuiX](https://github.com/compose-miuix-ui/miuix)** —— 本项目整套 UI 组件与视觉风格的基础
-  （`top.yukonga.miuix.kmp:miuix-ui:0.9.3`）。**仓库内不含其源码**；
-  查组件实现 / API 直接去上游仓库，不要往仓库里复制第三方源码。
+- **[MiuiX](https://github.com/compose-miuix-ui/miuix)** —— 本项目**整套 UI 组件与视觉风格**
+  都建立在它之上（依赖 `top.yukonga.miuix.kmp:miuix-ui:0.9.3`）。衷心感谢原作者的开源工作。
 
-想本地留一份参考副本也可以，放在 `reference/`（已在 `.gitignore` 中排除，不会入库）。
+  仓库里**不包含** MiuiX 的源码（`.gitignore` 已排除 `reference/`）；
+  需要查阅组件实现 / API 时直接访问上游仓库，不要往仓库里复制第三方源码。
+  本地若有一份 `reference/` 副本，那是开发期临时参考，不参与构建。

@@ -1,0 +1,25 @@
+﻿日志行数: 66
+> Task :app:lintVitalAnalyzeRelease
+> Task :app:lintVitalReportRelease
+> Task :app:lintVitalRelease
+> Task :app:processReleaseJavaRes
+> Task :app:mergeReleaseJavaResource
+> Task :app:optimizeReleaseResources
+> Task :app:collectReleaseDependencies
+> Task :app:sdkReleaseDependencyData
+> Task :app:validateSigningRelease
+> Task :app:writeReleaseAppMetadata
+> Task :app:writeReleaseSigningConfigVersions
+> Task :app:packageRelease
+> Task :app:createReleaseApkListingFileRedirect
+> Task :app:assembleRelease
+
+[Incubating] Problems report is available at: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 6m 30s
+50 actionable tasks: 50 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.7.1/userguide/configuration_cache_enabling.html
+=== release 产物 ===
+baselineProfiles (0 MB)
+app-release.apk (13.9 MB)
+output-metadata.json (0 MB)

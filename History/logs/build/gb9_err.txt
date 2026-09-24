@@ -1,0 +1,30 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+gradle.bat : 
+所在位置 行:466 字符: 1
++ & "$base\gradle\gradle-9.3.1\bin\gradle.bat" assembleRelease --no-dae ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAILURE: Build failed with an exception.
+
+* Where:
+Settings file 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_app\android\settings.gradle.kts' line: 20
+
+* What went wrong:
+Error resolving plugin [id: 'dev.flutter.flutter-plugin-loader', version: '1.0.0']
+> A problem occurred configuring project ':gradle'.
+   > A build operation failed.
+         java.io.FileNotFoundException: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\9.3.1\transforms\
+df7b42d4d5c87503c10f4049cdd8c436\df7b42d4d5c87503c10f4049cdd8c436.lock (拒绝访问。)
+      > java.io.FileNotFoundException: C:\Users\xutia\WorkBuddy\android-toolchain\gradle-home\caches\9.3.1\transforms\d
+f7b42d4d5c87503c10f4049cdd8c436\df7b42d4d5c87503c10f4049cdd8c436.lock (拒绝访问。)
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 31s

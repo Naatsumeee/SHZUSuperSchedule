@@ -1,0 +1,16 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :app
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/build.gradle.kts:37:28: 'val runtime: String' is deprecated. Specify dependency directly.
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/build.gradle.kts:38:28: 'val foundation: String' is deprecated. Specify dependency directly.
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/build.gradle.kts:39:28: 'val material3: String' is deprecated. Specify dependency directly.
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/build.gradle.kts:40:28: 'val ui: String' is deprecated. Specify dependency directly.
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/build.gradle.kts:41:28: 'val materialIconsExtended: String' is deprecated. This artifact is pinned to version 1.7.3 and will not receive updates. Either use this version explicitly or migrate to Material Symbols (vector resources). See https://kotlinlang.org/docs/multiplatform/whats-new-compose-180.html.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:generateDebugResources
+> Task :app:packageDebugResources
+> Task :app:processDebugNavigationResources

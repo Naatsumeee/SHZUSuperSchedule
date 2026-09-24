@@ -1,0 +1,58 @@
+﻿To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.3.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+gradle.bat : 
+所在位置 行:462 字符: 1
++ & "$base\gradle\gradle-9.3.1\bin\gradle.bat" assembleRelease --no-dae ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAILURE: Build failed with an exception.
+
+* Where:
+Settings file 'C:\Users\xutia\WorkBuddy\SHZUClassList\shzu_class_app\android\settings.gradle.kts' line: 20
+
+* What went wrong:
+Error resolving plugin [id: 'dev.flutter.flutter-plugin-loader', version: '1.0.0']
+> A problem occurred configuring project ':gradle'.
+   > Multiple build operations failed.
+         Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTran
+sform$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTran
+sform$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTran
+sform$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTran
+sform$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTran
+sform$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTran
+sform$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTran
+sform$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTran
+sform$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTran
+sform$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTran
+sform$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         ...and 19 more failures.
+      > Could not isolate parameters org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTrans
+form$Parameters_Decorated@774857da of artifact transform MergeInstrumentationAnalysisTransform
+         > Could not isolate value org.gradle.api.internal.initialization.transform.MergeInstrumentationAnalysisTransfo
+rm$Parameters_Decorated@774857da of type MergeInstrumentationAnalysisTransform.Parameters
+            > A build operation failed.
+                  java.io.FileNotFoundException: C:\Users\xutia\.gradle\caches\9.3.1\transforms\540282fbaf3f844f5e7eae0
+ad054f9df\540282fbaf3f844f5e7eae0ad054f9df.lock (拒绝访问。)
+               > java.io.FileNotFoundException: C:\Users\xutia\.gradle\caches\9.3.1\transforms\540282fbaf3f844f5e7eae0a
+d054f9df\540282fbaf3f844f5e7eae0ad054f9df.lock (拒绝访问。)
+
+* Try:
+> Run the 'artifactTransforms' report task to view details about registered transforms.
+> Review the documentation on Artifact Transforms at https://docs.gradle.org/9.3.1/userguide/artifact_transforms.html.
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 10s

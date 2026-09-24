@@ -6,8 +6,12 @@
 之后离线查看今日课程 / 本周课表，支持桌面小组件与上课提醒。
 
 - 包名：`com.shzu.superschedule`
-- 当前版本：**BETA-v1.3.2**（versionCode 15）
+- 当前版本：**BETA-v1.4**（versionCode 16）
 - 技术栈：**Kotlin + Jetpack Compose（Compose Multiplatform 1.11.1）+ MiuiX 0.9.3**
+- 仓库：https://github.com/Naatsumeee/SHZUSuperSchedule
+
+除课表外，App 还能**从教务系统读取考试安排 / 课程成绩 / 等级考试成绩**——
+导入课表时自动在后台抓取全部学期并落盘，之后离线可查。
 
 ---
 
@@ -18,11 +22,15 @@ SHZUClassList/
 ├── shzu_class_km/      ⭐ 唯一正式工程（Kotlin/Compose），改代码只动这里
 ├── Backups/            📦 每个 release 版本的 APK + 对应改动声明
 ├── History/            🗄️ 全部历史记录（思考链/提示词/日志/截图/旧源码）
-├── docs/               📖 使用说明、示例数据、爬虫说明
-├── tools/              🔧 构建脚本 + 教务爬虫
+├── docs/               📖 使用说明 + 示例课表数据
+├── tools/              🔧 构建脚本（唯一入口 build_km.ps1）+ 依赖下载脚本
+├── .workbuddy/         🧠 当前生效的工作记忆（每日日志 + 项目长期笔记）
 ├── README.md           本文件
 └── PROJECT_PROMPT.md   🤖 交接给其他 Agent 时先看这个
 ```
+
+> 工程根目录**只保留上面这些**；构建日志与调试 dump 一律归入 `History/`，
+> 临时测试 APK 用完即删（正式包在 `Backups/`）。
 
 ---
 
@@ -55,7 +63,7 @@ SHZUClassList/
 
 **位置：工程根目录下的 `Backups/`。**
 
-存放**每一个曾经出过的 release APK**（共 8 个版本），以及每个版本对应的
+存放**每一个曾经出过的 release APK**（共 9 个版本），以及每个版本对应的
 **详细改动声明**。发版规范、版本索引、aapt 校验方法见
 **[Backups/README.md](Backups/README.md)**。
 
@@ -64,38 +72,39 @@ SHZUClassList/
 
 ---
 
-## 功能路线（未上线）
-### 1.加入教务系统常用查询页面
-考试安排
-成绩分数
-专业排名（转专业申请中获取数据）
-空闲教室
+## 功能路线
 
-### 2.加入校园卡余额查询、充值接口
-具体情况还需等待开发确定能否加入
+### ✅ 已上线（BETA-v1.4）
+考试安排、课程成绩、等级考试成绩 —— 三类均在「查询」页，导入课表时自动后台抓取。
 
-### 3.加入更加现代化的UI界面
-例如液态玻璃、Material、预测性返回手势、更精致的模糊、悬浮底栏、接入HyperOS灵动岛通知等等
+### 待办
+- 专业排名（转专业申请中获取数据）、空闲教室；
+- 校园卡余额查询 / 充值接口（需先确认能否接入）；
+- 更现代的 UI：液态玻璃、Material、预测性返回手势、更精致的模糊、悬浮底栏、
+  HyperOS 灵动岛通知等。
 
 ---
 
 ## 构建
 
-### 方式一：脚本（推荐）
+### 方式一：脚本（推荐，唯一入口）
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File tools\build_km_v145.ps1
+powershell -ExecutionPolicy Bypass -File tools\build_km.ps1 -Version 166
+powershell -ExecutionPolicy Bypass -File tools\build_km.ps1 -Variant Debug   # 出 Debug 包
 ```
 
 脚本会设好 `JAVA_HOME` / `ANDROID_HOME` / `ANDROID_SDK_ROOT` / `GRADLE_USER_HOME`
-并清掉代理环境变量，然后跑 `assembleRelease`。日志写到工程根目录 `km_build_v145.txt`。
+并清掉代理环境变量，然后跑 `assembleRelease`。日志写到工程根目录
+`km_build_v<版本>.txt`（**已是 UTF-8，可直接 grep**）。
 
-> ⚠️ **PowerShell `Tee-Object` 写出来的是 UTF-16**，直接 `grep "BUILD SUCCESSFUL"` 会误判。
-> 正确看法：
-> ```bash
-> cat km_build_v145.txt | tr -d '\000' | sed 's/\r//' | grep -E "^e: |BUILD"
-> ```
-> 只看编译错误：`grep -E "^e: " -A3`
+```bash
+grep -E "^e: |BUILD" km_build_v166.txt      # 看编译错误 + 构建结果
+```
+
+⚠️ 经 PowerShell 工具调用时**控制台回显可能为空**，判断结果一律看日志文件。
+⚠️ 改这个 `.ps1` 必须保持 **UTF-8 with BOM**，否则 PS 5.1 按 GBK 解码中文注释会
+吞掉花括号 → 脚本解析失败且**零输出**。
 
 产物：`shzu_class_km/app/build/outputs/apk/release/app-release.apk`
 
@@ -119,11 +128,11 @@ powershell -ExecutionPolicy Bypass -File tools\build_km_v145.ps1
 
 ## 其他工具
 
-- `tools/jwgl_spider.py` —— 教务系统课表爬虫（Python，独立于 App）。
-  依赖见 `tools/requirements.txt`，完整用法见 **[docs/教务爬虫使用说明.md](docs/教务爬虫使用说明.md)**，
+- `tools/download_kotlin_deps.ps1` —— 离线预下载 Kotlin/Compose 依赖。
+- 早期的教务系统 Python 爬虫（`jwgl_spider.py` + `requirements.txt` + 使用说明）
+  已被 App 内的抓取方式取代，**移入 `History/legacy/教务爬虫/` 留档**：
   输出样例见 `docs/课表.json`。
-  ⚠️ 该服务器 TLS 较旧，需用 `curl_cffi` 模拟 Chrome 指纹，标准 `requests` 会握手失败。
-  
+
 ---
 
 ## 声明
@@ -145,7 +154,7 @@ powershell -ExecutionPolicy Bypass -File tools\build_km_v145.ps1
 ## 其他文档
 
 - 用户使用说明：**[docs/APP使用说明.md](docs/APP使用说明.md)**
-- 教务爬虫说明：**[docs/教务爬虫使用说明.md](docs/教务爬虫使用说明.md)**
 - 交接给其他 Agent：**[PROJECT_PROMPT.md](PROJECT_PROMPT.md)**
 - 版本历史与改动：**[Backups/README.md](Backups/README.md)**
 - 全部历史记录：**[History/README.md](History/README.md)**
+- 当前工作记忆：**[.workbuddy/memory/MEMORY.md](.workbuddy/memory/MEMORY.md)**

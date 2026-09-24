@@ -22,6 +22,7 @@
 | `scripts/` | 一次性分析脚本（`blurcmp.py`、`finalcheck.py`、`sharp.py` …） | 想复现某次像素级验证 |
 | `misc/` | 环境探测、下载进度、依赖元数据等零散产物（133 项） | 基本不用看，留档以防万一 |
 | `legacy/` | **已废弃技术栈的源码**：Flutter 版 `lib/`、早期 `app_src/` | 想找回旧版实现细节 |
+| `legacy/教务爬虫/` | 早期 Python 版教务爬虫（已被 App 内抓取取代） | 想用脚本独立抓课表数据 |
 
 ## 阅读顺序建议
 
@@ -35,8 +36,22 @@
 - 每次出包：把构建日志丢进 `logs/build/`，把 APK 丢进 `../Backups/`。
 - 每次排查：截图丢 `screenshots/`、dump 丢 `dumps/`、logcat 丢 `logs/device/`、
   一次性脚本丢 `scripts/`，并在当天 `memory/` 日志里写清结论。
-- **`memory/` 里 `.workbuddy/memory/` 是活的工作区**，`History/memory/` 是 2026-09-19 的快照。
-  后续请以 `.workbuddy/memory/` 为准，重大节点再同步一份到这里。
+- **工程根目录只留"活着的东西"**：构建日志、调试 dump、临时测试 APK 用完即归位或删除，
+  不要堆在根目录（2026-09-25 清理时根目录已堆了 23 份日志 + 12 个临时 APK / 172 MB）。
+- **`memory/` 里 `.workbuddy/memory/` 是活的工作区**，`History/memory/` 是它的快照。
+  后续请以 `.workbuddy/memory/` 为准，重大节点再同步一份到这里
+  （2026-09-25 同步：含 09-21、09-22 日志与 MEMORY.md）。
+
+## 2026-09-25 整理动作留档
+
+| 动作 | 内容 |
+|------|------|
+| 归入 `logs/build/` | 根目录 23 份 `km_build_v145…v166.txt`（现共 90 份） |
+| 归入 `logs/device/` | `wv_frame_exam.html` / `wv_frame_cjcx_frm.html` / `wv_frame_xsdjks_list.html` / `wv_frame_xsksap_query.html` / `wv_wv.txt`（排查教务页面结构时 dump 的 iframe HTML） |
+| 归入 `dumps/` | `uiautomator_根.xml` |
+| 归入 `screenshots/` | `root_c.png` / `root_r1.png` |
+| 归入 `legacy/教务爬虫/` | `tools/jwgl_spider.py` + `tools/requirements.txt` + `docs/教务爬虫使用说明.md` |
+| **已删除** | 根目录 12 个 `石大超级课表_教务查询测试版_v*.apk`（172 MB，正式包在 `../Backups/`） |
 
 ## 注意
 

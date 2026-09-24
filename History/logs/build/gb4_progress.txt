@@ -1,0 +1,24 @@
+﻿大小 KB: 2.2
+=== 尾部 20 行 ===
+Solution: Remove both `android.builtInKotlin=true` and `android.newDsl=false` from `gradle.properties`, then migrate to built-in Kotlin.
+See https://kotl.in/gradle/agp-built-in-kotlin for more details.
+
+Checking the license for package Android SDK Platform-Tools in C:\Users\xutia\WorkBuddy\android-toolchain\android-sdk\licenses
+License for package Android SDK Platform-Tools accepted.
+Preparing "Install Android SDK Platform-Tools v.37.0.1".
+"Install Android SDK Platform-Tools v.37.0.1" ready.
+Installing Android SDK Platform-Tools in C:\Users\xutia\WorkBuddy\android-toolchain\android-sdk\platform-tools
+"Install Android SDK Platform-Tools v.37.0.1" complete.
+"Install Android SDK Platform-Tools v.37.0.1" finished.
+
+> Task :app:ReleaseMinSdkCheck
+> Task :app:validateCompileSdkVersion
+> Task :app:preBuild
+> Task :app:preReleaseBuild
+
+> Task :app:configureCMakeRelease[arm64-v8a]
+Checking the license for package CMake 3.22.1 in C:\Users\xutia\WorkBuddy\android-toolchain\android-sdk\licenses
+License for package CMake 3.22.1 accepted.
+Preparing "Install CMake 3.22.1 v.3.22.1".
+=== APK ===
+app-release.apk: False

@@ -1,0 +1,8 @@
+﻿build_out.txt 大小 KB: 0
+~/.gradle 存在: False
+项目 android/.gradle 存在: False
+build 目录存在: False
+dart 进程: 2
+java 进程: 0
+=== gradle wrapper 下载 ===
+gradle, gradlew, gradlew.bat, wrapper, gradle-wrapper.jar

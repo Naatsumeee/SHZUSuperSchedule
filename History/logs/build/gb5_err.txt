@@ -1,0 +1,35 @@
+﻿  	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+  	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:47)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+  	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+  	at java.base/java.lang.Thread.run(Thread.java:840)
+  Caused by: com.android.ide.common.process.ProcessException: Error while executing process C:\Users\xutia\WorkBuddy\an
+droid-toolchain\android-sdk\cmake\3.22.1\bin\cmake.exe with arguments {-HC:\Users\xutia\WorkBuddy\android-toolchain\flu
+tter\packages\flutter_tools\gradle\src\main\scripts -DCMAKE_SYSTEM_NAME=Android -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCM
+AKE_SYSTEM_VERSION=24 -DANDROID_PLATFORM=android-24 -DANDROID_ABI=armeabi-v7a -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a -DAN
+DROID_NDK=C:\Users\xutia\WorkBuddy\android-toolchain\android-sdk\ndk\28.2.13676358 -DCMAKE_ANDROID_NDK=C:\Users\xutia\W
+orkBuddy\android-toolchain\android-sdk\ndk\28.2.13676358 -DCMAKE_TOOLCHAIN_FILE=C:\Users\xutia\WorkBuddy\android-toolch
+ain\android-sdk\ndk\28.2.13676358\build\cmake\android.toolchain.cmake -DCMAKE_MAKE_PROGRAM=C:\Users\xutia\WorkBuddy\and
+roid-toolchain\android-sdk\cmake\3.22.1\bin\ninja.exe -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=C:\Users\xutia\WorkBuddy\SHZUCla
+ssList\shzu_class_app\build\app\intermediates\cxx\release\66j222b4\obj\armeabi-v7a -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=C:\
+Users\xutia\WorkBuddy\SHZUClassList\shzu_class_app\build\app\intermediates\cxx\release\66j222b4\obj\armeabi-v7a -BC:\Us
+ers\xutia\WorkBuddy\SHZUClassList\shzu_class_app\build\.cxx\release\66j222b4\armeabi-v7a -GNinja -Wno-dev --no-warn-unu
+sed-cli -DCMAKE_BUILD_TYPE=release}
+  	at com.android.build.gradle.internal.process.GradleProcessResult.buildProcessException(GradleProcessResult.java:73)
+  	at com.android.build.gradle.internal.process.GradleProcessResult.assertNormalExitValue(GradleProcessResult.java:48)
+  	at com.android.build.gradle.internal.cxx.process.ExecuteProcessKt.execute(ExecuteProcess.kt:258)
+  	... 147 more
+  Caused by: org.gradle.process.ProcessExecutionException: Process 'command 'C:\Users\xutia\WorkBuddy\android-toolchain
+\android-sdk\cmake\3.22.1\bin\cmake.exe'' finished with non-zero exit value 1
+  	at org.gradle.process.internal.DefaultExecHandle$ExecResultImpl.assertNormalExitValue(DefaultExecHandle.java:454)
+  	at com.android.build.gradle.internal.process.GradleProcessResult.assertNormalExitValue(GradleProcessResult.java:46)
+  	... 148 more
+
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 44s

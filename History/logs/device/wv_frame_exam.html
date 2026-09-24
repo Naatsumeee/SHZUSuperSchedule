@@ -1,0 +1,298 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head id="headerid1">
+	<base target="_self">
+	<title>我的考试 - 考试安排查询</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="keywords" content="湖南强智科技教务系统">
+	<meta http-equiv="description" content="湖南强智科技教务系统">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8">
+<script type="text/javascript" src="/jsxsd/js/jquery-min.js" language="javascript"></script>
+<script type="text/javascript" src="/jsxsd/js/common.js" language="javascript"></script>
+<script type="text/javascript" src="/jsxsd/js/iepngfix_tilebg.js" language="javascript"></script>
+
+<script type="text/javascript" src="/jsxsd/js/jquery.autocomplete.min.js" language="javascript"></script>
+<script type="text/javascript" src="/jsxsd/assets/js/jquery.min.js"></script>
+<script t
+ype="text/javascript" src="/jsxsd/assets/plugins/layui/laydate.js"></script><link rel="stylesheet" href="https://jwgl.shzu.edu.cn/jsxsd/assets/plugins/layui/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+<script src="/jsxsd/assets/plugins/layui/layui.all.js"></script><link id="layuicss-layer" rel="stylesheet" href="https://jwgl.shzu.edu.cn/jsxsd/assets/plugins/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all"><link id="layuicss-skincodecss" rel="stylesheet" href="https://jwgl.shzu.edu.cn/jsxsd/assets/plugins/layui/css/modules/code.css" media="all">
+<script type="text/javascript" src="/jsxsd/js/jquery.autocomplete.min.js"></script>
+<script type="text/javascript" src="/jsxsd/assets/plugins/pagination/pagination.js" language="javascript"></script>
+
+	<link href="/jsxsd/framework/images/common.css" rel="stylesheet" type="text/css">
+
+<link href="/jsxsd/framework/images/
+blue.css" rel="stylesheet" type="text/css" id="link_theme">
+<link href="/jsxsd/framework/images/workstation.css" rel="stylesheet" type="text/css">
+<link href="/jsxsd/css/easyui.css" rel="stylesheet" type="text/css">
+<link href="/jsxsd/css/jquery.autocomplete.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/css/modules/reset-table-style.css">
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/css/common.css">
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/css/ui.css">
+
+	<link rel="stylesheet" type="text/css" href="/jsxsd/assets/plugins/layui/layui.css">
+
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/plugins/layui/laydate.css">
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/plugins/pagination/pagination.css">
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/css/modules/timetable-inquire
+.css">
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/css/modules/query-condition-div.css">
+</head>
+<body style="height: 800px;"><iframe id="notSession" name="notSession" style="display: none;" src=""></iframe>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	window.setInterval(function(){
+		 document.getElementById("notSession").src = "/jsxsd/framework/blankPage.jsp";
+	 }, 1000 * 60 * 10);
+
+
+});
+</script>
+
+
+<style type="text/css">
+
+	.search-form-content {
+		width: 100%;
+		padding: 12px 24px 0px 0px;
+		min-height: 32px;
+		float: left;
+
+	}
+	.search-line {
+		width:248px;
+		height: 32px;
+		/*line-height: 32px;*/
+		margin-left: 24px;
+		margin-bottom: 12px;
+		display: flex;
+		align-items: center;
+		float:left;
+	}
+	.search-line-label {
+		float:left;
+		width: 48px;
+		font-size: 12px;
+		height: 32px;
+		/*line-height: 32px;*/
+		text-align: right;
+		display: flex;
+		
+align-items: center;
+		justify-content: flex-end;
+	}
+	.search-line-input {
+		width: 190px;
+		margin-left: 10px;
+		float:left;
+
+	}
+	.search-line-button {
+		width:248px;
+		height: 32px;
+		line-height: 32px;
+		margin-left: 22px;
+		margin-bottom: 16px;
+		float:right;
+		text-align: right;
+	}
+</style>
+
+
+ 
+<div class="Nsb_pw">   
+	
+
+
+
+
+
+
+
+ 
+	
+	<div class="Nsb_layout_r">
+	<div class="Nsb_layout_r title">考试安排查询</div>
+	<form action="/jsxsd/xsks/xsksap_list" name="ksapQueryForm" id="ksapQueryForm" method="post" target="fcenter">
+		<input type="hidden" id="xqlbmc" name="xqlbmc" value="">
+		<div class="search-form-content" id="search-form-content">
+			<div class="search-line">
+				<div class="search-line-label"><span>学年学期</span></div>
+				<div class="search-line-input">
+					<select id="xnxqid" name="xnxqid" style="width: 190px;">
+						
+							<option value="2026-2027-2">2026-2027-2</option>
+						
+							<option selected="" value="2026-2027-1">2026-2027-1</option>
+						
+							<option value="2025-2026-2">2025-2026-2</option>
+						
+							<option value="2025-2026-1">2025-2026-1</option>
+						
+							<option value="2024-2025-2">2024-2025-2</option>
+						
+							<option value="2024-2025-1">2024-2025-1</option>
+						
+							<option value="2023-2024-2">2023-2024-2</option>
+						
+							<option value="2023-2024-1">2023-2024-1</option>
+						
+							<option value="2022-2023-2">2022-2023-2</option>
+						
+							<option value="2022-2023-1">2022-2023-1</option>
+						
+							<option value="2021-2022-2">2021-2022-2</option>
+						
+							<option value="2021-2022-1">2021-2022-1</option>
+						
+							<option value="2020-2021-2">2020-2021-2</option>
+						
+							<option value="2020-2021-1">2020-2021-1</option>
+						
+							<option value="2019-2020-2">2019-2020-2</option>
+						
+						
+	<option value="2019-2020-1">2019-2020-1</option>
+						
+							<option value="2018-2019-2">2018-2019-2</option>
+						
+							<option value="2018-2019-1">2018-2019-1</option>
+						
+							<option value="2017-2018-2">2017-2018-2</option>
+						
+							<option value="2017-2018-1">2017-2018-1</option>
+						
+							<option value="2016-2017-2">2016-2017-2</option>
+						
+							<option value="2016-2017-1">2016-2017-1</option>
+						
+							<option value="2015-2016-2">2015-2016-2</option>
+						
+							<option value="2015-2016-1">2015-2016-1</option>
+						
+							<option value="2014-2015-2">2014-2015-2</option>
+						
+							<option value="2014-2015-1">2014-2015-1</option>
+						
+							<option value="2013-2014-2">2013-2014-2</option>
+						
+							<option value="2013-2014-1">2013-2014-1</option>
+						
+							<option value="2012-2013-2">2012-2013-2</option>
+						
+							<option value="20
+12-2013-1">2012-2013-1</option>
+						
+							<option value="2011-2012-2">2011-2012-2</option>
+						
+							<option value="2011-2012-1">2011-2012-1</option>
+						
+							<option value="2010-2011-2">2010-2011-2</option>
+						
+							<option value="2010-2011-1">2010-2011-1</option>
+						
+							<option value="2009-2010-2">2009-2010-2</option>
+						
+							<option value="2009-2010-1">2009-2010-1</option>
+						
+							<option value="2008-2009-2">2008-2009-2</option>
+						
+							<option value="2008-2009-1">2008-2009-1</option>
+						
+							<option value="2007-2008-2">2007-2008-2</option>
+						
+							<option value="2007-2008-1">2007-2008-1</option>
+						
+							<option value="2006-2007-2">2006-2007-2</option>
+						
+							<option value="2006-2007-1">2006-2007-1</option>
+						
+							<option value="2005-2006-2">2005-2006-2</option>
+						
+							<option value="2005-2006-1">2005-20
+06-1</option>
+						
+							<option value="2004-2005-2">2004-2005-2</option>
+						
+							<option value="2004-2005-1">2004-2005-1</option>
+						
+							<option value="2003-2004-2">2003-2004-2</option>
+						
+							<option value="2003-2004-1">2003-2004-1</option>
+						
+							<option value="2002-2003-2">2002-2003-2</option>
+						
+							<option value="2002-2003-1">2002-2003-1</option>
+						
+							<option value="2001-2002-2">2001-2002-2</option>
+						
+							<option value="2001-2002-1">2001-2002-1</option>
+						
+							<option value="2000-2001-2">2000-2001-2</option>
+						
+							<option value="2000-2001-1">2000-2001-1</option>
+						
+							<option value="1999-2000-2">1999-2000-2</option>
+						
+							<option value="1999-2000-1">1999-2000-1</option>
+						
+					</select>
+				</div>
+			</div>
+			
+			<div class="search-line">
+				<div class="search-line-label"><span>学期类别</span></
+div>
+				<div class="search-line-input">
+					<select id="xqlb" name="xqlb" style="width: 190px;">
+						<option value="">---请选择---</option>
+						
+							<option value="1">期初</option>
+						
+							<option value="2">期中</option>
+						
+							<option value="3">期末</option>
+						
+					</select>
+				</div>
+			</div>
+			
+			<div class="search-line-button">
+				<div class="search-line-label"><span></span></div>
+				<div class="search-line-input">
+					<button type="button" id="btn_query" onclick="queryKsap()" class="opt-btn opt-b-btn"><i class="iconfont icon-search"></i>查 询</button>
+				</div>
+			</div>
+		</div>
+
+	</form>
+	</div>
+</div>
+<div id="frameView" style="width:100%;HEIGHT:88%">
+		<iframe frameborder="0" id="fcenter" name="fcenter" style="HEIGHT:100%;width:100%;" scrolling="auto"></iframe> 
+</div> 
+ 
+<script language="javascript">
+
+	queryKsap();
+function queryKsap() {
+	if(jQuery("#xq
+lb").val() != "") {
+		jQuery("#xqlbmc").val(jQuery("#xqlb option:selected").text());
+	}
+	document.forms["ksapQueryForm"].action = "/jsxsd/xsks/xsksap_list";
+	document.forms["ksapQueryForm"].submit();
+}
+loadjs();
+function loadjs(){
+if( ''!=''){
+alert('');
+}
+
+}
+</script>
+
+</body></html>
+调用 kjcdShow(/xsks/xsksap_query) -> ok
+在 iframe[xsksap_query] 内提交查询 -> frame=2 src=https://jwgl.shzu.edu.cn/jsxsd/xsks/xsksap_query | ctl=SELECT#xnxqid | form=ksapQueryForm action=/jsxsd/xsks/xsksap_list method=post | setSem=ok | submit=form

@@ -1,0 +1,149 @@
+﻿Starting a Gradle Daemon, 3 busy and 1 incompatible and 2 stopped Daemons could not be reused, use --status for details
+
+> Configure project :app
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/build.gradle.kts:37:28: 'val runtime: String' is deprecated. Specify dependency directly.
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/build.gradle.kts:38:28: 'val foundation: String' is deprecated. Specify dependency directly.
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/build.gradle.kts:39:28: 'val material3: String' is deprecated. Specify dependency directly.
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/build.gradle.kts:40:28: 'val ui: String' is deprecated. Specify dependency directly.
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/build.gradle.kts:41:28: 'val materialIconsExtended: String' is deprecated. This artifact is pinned to version 1.7.3 and will not receive updates. Either use this version explicitly or migrate to Material Symbols (vector resources). See https://kotlinlang.org/docs/multiplatform/whats-new-compose-180.html.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:generateDebugResources
+> Task :app:packageDebugResources
+> Task :app:processDebugNavigationResources
+> Task :app:parseDebugLocalResources
+> Task :app:generateDebugRFile
+
+> Task :app:compileDebugKotlin
+w: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/app/src/main/java/com/shzu/classlist/ui/ImportPage.kt:112:38 'var databaseEnabled: Boolean' is deprecated. Deprecated in Java.
+
+> Task :app:javaPreCompileDebug
+> Task :app:compileDebugJavaWithJavac NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugAssets
+> Task :app:compressDebugAssets
+> Task :app:generateDebugGlobalSynthetics
+> Task :app:l8DexDesugarLibDebug
+> Task :app:processDebugJavaRes
+> Task :app:mergeDebugJavaResource
+> Task :app:checkDebugDuplicateClasses
+> Task :app:desugarDebugFileDependencies
+> Task :app:mergeExtDexDebug
+> Task :app:mergeLibDexDebug
+> Task :app:checkDebugAarMetadata FAILED
+
+[Incubating] Problems report is available at: file:///C:/Users/xutia/WorkBuddy/SHZUClassList/shzu_class_km/build/reports/problems/problems-report.html
+gradle.bat : 
+所在位置 行:460 字符: 1
++ & "$base\gradle\gradle-9.7.1\bin\gradle.bat" assembleDebug --console= ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:checkDebugAarMetadata' (registered by plugin 'com.android.internal.application').
+> A failure occurred while executing com.android.build.gradle.internal.tasks.CheckAarMetadataWorkAction
+   > 6 issues were found when checking AAR metadata:
+     
+       1.  Dependency 'top.yukonga.miuix.kmp:miuix-preference-android:0.9.3' requires libraries and applications that
+           depend on it to compile against version 37 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-36.
+     
+           Recommended action: Update this project to use a newer compileSdk
+           of at least 37, for example 37.2.
+     
+           Note that updating a library or application's compileSdk (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdk (which opts the app in to new runtime behavior) and
+           minSdk (which determines which devices the app can be installed
+           on).
+     
+       2.  Dependency 'top.yukonga.miuix.kmp:miuix-ui-android:0.9.3' requires libraries and applications that
+           depend on it to compile against version 37 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-36.
+     
+           Recommended action: Update this project to use a newer compileSdk
+           of at least 37, for example 37.2.
+     
+           Note that updating a library or application's compileSdk (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdk (which opts the app in to new runtime behavior) and
+           minSdk (which determines which devices the app can be installed
+           on).
+     
+       3.  Dependency 'top.yukonga.miuix.kmp:miuix-icons-android:0.9.3' requires libraries and applications that
+           depend on it to compile against version 37 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-36.
+     
+           Recommended action: Update this project to use a newer compileSdk
+           of at least 37, for example 37.2.
+     
+           Note that updating a library or application's compileSdk (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdk (which opts the app in to new runtime behavior) and
+           minSdk (which determines which devices the app can be installed
+           on).
+     
+       4.  Dependency 'top.yukonga.miuix.kmp:miuix-core-android:0.9.3' requires libraries and applications that
+           depend on it to compile against version 37 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-36.
+     
+           Recommended action: Update this project to use a newer compileSdk
+           of at least 37, for example 37.2.
+     
+           Note that updating a library or application's compileSdk (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdk (which opts the app in to new runtime behavior) and
+           minSdk (which determines which devices the app can be installed
+           on).
+     
+       5.  Dependency 'top.yukonga.miuix.kmp:miuix-squircle-android:0.9.3' requires libraries and applications that
+           depend on it to compile against version 37 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-36.
+     
+           Recommended action: Update this project to use a newer compileSdk
+           of at least 37, for example 37.2.
+     
+           Note that updating a library or application's compileSdk (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdk (which opts the app in to new runtime behavior) and
+           minSdk (which determines which devices the app can be installed
+           on).
+     
+       6.  Dependency 'top.yukonga.miuix.kmp:miuix-shader-android:0.9.3' requires libraries and applications that
+           depend on it to compile against version 37 or later of the
+           Android APIs.
+     
+           :app is currently compiled against android-36.
+     
+           Recommended action: Update this project to use a newer compileSdk
+           of at least 37, for example 37.2.
+     
+           Note that updating a library or application's compileSdk (which
+           allows newer APIs to be used) can be done separately from updating
+           targetSdk (which opts the app in to new runtime behavior) and
+           minSdk (which determines which devices the app can be installed
+           on).
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 6m 22s
+18 actionable tasks: 18 executed
