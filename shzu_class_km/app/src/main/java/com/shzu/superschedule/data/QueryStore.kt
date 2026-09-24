@@ -85,11 +85,14 @@ object QueryStore {
      *    「未查询到数据」。早期版本的解析器没滤它，于是「考试安排本来没有」
      *    被当成 1 条记录存了下来。清在**读取**这一步，老用户不点刷新也能立刻看到正确结果，
      *    不用等下一次抓取覆盖。
-     * 2. 漏进数据区的**第二层表头行** —— 等级考试成绩表的名字/子列名行。
+     * 2. 漏进数据区的**第二层表头行** —— 等级考试成绩表的子列名行。
      *    它的前两列是空的，第一个非空单元格是「笔试」，于是界面上凭空多出一条
      *    标题为「笔试」、内容全是「机试 / 总成绩」的空卡片（用户反馈的问题）。
      *    这类行是修复解析器**之前**抓进存档的，光改解析器救不了老数据，
-     *    必须在这里一起清掉。
+     *    必须在读取时一起处理。
+     *    处理走 [JwglQueryParser.repairStrayHeader]：**既剔除该行，又把它的子列名
+     *    补回重名的父列**（`分数类成绩` → `分数类成绩 / 总成绩`），
+     *    否则 4 列同名的「分数类成绩」在界面上无法分辨。
      *
      * 只删行、不删条目：条目留着（0 行），界面才会显示「未查询到数据」，
      * 而不是「尚未获取」——这两者对用户的意义不一样。
@@ -97,22 +100,35 @@ object QueryStore {
     private fun sanitize(archive: Archive): Archive {
         var placeholder = 0
         var strayHeader = 0
+        var renamed = 0
         val cleaned = archive.entries.map { t ->
-            val rows = t.rows.filterNot { row ->
-                val drop = JwglQueryParser.isPlaceholderRow(row) ||
-                    JwglQueryParser.isStrayHeaderRow(row, t.headers)
-                if (drop) {
-                    if (JwglQueryParser.isPlaceholderRow(row)) placeholder++ else strayHeader++
-                }
+            val kept = t.rows.filterNot { row ->
+                val drop = JwglQueryParser.isPlaceholderRow(row)
+                if (drop) placeholder++
                 drop
             }
-            if (rows.size == t.rows.size) t else t.copy(rows = rows)
+            // ⚠️ 第二层表头行走 repairStrayHeader，**不要**在这里自己用
+            //    isStrayHeaderRow 过滤掉：那个函数不只是剔除，还要用该行的
+            //    子列名把重名的父列补全（`分数类成绩` → `分数类成绩 / 总成绩`）。
+            //    只剔除不补名的话，4 列同名的「分数类成绩」在界面上无法分辨，
+            //    取值又会退化成"取第一个非空列"从而挑中教务的 0 占位值。
+            val (headers, rows) = JwglQueryParser.repairStrayHeader(t.headers, kept)
+            if (rows.size != kept.size) strayHeader += kept.size - rows.size
+            if (headers != t.headers) renamed++
+            if (headers == t.headers && rows.size == t.rows.size) {
+                t
+            } else {
+                t.copy(headers = headers, rows = rows)
+            }
         }
         if (placeholder > 0) {
             AppLog.i("QueryStore", "存档清理：移除 $placeholder 行「未查询到数据」占位记录")
         }
         if (strayHeader > 0) {
             AppLog.i("QueryStore", "存档清理：移除 $strayHeader 行误入数据区的表头记录")
+        }
+        if (renamed > 0) {
+            AppLog.i("QueryStore", "存档清理：补回 $renamed 张表丢失的子列名")
         }
         return archive.copy(entries = cleaned)
     }
