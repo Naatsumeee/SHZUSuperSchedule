@@ -177,7 +177,10 @@ shzu_class_km/app/src/main/java/com/shzu/superschedule/
 │   ├── WebViewFetcher.kt    1×1 不可见 WebView，供后台抓取发请求
 │   ├── TodayPage.kt         今日课程
 │   ├── WeekPage.kt          本周课表（HorizontalPager 切周，日期条在页内）
-│   ├── SettingsPage.kt      设置页（含 App 内 CHANGELOG）
+│   ├── SettingsPage.kt      设置页入口 + 主列表（2026-09-25 由单文件拆分而来）
+│   ├── SettingsStylePage.kt 设置 → 自定义课表样式（二级页）+ 配色组件
+│   ├── SettingsChangelogPage.kt 设置 → 关于 → 更新日志 / 运行日志（**CHANGELOG 在此**）
+│   ├── SettingsCommon.kt    设置各页共用控件（SliderRow/SwitchRow/ConfirmDialog…）
 │   ├── BlurBar.kt           ⭐ 底栏真实背景模糊（三层图层方案，别乱改）
 │   ├── PageStack.kt         自研页面栈 + AnimatedContent 过渡
 │   ├── PageHeader.kt        大标题 / SectionTitle / SubPageTopBar
@@ -434,7 +437,7 @@ P=$("$ADB" -s <serial> shell pm path com.shzu.superschedule | sed 's/^package://
 1. 改 `shzu_class_km/app/build.gradle.kts` 的 `versionCode` / `versionName`
    —— **这是版本号的唯一真值**。「关于」页显示的版本号经 `BuildConfig.VERSION_NAME`
    自动取自 `versionName`（2026-09-25 起），不必也不能再手改 `SettingsPage`。
-2. 在 `ui/SettingsPage.kt` 的 `CHANGELOG` 列表**顶部加一条本版本**（列表第一个
+2. 在 `ui/SettingsChangelogPage.kt` 的 `CHANGELOG` 列表**顶部加一条本版本**（列表第一个
    必须是最新版本，界面按顺序渲染）。**只有这一处需要手动更新**。
 3. 构建并确认 `BUILD SUCCESSFUL`。
 4. 新增 `Backups/版本说明_<版本>.md`（照已有格式写，**含字节数与 sha256**），

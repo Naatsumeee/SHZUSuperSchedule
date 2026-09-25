@@ -239,6 +239,26 @@ Compose 没有「背景模糊」修饰符，`RenderEffect` 只糊自己这层 �
   （`石大超级课表_BETA-v1.3.2.apk` 存成 `_BETA-v1.3.2.apk`）。
   附件统一命名 `SHZUSuperSchedule_<版本>.apk`。仓库内文件的中文名不受影响
 
+## 设置页拆分（2026-09-25）
+原 `ui/SettingsPage.kt` **1755 行**（全项目最大），按内聚性拆成 4 个：
+| 文件 | 内容 |
+|---|---|
+| `SettingsPage.kt`（565 行） | 常量、`Page` 枚举、`SettingsUiState`、入口、`MainSettings` 主列表 |
+| `SettingsStylePage.kt`（769） | `CustomStylePage` + 全部配色组件 |
+| `SettingsChangelogPage.kt`（347） | `LogItem` + **`CHANGELOG`** + 更新日志页 + 运行日志页 |
+| `SettingsCommon.kt`（327） | 各页共用：`SliderRow`/`SwitchRow`/`MiuixDropdownRow`/`ConfirmDialog`/`SemesterDialog`/日期选择/通知设置/剪贴板 |
+
+- **纯搬移，函数体一行未改**；唯一代码改动是跨文件复用的 11 个函数可见性
+  `private` → `internal`（通用件 8 个 + 三个二级页入口）。
+- 验证方式是 dex 对账而非"看着对"：拆分前后 `$$ExternalSyntheticLambda`
+  数量 **117 = 117**（只是从 `SettingsPageKt` 分散到 4 个文件：
+  42+48+16+11），全 APK 总 lambda 4675 两边一致。
+- ⚠️ 判据提醒：拆文件后**文件名会变**，于是字符串统计里
+  `ChangelogPage` 会从 5 涨到 59（多出的是文件名 `SettingsChangelogPageKt` 的子串）、
+  `SettingsPageKt` 从 312 降到 112。**别把文件名子串当成函数计数**，
+  要比就比 lambda 总数与函数名本身。
+- 🔴 **发版改 `CHANGELOG` 的位置变了**：现在在 `SettingsChangelogPage.kt`。
+
 ## 工程目录约定（2026-09-25 整理后）
 - **根目录只留"活着的东西"**：`shzu_class_km/` `Backups/` `History/` `docs/` `tools/`
   `reference/`、`Icon-256.ico`、`README.md`、`PROJECT_PROMPT.md`、` .gitignore`、`.workbuddy/`
