@@ -22,6 +22,10 @@ powershell -ExecutionPolicy Bypass -File tools/build_km.ps1 -Version 162   # Rel
 powershell -ExecutionPolicy Bypass -File tools/build_km.ps1 -Variant Debug
 ```
 `-Version` 可写 `160`/`v160`，省略用时间戳；日志 `km_build_v<tag>[_debug].txt`（干净 UTF-8，可直接 grep）。
+⚠️ **脚本的工程根由自身位置推出**（2026-09-25 改）—— 本机有**两份独立克隆**
+（`C:\Users\xutia\WorkBuddy\SHZUClassList` 与 `E:\Projects\SHZUClassList`），
+原先硬编码 `C:` 会导致「改了 E:、构建的却是 C:」。现在在哪份里调用就作用于哪份。
+`$PSScriptRoot` 在 PS 5.1 某些调用下为空，必须用 `$MyInvocation.MyCommand.Path` 兜底。
 - **判断构建结果一律看日志文件**（`grep -E "^e: |BUILD" km_build_v<N>.txt`）——
   经 PowerShell 工具调用时**控制台回显是空的**，但日志正常，别被空 stdout 骗了。
 - ⚠️ 改这个 `.ps1` 必须保持 **UTF-8 with BOM**：无 BOM 时 PS 5.1 按 GBK 解码中文注释，
@@ -30,6 +34,24 @@ powershell -ExecutionPolicy Bypass -File tools/build_km.ps1 -Variant Debug
 - 日志用「捕获后 `Out-File -Encoding utf8`」，**不要用 `Tee-Object`**（无 `-Encoding`，落盘 UTF-16）。
 - 结尾打印 APK 路径与字节数，装机时拿它核对 base.apk 是否真被替换。
 - `tools/build_apk.ps1`（Flutter 时代失效脚本）**2026-09-22 已删除**。
+
+## 单元测试（2026-09-25 新增）
+`powershell -ExecutionPolicy Bypass -File tools/test_km.ps1` → 30 用例，约 15 秒、不需要设备。
+- 覆盖 `JwglQueryParser`（占位行 / 第二层表头补名及幂等 / 挑表 / 安全阀 / rowspan 列对齐）
+  与 `WeekCalc`（教学周、`currentWeek` 给出错兜底 1 而 `weekOf` 给 null 的差异）。
+- 夹具 `app/src/test/resources/jwgl/`：四份真机抓包 + `exam_grade_reconstructed.html`
+  （等级考试结果 iframe 当时没落盘，按文档结构复刻；拿到真抓包应直接替换）。
+- 🔴 **为了让 JVM 测试能跑，新增 `data/Logger.kt` 薄封装**（`LogcatLogger` / `NoopLogger`）。
+  纯逻辑模块**不要直接 `import android.util.Log`** —— android.jar 里方法体全是 `Stub!`，
+  JVM 测试一调用就抛异常，于是最该测的逻辑反而测不了。
+  注意 `androidx.window.core` 里也有个 `AndroidLogger`，所以本项目叫 `LogcatLogger` 避免混淆。
+- 🔴 **写测试当场发现并已修的问题**：`grade` 关键词原含 `考级课程`，
+  而「社会考试报名」页表头有 `考级课程名称` → 子串命中，会把报名页当成绩返回
+  （字段是报名金额/审核状态）。生产暂时没爆只因 `JwglQueryFetcher` 先按 iframe `src`
+  锁定目标页，但**第二道保险自身是漏的**。
+  **已修**：GRADE 关键词收紧为 `等级类成绩` / `分数类成绩`（该表独有的父列名）。
+  🔑 教训：`QueryKind.headerKeywords` 三组**必须互不为子串** ——
+  已加不变式测试 `三类查询的表头关键词互不为子串` 自动守，改关键词会被拦住。
 
 ## 页面大标题对齐（2026-09-22 定稿）
 `PageHeader(title, subtitle, fontSize, horizontalPadding, miuixDefault)`：
@@ -149,6 +171,10 @@ Compose 没有「背景模糊」修饰符，`RenderEffect` 只糊自己这层 �
 | 考试安排 | 13 | 序号 \| 校区 \| 考试校区 \| 考试场次 \| 课程编号 \| 课程名称 \| 授课教师 \| 考试时间 \| 考场 \| 座位号 \| 准考证号 \| 备注 \| 操作 |
 | 课程成绩 | 17 | 序号 \| 开课学期 \| 课程编号 \| 课程名称 \| 成绩 \| 成绩标识 \| 学分 \| 总学时 \| 绩点 \| 补重学期 \| 考核方式 \| 考试性质 \| 课程属性 \| 课程性质 \| 通选课类别 \| 及格重修 \| 说明 |
 | 等级考试 | 11 | 序号 \| 考级课程(等级) \| 分数类成绩 ×4 \| 等级类成绩 ×3 \| 考级开始时间 \| 考级结束时间 |
+
+⚠️ `headerKeywords` 三组**必须互不为子串**（`考场…` / `学分·绩点` / `等级类成绩·分数类成绩`）。
+`grade` 原含 `考级课程`，与「社会考试报名」页的 `考级课程名称` 成为子串 →
+会把报名页当成绩返回（2026-09-25 修，已加不变式测试自动守）。
 
 - 诊断方式：`QueryStore.load` 里的 `logShape()` 把每张表的**形状 + 表头名**打一行到 logcat
   （**只打表头，不打单元格值**；走 `android.util.Log` 不占界面的 800 行缓冲）。

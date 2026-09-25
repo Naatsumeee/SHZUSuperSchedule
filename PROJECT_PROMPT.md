@@ -22,7 +22,13 @@ powershell -ExecutionPolicy Bypass -File tools\build_km.ps1 -Variant Debug
 grep -E "^e: |BUILD" km_build_v166.txt
 ```
 
+```powershell
+# 单元测试（纯 JVM，不需要设备，约 15 秒）
+powershell -ExecutionPolicy Bypass -File tools\test_km.ps1
+```
+
 - 源码：`shzu_class_km/`（**唯一正式工程**，改代码只动这里）
+- 测试：`shzu_class_km/app/src/test/`（32 个用例，覆盖解析器与周次计算，见 §10）
 - 产物：`shzu_class_km/app/build/outputs/apk/release/app-release.apk`
 - 装设备：`adb -s <serial> install -r <C:/... 的 ASCII 路径>`（见 §7）
 
@@ -108,9 +114,19 @@ Windows PowerShell 5.1 跑 `.ps1` 时，下面三点各自都能让脚本"成功
 1. **必须存为 UTF-8 with BOM**。无 BOM 时 PS 5.1 按 GBK 解码中文注释，
    错位的多字节序列会吞掉 `{` `}` → 解析失败**且一行错误信息都不输出**。
    校验：`head -c 3 tools/build_km.ps1 | xxd` 应输出 `efbbbf`。
+   ⚠️ **新建任何 `.ps1` 都要检查 BOM** —— `tools/test_km.ps1` 首次创建时就是漏了 BOM。
 2. **不要写 `exit $code`** —— 会杀掉宿主进程，整个脚本的输出全部丢失。
 3. **不要用 `Tee-Object` 落日志** —— 它没有 `-Encoding`，落盘固定 UTF-16，
    `grep "BUILD SUCCESSFUL"` 会永远匹配不到。用「捕获后 `Out-File -Encoding utf8`」。
+
+### ⑦ 纯逻辑模块不要直接调 `android.util.Log`
+
+`JwglQueryParser` 等解析逻辑本该能在 JVM 上跑单元测试，但只要它
+`import android.util.Log`，测试一调用就抛 `RuntimeException: Stub!`
+（android.jar 里的方法体全是占位实现）—— 于是最该被测的逻辑反而测不了。
+
+**统一走 `data/Logger.kt` 的接口**（生产用 `LogcatLogger`，测试默认 `NoopLogger`）。
+新增会被测试覆盖的纯逻辑模块时照这个来，不要再直接引 `android.util.Log`。
 
 ---
 
@@ -446,7 +462,18 @@ P=$("$ADB" -s <serial> shell pm path com.shzu.superschedule | sed 's/^package://
    教务表头、发版流程）。⚠️ 是 `.workbuddy/` 不是 `History/`（`History/memory/` 只是快照）。
 2. 读最近一篇 `.workbuddy/memory/2026-XX-XX.md` —— 按日期的改动过程与根因分析。
 3. 读 `Backups/版本说明_BETA-v1.4.md` —— 当前版本做了什么。
-4. **先跑一次构建确认环境正常**，再改代码。
+4. **先跑一次构建 + 单元测试确认环境正常**，再改代码。
+
+### ⚠️ 本机有两份工作副本，先确认改的是哪一份
+
+| 位置 | 说明 |
+|---|---|
+| `C:\Users\xutia\WorkBuddy\SHZUClassList` | 历史默认路径（`PROJECT_PROMPT` 旧版与构建脚本原先硬编码这个） |
+| `E:\Projects\SHZUClassList` | 当前接管使用的工作区 |
+
+两者是**各自独立的 git 克隆**（不是同一目录的链接），容易分叉。
+`tools/build_km.ps1` 与 `tools/test_km.ps1` 现在都**由脚本自身位置推工程根**，
+所以在哪一份里调用就作用于哪一份，不会再张冠李戴。
 
 需要找历史资料时去 `History/`，索引见 [History/README.md](History/README.md)：
 
@@ -461,7 +488,49 @@ P=$("$ADB" -s <serial> shell pm path com.shzu.superschedule | sed 's/^package://
 
 ---
 
-## 10. 上游依赖
+## 10. 单元测试（`app/src/test/`）
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\test_km.ps1   # 32 个用例，约 15 秒
+```
+
+**为什么值得跑**：解析器与周次计算是历史上 bug 最集中的地方，而它们
+**编译永远是通过的** —— 只能靠跑一遍才发现。有了测试就不用每次
+「改代码 → 2 分钟构建 → adb 装机 → 登教务点查询」地验证（一轮十几分钟、还要联网）。
+
+| 测试类 | 覆盖 |
+|--------|------|
+| `JwglQueryParserTest` | 占位行过滤、第二层表头剔除+补名及幂等、挑表不串台、登录页/空页安全阀、多行表头 rowspan 列对齐、`labeled()` 回退 |
+| `WeekCalcTest` | 教学周计算、`currentWeek` 与 `weekOf` 的**兜底差异**（前者出错给 1、后者给 null）、学期代码推算 |
+
+**夹具**在 `app/src/test/resources/jwgl/`：
+
+- `wv_frame_*.html` —— 从真机抓包留档的四份教务页面（`History/logs/device/` 拷来）；
+- `exam_grade_reconstructed.html` —— **结构复刻**（当时等级考试的结果 iframe 没落盘），
+  严格按 MEMORY.md 与 `History/thinking/教务查询三类结果.md` 记录的真实结构写成。
+  **日后拿到真实抓包应直接替换该文件**；结构若有出入，测试失败即是有用信号。
+
+### 🔴 关键词必须互不重叠（该约束已由测试锁住）
+
+`grade` 的关键词一度含 `考级课程`，而「**社会考试报名**」页的表头里有
+`考级课程名称` —— 子串命中，解析器会把那个页面当成「等级考试成绩」返回，
+字段全是「报名金额 / 报名时间 / 审核状态」。
+
+生产上一度没爆，是因为 `JwglQueryFetcher` 会先按 iframe 的 `src` 锁定目标页
+（`/jsxsd/kscj/djkscj_list`），关键词只是第二道保险 ——**但第二道保险自己是漏的**：
+一旦 iframe 锁定失效退回「全收」，这一层挡不住。
+
+**2026-09-25 已修**：GRADE 关键词收紧为 `等级类成绩` / `分数类成绩`
+（这两个词由该表独有的父列展开而来，别的表不会这么写），去掉 `考级课程`。
+
+两条测试守住这一步：`社会考试报名页不会被当成等级考试成绩页`（不该中的不中）、
+`收紧关键词后真实的等级考试成绩表仍能认出`（该中的还得中）。
+外加一条**不变式锁** `三类查询的表头关键词互不为子串` ——
+以后谁改关键词，只要造成互相包含就会被立刻拦下，不用再靠人记。
+
+---
+
+## 11. 上游依赖
 
 - **[MiuiX](https://github.com/compose-miuix-ui/miuix)** —— 本项目**整套 UI 组件与视觉风格**
   都建立在它之上（依赖 `top.yukonga.miuix.kmp:miuix-ui:0.9.3`）。衷心感谢原作者的开源工作。

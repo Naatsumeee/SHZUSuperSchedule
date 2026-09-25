@@ -23,7 +23,7 @@ SHZUClassList/
 ├── Backups/            📦 每个 release 版本的 APK + 对应改动声明
 ├── History/            🗄️ 全部历史记录（思考链/提示词/日志/截图/旧源码）
 ├── docs/               📖 使用说明 + 示例课表数据
-├── tools/              🔧 构建脚本（唯一入口 build_km.ps1）+ 依赖下载脚本
+├── tools/              🔧 构建入口 build_km.ps1 + 单元测试 test_km.ps1 + 依赖下载脚本
 ├── .workbuddy/         🧠 当前生效的工作记忆（每日日志 + 项目长期笔记）
 ├── README.md           本文件
 └── PROJECT_PROMPT.md   🤖 交接给其他 Agent 时先看这个
@@ -108,6 +108,16 @@ grep -E "^e: |BUILD" km_build_v166.txt      # 看编译错误 + 构建结果
 
 产物：`shzu_class_km/app/build/outputs/apk/release/app-release.apk`
 
+### 方式二：单元测试（不需要设备，约 15 秒）
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\test_km.ps1
+```
+
+32 个用例，覆盖教务查询解析器（占位行 / 双层表头 / 挑表）与教学周计算 ——
+这两块是历史上 bug 最集中、而编译**永远发现不了**的地方。
+夹具用的是真机抓下来的教务页面，见 `PROJECT_PROMPT.md` §10。
+
 ### 环境要求（版本强绑定，别乱升）
 
 | 组件 | 版本 | 说明 |
@@ -128,6 +138,7 @@ grep -E "^e: |BUILD" km_build_v166.txt      # 看编译错误 + 构建结果
 
 ## 其他工具
 
+- `tools/test_km.ps1` —— 跑 JVM 单元测试（解析器 / 周次计算）。
 - `tools/download_kotlin_deps.ps1` —— 离线预下载 Kotlin/Compose 依赖。
 - 早期的教务系统 Python 爬虫（`jwgl_spider.py` + `requirements.txt` + 使用说明）
   已被 App 内的抓取方式取代，**移入 `History/legacy/教务爬虫/` 留档**：
