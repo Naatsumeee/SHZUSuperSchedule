@@ -1,6 +1,5 @@
 package com.shzu.superschedule.data
 
-import android.util.Log
 import com.shzu.superschedule.model.QueryTable
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -84,23 +83,23 @@ object JwglQueryParser {
         keywords: List<String> = emptyList(),
     ): QueryTable? {
         if (html.isBlank()) {
-            Log.w(TAG, "HTML 为空")
+            Logger.w(TAG, "HTML 为空")
             return null
         }
         val doc = Jsoup.parse(html)
         val title = pageTitle(doc)
 
         if (looksLikeLoginPage(doc, title)) {
-            Log.w(TAG, "疑似登录页/认证页，放弃解析。title=$title")
+            Logger.w(TAG, "疑似登录页/认证页，放弃解析。title=$title")
             return null
         }
 
         val table = pickTable(doc, keywords) ?: run {
-            Log.w(TAG, "未找到可用结果表。title=$title keywords=$keywords")
+            Logger.w(TAG, "未找到可用结果表。title=$title keywords=$keywords")
             return null
         }
         val (headers, rows) = readTable(table)
-        Log.i(
+        Logger.i(
             TAG,
             "解析 $kind：title=$title 表头=${headers.size} 列 数据=${rows.size} 行" +
                 " / 首行 ${rows.firstOrNull()?.size ?: 0} 格",
@@ -108,7 +107,7 @@ object JwglQueryParser {
         // 表头名单独打一行：教务改版后最先失真的就是列名与列数
         // （等级考试那张双层表头尤其容易错位），排查时这一行最有价值
         if (headers.isNotEmpty()) {
-            Log.i(TAG, "解析 $kind 表头明细：${headers.joinToString(" | ")}")
+            Logger.i(TAG, "解析 $kind 表头明细：${headers.joinToString(" | ")}")
         }
         // 表在、但一行数据都没有 → 仍然返回结果（rows 为空），由调用方判定成
         // 「未查询到数据」。若这里直接返回 null，调用方就没法区分
@@ -221,7 +220,7 @@ object JwglQueryParser {
             headers
         }
 
-        Log.i(
+        Logger.i(
             TAG,
             "发现误入数据区的第二层表头行，已剔除" +
                 if (hasDuplicateName) "并补回子列名：${newHeaders.joinToString(" | ")}" else "",
@@ -237,10 +236,10 @@ object JwglQueryParser {
         for (sel in PREFERRED) {
             val t = doc.selectFirst(sel) ?: continue
             if (keywords.isEmpty() || headerMatches(t, keywords)) {
-                Log.d(TAG, "命中优先选择器 $sel（${dataRowCount(t)} 行数据）")
+                Logger.d(TAG, "命中优先选择器 $sel（${dataRowCount(t)} 行数据）")
                 return t
             }
-            Log.d(TAG, "选择器 $sel 命中但表头不含关键词，继续找")
+            Logger.d(TAG, "选择器 $sel 命中但表头不含关键词，继续找")
         }
 
         // 2) 全表扫描：表头含关键词的表里，取数据行最多的那个
@@ -249,7 +248,7 @@ object JwglQueryParser {
                 .filter { headerMatches(it, keywords) }
                 .maxByOrNull { dataRowCount(it) }
             if (hit != null) {
-                Log.d(TAG, "按表头关键词选中（${dataRowCount(hit)} 行）")
+                Logger.d(TAG, "按表头关键词选中（${dataRowCount(hit)} 行）")
                 return hit
             }
             return null
@@ -261,7 +260,7 @@ object JwglQueryParser {
             .filter { it.second > 0 }
             .maxByOrNull { it.second }
         if (best != null) {
-            Log.d(TAG, "兜底选中数据行最多的表（${best.second} 行）")
+            Logger.d(TAG, "兜底选中数据行最多的表（${best.second} 行）")
         }
         return best?.first
     }
@@ -403,7 +402,7 @@ object JwglQueryParser {
 
             // 「未查询到数据」占位行不算数据行（详见 NO_DATA_HINTS 的说明）
             if (isPlaceholderRow(cells)) {
-                Log.d(TAG, "跳过占位行：${cells.joinToString("")}")
+                Logger.d(TAG, "跳过占位行：${cells.joinToString("")}")
                 continue
             }
 

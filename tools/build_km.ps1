@@ -69,9 +69,14 @@ param(
 $ErrorActionPreference = "Continue"
 
 # ---------- 环境 ----------
-# 全用绝对路径，脚本从任何工作目录调用结果都一样。
+# 工具链用绝对路径（位置固定）；**工程根由脚本自身位置推出**，
+# 这样工程被移动到别处、或存在多份工作副本时，脚本仍作用于自己所在的那一份，
+# 不会出现「改了 A 目录、构建的却是 B 目录」。
+# ⚠️ PS 5.1 下 $PSScriptRoot 在某些调用方式中为空，必须显式兜底，
+#    否则 Join-Path 会因空路径直接报错。
 $base = "C:\Users\xutia\WorkBuddy\android-toolchain"
-$repo = "C:\Users\xutia\WorkBuddy\SHZUClassList"
+$scriptDir = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }
+$repo = Split-Path -Parent $scriptDir
 $proj = Join-Path $repo "shzu_class_km"
 
 $env:JAVA_HOME = "$base\jdk17\jdk-17.0.20.1+1"

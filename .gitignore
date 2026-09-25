@@ -53,6 +53,7 @@ Thumbs.db
 !History/logs/build/
 km_build_v*.txt
 !History/logs/build/km_build_v*.txt
+km_test.txt
 
 # ---------- Python（教务爬虫） ----------
 __pycache__/

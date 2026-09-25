@@ -1,0 +1,69 @@
+<!--
+  等级考试成绩表的**结构复刻夹具**。
+
+  这份 HTML 不是原始抓包（当时的 result iframe 内容没有落盘），而是严格按
+  `.workbuddy/memory/MEMORY.md` 与 `History/thinking/教务查询三类结果.md` 里
+  记录的真实结构复刻的 —— 那两份文档记的正是从真机日志第一次拿到的表头情报：
+
+    thead 只有一行，父列用 colspan 铺开：1 + 1 + 4 + 3 + 1 + 1 = 11 列
+    | 序号 | 考级课程(等级) | 分数类成绩 ×4 | 等级类成绩 ×3 | 考级开始时间 | 考级结束时间 |
+
+    真正的子列名（笔试 / 机试 / 总成绩 …）**单独占了 tbody 的第一行**。
+    实测该行的值形如「笔试 机试 总成绩 笔试 机试 总成绩」—— 两个 4/3 列组
+    用了重复的子列名（这也是 `isStrayHeaderRow` 判据③「行内有复读值」的来源，
+    见 `History/thinking/教务查询三类结果.md`）。
+
+  它复刻的是外部系统的输入契约（教务页面长什么样），而不是本项目的实现 ——
+  也就是说，如果哪天有人改坏了 repairStrayHeader，这份夹具照样能报错。
+  一旦日后拿到真实抓包，应直接替换本文件内容（结构若不同，测试失败即是有效信号）。
+-->
+<html>
+<head><title>等级考试成绩查询</title></head>
+<body>
+<div class="Nsb_title">等级考试成绩查询</div>
+<table id="dataList" class="tablelist">
+  <thead>
+    <tr>
+      <th rowspan="2">序号</th>
+      <th rowspan="2">考级课程(等级)</th>
+      <th colspan="4">分数类成绩</th>
+      <th colspan="3">等级类成绩</th>
+      <th rowspan="2">考级开始时间</th>
+      <th rowspan="2">考级结束时间</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td><td></td>
+      <td>笔试</td><td>机试</td><td>总成绩</td><td>笔试</td>
+      <td>机试</td><td>总成绩</td><td>总成绩</td>
+      <td></td><td></td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>全国大学英语四级考试(CET-4)</td>
+      <td>0</td><td>0</td><td>452</td><td>0</td>
+      <td></td><td></td><td></td>
+      <td>2026-06-13 09:00</td>
+      <td>2026-06-13 11:20</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>全国大学英语六级考试(CET-6)</td>
+      <td>0</td><td>0</td><td>388</td><td>0</td>
+      <td></td><td></td><td></td>
+      <td>2026-06-13 15:00</td>
+      <td>2026-06-13 17:25</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>全国计算机等级考试一级(MS Office)</td>
+      <td>0</td><td>0</td><td>0</td><td>0</td>
+      <td></td><td></td><td>合格</td>
+      <td>2026-03-28 10:00</td>
+      <td>2026-03-28 11:30</td>
+    </tr>
+  </tbody>
+</table>
+</body>
+</html>

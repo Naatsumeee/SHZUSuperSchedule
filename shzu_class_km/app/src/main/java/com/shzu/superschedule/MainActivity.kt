@@ -8,7 +8,9 @@ import androidx.compose.runtime.remember
 import androidx.navigationevent.NavigationEventDispatcher
 import androidx.navigationevent.NavigationEventDispatcherOwner
 import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
+import com.shzu.superschedule.data.LogcatLogger
 import com.shzu.superschedule.data.AppLog
+import com.shzu.superschedule.data.Logger
 import com.shzu.superschedule.ui.AppRoot
 import com.shzu.superschedule.ui.AppTheme
 
@@ -42,6 +44,9 @@ class MainActivity : ComponentActivity() {
         // 日志系统最先启动：它同时负责接管未捕获异常，
         // 越早装上，越不容易漏掉启动阶段的崩溃。
         AppLog.init(this)
+        // 解析器等纯逻辑模块的日志出口；不装的话它们会静默（默认 NoopLogger），
+        // 排查教务页面时 logcat 里就少了表头明细那几行。
+        Logger.install(LogcatLogger)
         setContent {
             // 手动兜底提供 NavigationEventDispatcherOwner —— 详见类注释。
             val dispatcher = remember { NavigationEventDispatcher() }

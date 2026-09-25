@@ -1,0 +1,156 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head id="headerid1">
+	<base target="_self">
+	<title>课程成绩查询</title>
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="keywords" content="湖南强智科技教务系统">
+	<meta http-equiv="description" content="湖南强智科技教务系统">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8">
+<script type="text/javascript" src="/jsxsd/js/jquery-min.js" language="javascript"></script>
+<script type="text/javascript" src="/jsxsd/js/common.js" language="javascript"></script>
+<script type="text/javascript" src="/jsxsd/js/iepngfix_tilebg.js" language="javascript"></script>
+
+<script type="text/javascript" src="/jsxsd/js/jquery.autocomplete.min.js" language="javascript"></script>
+<script type="text/javascript" src="/jsxsd/assets/js/jquery.min.js"></script>
+<script type="te
+xt/javascript" src="/jsxsd/assets/plugins/layui/laydate.js"></script><link rel="stylesheet" href="https://jwgl.shzu.edu.cn/jsxsd/assets/plugins/layui/theme/default/laydate.css?v=5.0.9" id="layuicss-laydate">
+<script src="/jsxsd/assets/plugins/layui/layui.all.js"></script><link id="layuicss-layer" rel="stylesheet" href="https://jwgl.shzu.edu.cn/jsxsd/assets/plugins/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all"><link id="layuicss-skincodecss" rel="stylesheet" href="https://jwgl.shzu.edu.cn/jsxsd/assets/plugins/layui/css/modules/code.css" media="all">
+<script type="text/javascript" src="/jsxsd/js/jquery.autocomplete.min.js"></script>
+<script type="text/javascript" src="/jsxsd/assets/plugins/pagination/pagination.js" language="javascript"></script>
+
+	<link href="/jsxsd/framework/images/common.css" rel="stylesheet" type="text/css">
+
+<link href="/jsxsd/framework/images/blue.cs
+s" rel="stylesheet" type="text/css" id="link_theme">
+<link href="/jsxsd/framework/images/workstation.css" rel="stylesheet" type="text/css">
+<link href="/jsxsd/css/easyui.css" rel="stylesheet" type="text/css">
+<link href="/jsxsd/css/jquery.autocomplete.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/css/modules/reset-table-style.css">
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/css/common.css">
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/css/ui.css">
+
+	<link rel="stylesheet" type="text/css" href="/jsxsd/assets/plugins/layui/layui.css">
+
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/plugins/layui/laydate.css">
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/plugins/pagination/pagination.css">
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/css/modules/timetable-inquire.css">
+<link rel="stylesheet" type="text/css" href="/jsxsd/assets/css/modules/query-condition-div.css">
+</head>
+<body><iframe id="notSession" name="notSession" style="display: none;" src=""></iframe>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	window.setInterval(function(){
+		 document.getElementById("notSession").src = "/jsxsd/framework/blankPage.jsp";
+	 }, 1000 * 60 * 10);
+
+
+});
+</script>
+
+
+
+ 
+
+<div class="">   
+	
+
+
+
+
+
+
+
+ 
+	<div class="Nsb_layout_r">
+	<!-- <table border="0" width="100%"    cellspacing="0" cellpadding="0"  id="Table2">
+			
+	</table> -->
+	<table border="0" width="100%" cellspacing="0" cellpadding="0" id="Table2">
+			<tbody><tr>
+				<td id="frmtop">
+					<iframe id="cjcx_query_frm" name="cjcx_query_frm" src="/jsxsd/kscj/cjcx_query" style="height:auto;  VISIBILITY: inherit; WIDTH: 100%" frameborder="0"></iframe>
+				</td>
+			</tr>
+			<tr>
+				<td height="1
+00%" id="frmtop">
+					
+					    <iframe id="cjcx_list_frm" name="cjcx_list_frm" src="/jsxsd/kscj/cjcx_list?kksj=2026-2027-1&amp;zylx=0" style="height:100%; VISIBILITY: inherit; WIDTH: 100%" frameborder="0"></iframe>
+					
+				</td>
+			</tr>
+	</tbody></table>
+	</div>
+</div>
+<div id="showDiv" style="background-color: #999900; border: 1px double #000000; text-align: center; width: 220px; height: 60px; display: none; position: absolute;">
+	<table cellpadding="0" cellspacing="0" width="100%" height="100%">
+		<tbody><tr>
+			<td height="60px;" style="color: #000000; font-size: 14px;">正在拼命加载中，请稍后...</td>
+		</tr>
+	</tbody></table>
+</div>
+ 
+<script language="javascript">
+   window.onload=function(){ 
+                  var iframe = document.getElementById("cjcx_list_frm"); 
+                  document.getElementById( "Table2" ).style.height = window.innerHeight-5 + 'px';
+         
+    }
+  
+function
+ pyfacjdy() {//$(window).height() - this.height()) / 2+$(window).scrollTop() + "px");
+	jQuery("#showDiv").css({"left": ((jQuery(window).width()-220)/2)+"px", "top": ((jQuery(window).height()-60)/2)+"px"}).show();
+	window.location.href = "/jsxsd/kscj/facjdy_list";
+}
+function queryKscj() {
+	
+	/*if("" == $("#kksj").val()){
+		alert("请选择开课时间!");
+		return ;
+	}*/
+	
+	getKz();
+	
+	document.forms["kscjQueryForm"].action = "/jsxsd/kscj/cjcx_list";
+	document.forms["kscjQueryForm"].submit();
+}
+   function getKz() {
+	   var strUrl = "/jsxsd/kscj/getKz";
+	   var xnxq01id= document.getElementById("xnxq01id");
+	   var bol = false;
+	   $.ajax( {
+		   async:false,
+		   url:strUrl,
+		   type:"post",
+		   cache:false,
+		   data:{"xnxq01id":xnxq01id},
+		   dataType:"text",
+		   success:function(dataStr) {
+			   if(dataStr !== ""){
+				   bol = false;
+				   $(".kzBut").prop("disabled",true)
+				   // alert(dat
+aStr)
+			   }else {
+				   bol = true;
+			   }
+		   },
+		   error:function() {
+			   bol = false;
+		   }
+	   });
+   }
+loadjs();
+function loadjs(){ 
+if( ''!=''){
+alert('');
+}
+
+}
+</script>
+
+</body></html>
+调用 kjcdShow(/kscj/cjcx_frm) -> ok
+在 iframe[cjcx_frm] 内提交查询 -> frame=3 src=https://jwgl.shzu.edu.cn/jsxsd/kscj/cjcx_frm | ctl=none | form=none | noform

@@ -59,4 +59,9 @@ dependencies {
     implementation("org.jsoup:jsoup:1.18.3")
     // 数据持久化
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+
+    // 解析器 / 周次计算的 JVM 单元测试（见 app/src/test/）。
+    // 刻意只引 JUnit4：本机可用内存常 < 4GB，MockK / Robolectric 会明显加重
+    // Gradle 测试进程负担，而这两个模块是纯逻辑，并不需要它们。
+    testImplementation("junit:junit:4.13.2")
 }
