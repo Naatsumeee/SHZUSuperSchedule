@@ -20,7 +20,7 @@
 ```
 SHZUClassList/
 ├── shzu_class_km/      ⭐ 唯一正式工程（Kotlin/Compose），改代码只动这里
-├── Backups/            📦 每个 release 版本的 APK + 对应改动声明
+├── Backups/            📦 每个 release 版本的改动声明（APK 二进制不入库，见其 README）
 ├── History/            🗄️ 全部历史记录（思考链/提示词/日志/截图/旧源码）
 ├── docs/               📖 使用说明 + 示例课表数据
 ├── tools/              🔧 构建入口 build_km.ps1 + 单元测试 test_km.ps1 + 依赖下载脚本
@@ -30,7 +30,7 @@ SHZUClassList/
 ```
 
 > 工程根目录**只保留上面这些**；构建日志与调试 dump 一律归入 `History/`，
-> 临时测试 APK 用完即删（正式包在 `Backups/`）。
+> 临时测试 APK 用完即删。安装包**不入库**，以 GitHub Release 为归档处。
 
 ---
 

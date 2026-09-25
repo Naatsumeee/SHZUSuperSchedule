@@ -17,11 +17,13 @@ captures/
 *.jks
 *.keystore
 
-# 例外：Backups/ 下的 release APK 是版本记录的一部分，需要入库。
-# 但排除 57MB 的 Flutter 原型（超过 GitHub 建议的 50MB 单文件上限），
-# 它仍完整保存在本地 Backups/ 目录。
+# 例外：Backups/ 下的 release APK 是版本记录的一部分。
+# ⚠️ 2026-09-25 起仓库内**不再保留 APK 二进制**（只留最近 2 个的策略已改为全部移出，
+# 详见 Backups/README.md）：APK 是可重建产物，长期资产是版本说明 md 与 git 历史，
+# 二进制以 GitHub Release 为归档处，每个包的 sha256 记在 Backups/README.md 里。
+# 原先这里单独排除 57MB 的 Flutter 原型（超 GitHub 的 50MB 单文件上限），
+# 它已被移出仓库，那条特例规则随之作废。
 !Backups/*.apk
-Backups/石大课表_Flutter原型.apk
 
 # ---------- 本地配置 ----------
 local.properties

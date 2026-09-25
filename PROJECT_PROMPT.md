@@ -48,7 +48,7 @@ powershell -ExecutionPolicy Bypass -File tools\test_km.ps1
 |---|---|
 | 包名 | `com.shzu.superschedule` |
 | 当前版本 | **BETA-v1.4**（versionCode 16） |
-| 版本定义 | `shzu_class_km/app/build.gradle.kts` + `ui/SettingsPage.kt` 的 `APP_VERSION` |
+| 版本定义 | **只在** `app/build.gradle.kts` 的 `versionCode` / `versionName`（单一来源） |
 | 仓库 | https://github.com/Naatsumeee/SHZUSuperSchedule |
 | 教务入口 | `https://jwgl.shzu.edu.cn` |
 
@@ -137,7 +137,7 @@ Windows PowerShell 5.1 跑 `.ps1` 时，下面三点各自都能让脚本"成功
 ```
 SHZUClassList/
 ├── shzu_class_km/      ⭐ 唯一正式工程
-├── Backups/            📦 每个 release 的 APK + 版本声明（发版规范见其 README）
+├── Backups/            📦 每个 release 的**版本声明**（APK 二进制已移出仓库，见其 README）
 ├── History/            🗄️ 全部历史记录（思考链/提示词/日志/截图/旧源码/弃用爬虫）
 ├── docs/               📖 APP使用说明 + 示例课表数据
 ├── tools/              🔧 build_km.ps1（唯一构建入口）+ download_kotlin_deps.ps1
@@ -146,8 +146,8 @@ SHZUClassList/
 ```
 
 > ⚠️ **根目录不许堆东西**：构建日志、调试 dump、临时测试 APK 用完即归位到 `History/`
-> 或直接删除（正式包在 `Backups/`）。2026-09-25 清理时根目录已堆了 23 份日志 +
-> 12 个临时 APK（172 MB）。
+> 或直接删除。2026-09-25 清理时根目录已堆了 23 份日志 + 12 个临时 APK（172 MB）。
+> 正式包**不入库**：以 GitHub Release 为归档处，见 §8。
 
 ### 源码
 
@@ -431,16 +431,42 @@ P=$("$ADB" -s <serial> shell pm path com.shzu.superschedule | sed 's/^package://
 
 ## 8. 发版流程
 
-1. 改 `shzu_class_km/app/build.gradle.kts` 的 `versionCode` / `versionName`。
-2. 同时更新 `ui/SettingsPage.kt` 的 `APP_VERSION` **和 `CHANGELOG` 列表**
-   （App 内「关于 → 更新日志」读的就是它）—— **两处都要改，只改一处会对不上**。
+1. 改 `shzu_class_km/app/build.gradle.kts` 的 `versionCode` / `versionName`
+   —— **这是版本号的唯一真值**。「关于」页显示的版本号经 `BuildConfig.VERSION_NAME`
+   自动取自 `versionName`（2026-09-25 起），不必也不能再手改 `SettingsPage`。
+2. 在 `ui/SettingsPage.kt` 的 `CHANGELOG` 列表**顶部加一条本版本**（列表第一个
+   必须是最新版本，界面按顺序渲染）。**只有这一处需要手动更新**。
 3. 构建并确认 `BUILD SUCCESSFUL`。
-4. APK 复制到 **`Backups/`**，命名 `石大超级课表_<versionName>.apk`。
-5. 在 `Backups/` 新增 `版本说明_<版本>.md`（照已有 9 份的格式写），
+4. 新增 `Backups/版本说明_<版本>.md`（照已有格式写，**含字节数与 sha256**），
    并在 `Backups/README.md` 索引表里补一行。
-6. 视情况更新 `docs/APP使用说明.md`（用户可见的功能说明）。
-7. 打 annotated tag：`git tag -a BETA-v1.4 -m "..."` → `git push origin <tag>`。
-8. GitHub Release（标 **prerelease**）+ 上传 APK 附件。
+5. 视情况更新 `docs/APP使用说明.md`（用户可见的功能说明）。
+6. 打 annotated tag：`git tag -a BETA-v1.4 -m "..."` → `git push origin <tag>`。
+7. GitHub Release（标 **prerelease**）+ 上传 APK 附件。
+
+### APK 二进制不入库（2026-09-25 起）
+
+**`Backups/` 只存版本声明 md，不存 APK。** 安装包以 **GitHub Release 为归档处**。
+
+理由：仓库 pack 一度到 208 MiB，其中 Backups 的 9 个历史 APK 占 167 MB
+（单是 Flutter 原型就 57 MB）。APK 是可随时重建的构建产物，
+**真正的长期资产是版本说明 md 与 git 历史**。
+
+⚠️ **删任何 APK 前先确认别处有副本** —— 不要想当然地"以 Release 为归档"：
+实测 9 个包里**只有 v1.3.2 与 v1.4 真的在 Release 上有附件**。
+核对用 **sha256**（不要只比字节数，历史上多个包只差 0~4 字节）：
+
+```bash
+sha256sum "Backups/xxx.apk"
+curl -s "https://api.github.com/repos/Naatsumeee/SHZUSuperSchedule/releases?per_page=50" \
+  | grep -o '"digest":"[^"]*"'
+```
+
+`Backups/README.md` 里记着**每个版本（含已移出的）的字节数与 sha256**，
+据此仍能辨认"手上这个包是不是那一版"，也能验证找回的副本有没有被改动。
+
+⚠️ `git rm` **不会**让仓库变小 —— 已删 APK 的 blob 仍留在 `.git` 的 pack 里。
+要真正缩体积必须重写历史（`git filter-repo`），那会改变所有提交哈希、
+影响已发布的 tag，**本项目不做**。所以体积只靠"不再往历史里堆二进制"控制。
 
 ### 发版的两个坑
 

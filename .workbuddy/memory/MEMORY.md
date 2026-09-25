@@ -220,10 +220,20 @@ Compose 没有「背景模糊」修饰符，`RenderEffect` 只糊自己这层 �
 - **本机没有 `gh` CLI、没有 SSH key**，全程 `git` + GitHub REST API。
   推送能直接成功（Git Credential Manager 里存着凭据）；
   要 token 可用 `printf "protocol=https\nhost=github.com\n\n" | git credential fill`（别把 token 打进 URL）
-- 每次发版三件事：① APK 复制到 `Backups/石大超级课表_<versionName>.apk`；
-  ② 新增 `Backups/版本说明_<版本>.md`；③ 在 `Backups/README.md` 版本索引表补一行。
-  还要同步：`app/build.gradle.kts` 的 versionName/versionCode、
-  `SettingsPage.kt` 的 `APP_VERSION` + `CHANGELOG` 列表、`docs/APP使用说明.md` 版本号
+- 每次发版三件事：① 新增 `Backups/版本说明_<版本>.md`（**含字节数 + sha256**）；
+  ② 在 `Backups/README.md` 版本索引表补一行；③ 打 tag + 建 Release 上传 APK 附件。
+  还要同步：`app/build.gradle.kts` 的 versionName/versionCode（**唯一真值**）、
+  `SettingsPage.kt` 的 `CHANGELOG`（`APP_VERSION` 已自动读 BuildConfig）、
+  `docs/APP使用说明.md` 版本号
+- 🔴 **APK 二进制不入库**（2026-09-25 起）：`Backups/` 只留版本说明 md，
+  安装包以 GitHub Release 为归档处。原先 9 个 APK 占 167 MB（Flutter 原型单个 57 MB），
+  仓库 pack 因此到 208 MiB。
+  ⚠️ 删任何 APK 前**先确认别处有副本** —— 实测 9 个包里**只有 v1.3.2 / v1.4
+  真在 Release 上**，其他删掉就没了（Flutter 原型还被 gitignore、从未提交过）。
+  核对用 **sha256**（别只比字节数，历史上有包只差 0~4 字节）。
+  已移出的包指纹全部记在 `Backups/README.md`。
+  ⚠️ `git rm` **不会**缩小仓库 —— blob 仍在 pack 里；真缩体积要 `git filter-repo`
+  重写历史，会改所有提交哈希、影响已发 tag，**本项目不做**
 - tag 用 annotated（`git tag -a BETA-v1.4 -m "..."`），Release 标 **prerelease**
 - 🔴 **GitHub Release 附件名只能用 ASCII**：非 ASCII 会被**静默丢掉**
   （`石大超级课表_BETA-v1.3.2.apk` 存成 `_BETA-v1.3.2.apk`）。
@@ -234,7 +244,7 @@ Compose 没有「背景模糊」修饰符，`RenderEffect` 只糊自己这层 �
   `reference/`、`Icon-256.ico`、`README.md`、`PROJECT_PROMPT.md`、` .gitignore`、`.workbuddy/`
 - 构建日志 → 用完归 `History/logs/build/`；调试 dump → `History/logs/device/` 或 `dumps/`；
   截图 → `History/screenshots/`；弃用实现 → `History/legacy/`。
-  **临时测试 APK 用完即删**（正式包在 `Backups/`）—— 09-25 清理时根目录堆了 172 MB 这种东西。
+  **临时测试 APK 用完即删**（正式包不入库、以 Release 为归档）—— 09-25 清理时根目录堆了 172 MB 这种东西。
 - 🔴 **`.gitignore` 的 `build/` 会连带忽略任何层级下叫 build 的目录**，
   所以 `History/logs/build/` 需要先解禁目录本身再解禁文件名：
   `!History/logs/build/` + `!History/logs/build/km_build_v*.txt`。
