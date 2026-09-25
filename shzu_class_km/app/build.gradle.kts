@@ -17,6 +17,13 @@ android {
         versionName = "BETA-v1.4"
     }
 
+    // 生成 BuildConfig，让「关于」页的版本号直接读 versionName（见 SettingsPage）。
+    // 否则版本号要在 build.gradle.kts 和 SettingsPage.APP_VERSION 各写一遍，
+    // 发版时漏改一处就对不上（历史上每次发版都要手动同步两处）。
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

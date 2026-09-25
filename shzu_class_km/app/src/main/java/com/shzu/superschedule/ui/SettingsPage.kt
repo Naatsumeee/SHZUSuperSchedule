@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import com.shzu.superschedule.BuildConfig
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -70,7 +71,17 @@ import top.yukonga.miuix.kmp.preference.OverlayDropdownPreference
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import java.time.LocalDate
 
-const val APP_VERSION = "BETA-v1.4"
+/**
+ * App 版本号，取自 `build.gradle.kts` 的 `versionName`（经 BuildConfig 生成）。
+ *
+ * ## 为什么不再写字面量（2026-09-25 改）
+ *
+ * 原先这里是 `const val APP_VERSION = "BETA-v1.4"`，与 `build.gradle.kts` 的
+ * `versionName` 是**两处独立维护**的 —— 发版时漏改一处，就会出现
+ * 「APK 装的是 v1.5、关于页却写着 v1.4」这种对不上的情况。
+ * 现在只有一处真值（`versionName`），改版本号不用再记得同步这里。
+ */
+val APP_VERSION: String = BuildConfig.VERSION_NAME
 const val AUTHOR_NAME = "@Natsume"
 const val AUTHOR_EMAIL = "xu.tianhao@outlook.com"
 
