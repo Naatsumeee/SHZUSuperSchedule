@@ -97,8 +97,32 @@ private const val BLUR_MAX_DP = 44f
 /** 栏顶那一层相对 [BLUR_MAX_DP] 的比例，决定渐变跨度（越小渐变越明显） */
 private const val BAND_TOP_RATIO = 0.25f
 
-/** 渐变模糊叠几层。层数越多过渡越顺，代价是每帧多几次离屏模糊。 */
-private const val BAND_COUNT = 5
+/**
+ * 渐变模糊叠几层。层数越多过渡越顺，代价是每帧多几次离屏模糊。
+ *
+ * 🔴 **不要调回 5**（2026-10-01 真机实测）：每层都要 `CompositingStrategy.Offscreen`
+ * 独立渲染目标，叠 4 层及以上会让 **RenderThread 触发 `SIGTRAP`（TRAP_BRKPT）崩溃**，
+ * 而 Java 层没有任何异常 —— 表现为「装完首次能开、导入课表后一开就闪退」，
+ * `AppLog` 也抓不到栈（崩在原生渲染线程）。
+ *
+ * 实测（HyperOS 4.0 / Android 17，GPU=Adreno）：
+ *
+ * | 配置 | 结果 |
+ * |---|---|
+ * | 5 层（旧默认） | 5/5 冷启动崩溃 |
+ * | 4 层 | ✗ 崩溃 |
+ * | **3 层（现值）** | 5/5 存活 |
+ * | 2 层 | 存活 |
+ * | 单层 `Modifier.blur` / 裸 `RenderEffect` | 存活 |
+ * | 模糊半径 8dp vs 44dp（5 层） | 都崩 → **与半径无关，只与层数有关** |
+ *
+ * ⚠️ 崩溃只在**有课表数据**时出现：空数据时停在导入页，没有底栏、也就没有这层模糊，
+ * 所以「清数据后能启动」是这一 bug 的典型现象，别被它误导去查数据解析。
+ *
+ * 真机复现法见文件末尾 [rememberBarTuning] 的 `bar_diag.txt` 说明
+ * （写 `...bands=3,dbg=0` 手动指定层数）。
+ */
+private const val BAND_COUNT = 3
 
 private const val TAG = "ShzuBar"
 
@@ -133,8 +157,19 @@ internal data class BarTuning(
  * 3=`Modifier.blur` 模糊；4=`RenderEffect` 模糊。非 0 时会跳过半透明底色，
  * 并在栏的左上角画洋红边框、在内容图层里多画两条洋红定位条。
  *
+ * 🔎 **排查「一开就闪退、且 AppLog 里没有崩溃栈」时**：优先怀疑这里。
+ * 崩溃在 RenderThread 原生层（`SIGTRAP`），Java 层无异常、所以日志是断的。
+ * 最快的判定法是把 `bands` 写成 2 再看是否还崩（层数上限见 [BAND_COUNT]）：
+ *
+ * ```bash
+ * adb shell "echo '0.45,0.65,44,0,2,0' > \
+ *   /sdcard/Android/data/com.shzu.superschedule/files/bar_diag.txt && \
+ *   chmod 666 /sdcard/Android/data/com.shzu.superschedule/files/bar_diag.txt"
+ * ```
+ *
  * ⚠️ `adb shell` 创建的文件默认 `-rw-rw----`（属主 shell），App 打不开，
- * 写完记得 `chmod 666`。调完请删掉该文件。
+ * 写完记得 `chmod 666`。调完请删掉该文件（它只在 debug 包生效，release 包也读，
+ * 但正式用户不会有这个文件）。
  */
 @Composable
 private fun rememberBarTuning(): BarTuning {
@@ -318,7 +353,11 @@ private fun BoxScope.FrostedLayer(state: BarBackdropState) {
         // ⚠️ 这些 Canvas 必须**直接**是底栏 Box 的子节点，中间不能再夹一层 Box：
         // 夹了之后绘制链会失效（真机实测：那一层的 Canvas 一帧都不会执行）。
         if (supported) {
-            val n = tuning.bands.coerceIn(2, 8)
+            // 🔴 上限必须卡在 BAND_COUNT：每层都要独立的离屏渲染目标，
+            // 叠 4 层及以上会让 RenderThread 原生崩溃（详见 BAND_COUNT 的注释）。
+            // 这里**不能**放宽到 8 —— 那样只要 bar_diag.txt 里写了 5，
+            // 或者将来有人顺手调大，就会把用户直接崩回闪退。
+            val n = tuning.bands.coerceIn(2, BAND_COUNT)
             Log.d(TAG, "progressive blur: n=$n max=${tuning.blurDp}dp dbg=${tuning.dbg}")
 
             if (tuning.dbg != 0) {

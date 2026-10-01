@@ -116,6 +116,38 @@ Compose 没有「背景模糊」修饰符，`RenderEffect` 只糊自己这层 �
 最后叠渐变 + 顶部 1px 高光。`BlurEffect` 用 `remember(density)` 缓存；容器 `clipToBounds()`。
 需 **API 31+**，低版本只留半透明底色。教训：只调 alpha / 叠半透明色**永远出不来磨砂效果**。
 
+### 🔴 模糊层数上限 3 层 —— 超过会让 RenderThread 原生崩溃（2026-10-01 真机定位）
+`BAND_COUNT` 曾为 5，在 **HyperOS 4.0 / Android 17（Adreno）** 上导致
+**一开就闪退**：`Fatal signal 5 (SIGTRAP), code 1 (TRAP_BRKPT) in tid ... (RenderThread)`。
+每层都要 `CompositingStrategy.Offscreen` 独立渲染目标，叠 4 层及以上就炸。
+
+| 配置 | 结果 |
+|---|---|
+| 5 层（旧默认） | 5/5 冷启动崩溃 |
+| 4 层 | ✗ 崩溃 |
+| **3 层（现值）** | 5/5 存活，模糊效果经用户真机确认存在 |
+| 2 层 | 存活 |
+| 单层 `Modifier.blur` / 裸 `RenderEffect` | 存活 |
+| 5 层 + 半径 8dp（对比 44dp） | **都崩 → 与半径无关，只与层数有关** |
+
+🔑 **这个 bug 极难排查，三个坑叠在一起**：
+1. **崩在原生渲染线程**，Java 层无异常 → `FATAL EXCEPTION` 不出现，
+   `AppLog` 的崩溃钩子也抓不到，日志直接断掉；
+2. **只在有课表数据时崩** —— 空数据停在导入页没有底栏，于是表现为
+   「清数据后能开、导入后必闪退」。**极易被误导去查数据解析/存档**（我一开始就查了
+   半天 `ScheduleStore` / `QueryStore`），实际与数据毫无关系；
+3. **release 包不可 `run-as`**，设备无 root，`/data` 取不到日志。
+
+🔑 **定位打法（值得复用）**：装 **debug 包**（可 run-as）→ 读 `files/logs/app.log` 尾部
+确认"崩在哪一步" → 用 logcat 抓 `FATAL signal` 拿到是**哪个线程**崩
+（本例 `RenderThread` 直接排除掉全部业务逻辑）→ 再用项目自带的 `bar_diag.txt`
+诊断开关做**对照实验**（开/关模糊、改层数、改半径）二分定位。
+对照实验必须用 **`am force-stop` 冷启动**：只 `am start` 会复用已在运行的进程，
+得出"存活"的假结论（我踩过，差点误判）。
+
+🔑 **防复发**：`tuning.bands.coerceIn(2, BAND_COUNT)` 的上限**已卡死在 3**
+（原先写 8）—— 否则 `bar_diag.txt` 里写个 5 就能把用户崩回闪退。
+
 ## 桌面小组件（5 provider 架构）
 - **RemoteViews 白名单**：布局里**禁用 `<View>`**，色条/分隔线用 `ImageView`。违规时膨胀异常
   被 MIUI **静默吞掉** → 永久灰色「载入窗口小部件时出现问题」，而 `previewLayout` 看起来正常，极具迷惑性

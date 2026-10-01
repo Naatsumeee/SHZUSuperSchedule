@@ -128,6 +128,27 @@ Windows PowerShell 5.1 跑 `.ps1` 时，下面三点各自都能让脚本"成功
 **统一走 `data/Logger.kt` 的接口**（生产用 `LogcatLogger`，测试默认 `NoopLogger`）。
 新增会被测试覆盖的纯逻辑模块时照这个来，不要再直接引 `android.util.Log`。
 
+### ⑧ 底栏模糊的层数上限是 3 —— 调大会让 App 一开就闪退
+
+`ui/BlurBar.kt` 的 `BAND_COUNT` **不要调回 5**（2026-10-01 真机定位）：
+每层渐变模糊都要 `CompositingStrategy.Offscreen` 独立渲染目标，
+叠 4 层及以上会让 **RenderThread 触发 `SIGTRAP` 原生崩溃**。
+
+实测：5 层 5/5 崩、4 层崩、**3 层存活**、2 层存活；且与模糊半径无关。
+`tuning.bands` 的上限已卡死在 `BAND_COUNT`，别放宽。
+
+⚠️ **这个 bug 的症状极具误导性**，排查时先记住这三条：
+1. **Java 层没有任何异常**，`AppLog` 抓不到栈（崩在原生渲染线程），
+   logcat 里只有 `Fatal signal 5 (SIGTRAP) ... (RenderThread)`；
+2. **只在有课表数据时崩** —— 空数据停在导入页、没有底栏，
+   所以表现为「清数据能开、导入后必闪退」，**别去查数据/存档解析**（那是我走过的弯路）；
+3. release 包不可 `run-as`、设备无 root，读不到 App 日志。
+
+**定位手法**：装 debug 包 → `run-as ... cat files/logs/app.log` 看崩在哪一步 →
+logcat 抓 `Fatal signal` 确认是哪个线程 → 用 `bar_diag.txt` 诊断开关做对照实验。
+⚠️ 对照实验**必须 `am force-stop` 后冷启动**，只 `am start` 会复用已运行的进程、
+得出「存活」的假结论。详见 `BlurBar.kt` 里 `rememberBarTuning` 的注释。
+
 ---
 
 ## 3. 目录地图
