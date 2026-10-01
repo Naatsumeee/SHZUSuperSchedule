@@ -17,13 +17,16 @@ captures/
 *.jks
 *.keystore
 
-# 例外：Backups/ 下的 release APK 是版本记录的一部分。
-# ⚠️ 2026-09-25 起仓库内**不再保留 APK 二进制**（只留最近 2 个的策略已改为全部移出，
-# 详见 Backups/README.md）：APK 是可重建产物，长期资产是版本说明 md 与 git 历史，
-# 二进制以 GitHub Release 为归档处，每个包的 sha256 记在 Backups/README.md 里。
-# 原先这里单独排除 57MB 的 Flutter 原型（超 GitHub 的 50MB 单文件上限），
-# 它已被移出仓库，那条特例规则随之作废。
-!Backups/*.apk
+# ---------- release APK 二进制不入库（2026-09-25 起）----------
+# 上面第 3 行已有 `*.apk`，这里**不需要**再写例外 ——
+# 曾经有过一行 `!Backups/*.apk` 把 APK 重新纳入，与"二进制以 Release 为归档"的
+# 策略相矛盾（2026-10-01 发现并删除，当时差点把 15 MB 的包又提交进去）。
+#
+# 策略：Backups/ 只留**版本说明 md**（长期资产），APK 以 GitHub Release 为归档处；
+# 每个包的字节数 + sha256 记在 Backups/README.md，据此仍能辨认与校验。
+# 详见 Backups/README.md 的「APK 二进制的存放策略」。
+# ⚠️ 若哪天确实要把某个 APK 交进仓库，用 `git add -f` 显式强制，
+#    不要恢复这条宽泛的否定规则。
 
 # ---------- 本地配置 ----------
 local.properties

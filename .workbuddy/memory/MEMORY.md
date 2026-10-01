@@ -257,6 +257,11 @@ Compose 没有「背景模糊」修饰符，`RenderEffect` 只糊自己这层 �
   还要同步：`app/build.gradle.kts` 的 versionName/versionCode（**唯一真值**）、
   `SettingsPage.kt` 的 `CHANGELOG`（`APP_VERSION` 已自动读 BuildConfig）、
   `docs/APP使用说明.md` 版本号
+- 🔴 **同一版本号重新出包时，字节数可能完全一样**（2026-10-01 实测）：
+  BETA-v1.4 的初版（v166）与修复版（v171）**都是 15,009,375 字节**、
+  版本号也相同，`aapt2 dump badging` 区分不出来。
+  **唯一判据是 md5 / sha256**（初版 `4de4faf3…`、修复版 `4bf6a26c…`）。
+  档案里要同时留**两个包的身份**，并在 `Backups/README.md` 标明哪个已作废。
 - 🔴 **APK 二进制不入库**（2026-09-25 起）：`Backups/` 只留版本说明 md，
   安装包以 GitHub Release 为归档处。原先 9 个 APK 占 167 MB（Flutter 原型单个 57 MB），
   仓库 pack 因此到 208 MiB。
@@ -324,6 +329,31 @@ Compose 没有「背景模糊」修饰符，`RenderEffect` 只糊自己这层 �
   → 这是环境问题不是代码问题，等代理开起来重跑即可；**别去排查代码**。
 - 用 urllib 访问 GitHub 时要显式设代理；代理没开时用 `ProxyHandler({})` 显式关闭，
   否则会去读一个可能存在的空代理配置而报"连接被拒"。
+
+### 🔴 `git push` 报认证失败 ≠ token 失效（2026-10-01 踩）
+现象：`git push` 报
+`remote: Invalid username or token. Password authentication is not supported`。
+**但 token 其实是好的** —— 别急着去重新生成。
+
+判别顺序（30 秒内能分清）：
+1. `curl -s -o /dev/null -w "%{http_code}" https://github.com` → 200 说明网络没问题；
+2. `git credential fill` 取出 token，用它打 API 看 scopes 与仓库权限：
+   ```bash
+   TOKEN=$(printf "protocol=https\nhost=github.com\n\n" | git credential fill | grep '^password=' | cut -d= -f2-)
+   curl -s -H "Authorization: Bearer $TOKEN" https://api.github.com/repos/<owner>/<repo> \
+     | grep -o '"push":[a-z]*'
+   ```
+   本次结果：`gho_` 开头、scopes 含 `repo`、`push: true` → **token 完全有效**。
+3. 结论：**是 Git Credential Manager 传给 git 的那份凭据坏了**
+   （与 `credential fill` 取到的不一致），而 token 本身没问题。
+
+**绕过办法**：这次直接拿 token 走 HTTP 头推，不经过 credential helper：
+```bash
+git -c credential.helper= \
+    -c http.extraHeader="Authorization: Basic $(printf "x-access-token:$TOKEN" | base64 -w0)" \
+    push origin main
+```
+（token 只在命令行进程内使用，不落盘；注意**别把 token 写进 URL 或提交历史**。）
 
 ## 用户偏好
 - MiuiX 风格，**不要橙色主题**；不要无意义的名句/引言

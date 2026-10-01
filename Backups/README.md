@@ -53,7 +53,14 @@ curl -s "https://api.github.com/repos/Naatsumeee/SHZUSuperSchedule/releases?per_
 | 版本 | 字节数 | SHA-256 | Release 附件 |
 |------|--------|---------|--------------|
 | 1.3.2 | 14,927,459 | `6de967e1cc71469be10fcdb6a2cba5a67dd132df563a0c7121c3e5cbd6cb2249` | `SHZUSuperSchedule_BETA-v1.3.2.apk`（Release BETA-v1.3.2） |
-| 1.4 | 15,009,375 | `7455f2e60bfbb6c3c437347c7c5ab0e40be7ef01cce5f4341f9abc8c4b643fa0` | `SHZUSuperSchedule_BETA-v1.4.apk`（Release BETA-v1.4） |
+| 1.4（**修复版，当前**） | 15,009,375 | `fa2bf749f96d00816a58af30a625d15e173d67d1f708ea6a1d34c9a348661cd4` | `SHZUSuperSchedule_BETA-v1.4.apk`（Release BETA-v1.4，须替换为修复版） |
+| ~~1.4（初版 v166）~~ | 15,009,375 | `7455f2e60bfbb6c3c437347c7c5ab0e40be7ef01cce5f4341f9abc8c4b643fa0` | ⚠️ **已作废 —— 有闪退缺陷，勿再分发** |
+
+> 🔴 **BETA-v1.4 出过两个包，字节数完全相同（15,009,375）、版本号也相同**
+> （md5 亦极近：`4de4faf3…` = 初版 v166，`4bf6a26c…` = 修复版 v171）。
+> **只能用 md5 / sha256 区分。** 修复版修掉了「导入课表后一开就闪退」
+> （底栏模糊层数超渲染管线上限，详见[修复说明](版本说明_BETA-v1.4-v171修复.md)）。
+> 分发前务必核对 sha256 是否为 `fa2bf749…`。
 
 ## 版本索引
 
@@ -67,7 +74,7 @@ curl -s "https://api.github.com/repos/Naatsumeee/SHZUSuperSchedule/releases?per_
 | 6 | 1.3 | `com.shzu.superschedule` | 13 | 14.67 MB | 2026-09-19 00:42 | *（已移出仓库）* | [声明](版本说明_BETA-v1.3.md) |
 | 7 | 1.3.1 | `com.shzu.superschedule` | 14 | 14.73 MB | 2026-09-19 02:49 | *（已移出仓库）* | [声明](版本说明_BETA-v1.3.1.md) |
 | 8 | 1.3.2 | `com.shzu.superschedule` | 15 | 14.78 MB | 2026-09-19 18:53 | `石大超级课表_BETA-v1.3.2.apk` | [声明](版本说明_BETA-v1.3.2.md) |
-| 9 | **BETA-v1.4（当前）** | `com.shzu.superschedule` | 16 | 14.31 MB | 2026-09-22 15:19 | `石大超级课表_BETA-v1.4.apk` | [声明](版本说明_BETA-v1.4.md) |
+| 9 | **BETA-v1.4（当前）** | `com.shzu.superschedule` | 16 | 14.31 MB | 2026-10-01 18:40 | `石大超级课表_BETA-v1.4.apk` | [初版声明](版本说明_BETA-v1.4.md) · [**修复版说明**](版本说明_BETA-v1.4-v171修复.md) |
 
 > 想装历史版本：从对应 GitHub Release 下载 `SHZUSuperSchedule_<版本>.apk`；
 > 没有 Release 的早期版本（#1–#7）只能凭借指纹从其他备份中辨认。
