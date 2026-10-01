@@ -361,3 +361,19 @@ git -c credential.helper= \
 - 作者署名 `@Natsume`，反馈邮箱 `xu.tianhao@outlook.com`（早期误写 `outkook.com`）
 - 滑块/配色这类易误触的控件收进二级菜单
 - **会自己真机验收并推翻参数**；说"我自己测"时就是「交付并停止」
+
+### 🔴 `git push` 挂起不返回时，先试直连（2026-10-01）
+现象：`git push origin <tag> --force` 卡死 >5 分钟无输出，
+而同路径 `git ls-remote` 秒回、`curl https://github.com` 返回 200。
+`GIT_TRACE` 显示已到 `CONNECT github.com:443` 隧道后停住 → **卡在代理层**。
+破法：`env -u http_proxy -u https_proxy git -c http.proxy= … push …`。
+⚠️ 但 `main` 分支走代理推送是正常的 —— **不是"代理不能推送"，
+是「代理 + tag force push」这个组合有问题**。
+⚠️ **别用 `| tail -N` 包住 push**：输出被缓冲后会读不到回显、看着像卡住。
+本次因此重复推了三次，其实第一次就成功了。
+**判断 push 成败一律查远端**（`ls-remote | grep <ref>`），不看回显。
+
+### 发版后必做：四处一致性核对
+`远端 tag → 提交` / `Release 附件 digest` / `本地归档包 md5` /
+**`设备上运行中 base.apk 的 md5`** 必须全对得上。
+最后一项最关键 —— 它证明"归档的就是用户真机验证过的那个包"。
