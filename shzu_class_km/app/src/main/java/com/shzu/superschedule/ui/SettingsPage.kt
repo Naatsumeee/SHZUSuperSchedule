@@ -100,6 +100,7 @@ internal fun exportFileName(semester: String): String {
 /** 设置页内部子页面 */
 internal enum class Page {
     MAIN,
+    THEME,
     CUSTOM_STYLE,
     LOG,
 
@@ -123,6 +124,7 @@ internal enum class Page {
 internal class SettingsUiState {
     val stack = PageStack(Page.MAIN)
     val mainScroll = ScrollState(0)
+    val themeScroll = ScrollState(0)
     val customScroll = ScrollState(0)
     val logScroll = ScrollState(0)
 
@@ -169,8 +171,16 @@ internal fun SettingsPage(
     PageHost(
         stack = ui.stack,
         modifier = Modifier.fillMaxWidth(),
+        predictiveBack = settings.predictiveBack,
     ) { page ->
         when (page) {
+            Page.THEME -> ThemePage(
+                ui = ui,
+                settings = settings,
+                onSettingsChange = onSettingsChange,
+                onBack = { ui.stack.pop() },
+                bottomInset = bottomInset,
+            )
             Page.CUSTOM_STYLE -> CustomStylePage(
                 ui = ui,
                 settings = settings,
@@ -197,6 +207,7 @@ internal fun SettingsPage(
                 onReimport = onReimport,
                 onSwitchSemester = onSwitchSemester,
                 onRefreshSemesters = onRefreshSemesters,
+                onOpenTheme = { ui.stack.push(Page.THEME) },
                 onOpenCustomStyle = { ui.stack.push(Page.CUSTOM_STYLE) },
                 onOpenLog = { ui.stack.push(Page.LOG) },
                 onOpenRuntimeLog = { ui.stack.push(Page.RUNTIME_LOG) },
@@ -222,6 +233,7 @@ private fun MainSettings(
     onReimport: () -> Unit,
     onSwitchSemester: (SemesterEntry) -> Unit,
     onRefreshSemesters: () -> Unit,
+    onOpenTheme: () -> Unit,
     onOpenCustomStyle: () -> Unit,
     onOpenLog: () -> Unit,
     onOpenRuntimeLog: () -> Unit,
@@ -311,6 +323,14 @@ private fun MainSettings(
         // ================= 显示（#13：紧随「教务」） =================
         SectionTitle("显示")
         Card {
+            BasicComponent(
+                title = "主题",
+                summary = "深浅模式、壁纸取色、底栏模糊、悬浮底栏、返回手势",
+                endActions = {
+                    Text("进入", fontSize = 13.sp, color = MiuixTheme.colorScheme.primary)
+                },
+                onClick = onOpenTheme,
+            )
             BasicComponent(
                 title = "自定义课表样式",
                 summary = "字体、间距、对齐、网格、配色…",

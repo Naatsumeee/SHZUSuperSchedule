@@ -134,6 +134,7 @@ internal fun QueryPage(
     PageHost(
         stack = ui.stack,
         modifier = Modifier.fillMaxWidth(),
+        predictiveBack = settings.predictiveBack,
     ) { page ->
         when (page) {
             QuerySubPage.MAIN -> QueryMain(

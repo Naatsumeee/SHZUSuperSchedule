@@ -52,9 +52,9 @@ class MainActivity : ComponentActivity() {
             val dispatcher = remember { NavigationEventDispatcher() }
             val owner = remember { NavigationDispatcherOwner(dispatcher) }
             CompositionLocalProvider(LocalNavigationEventDispatcherOwner provides owner) {
-                AppTheme {
-                    AppRoot()
-                }
+                // ⚠️ 主题在 AppRoot **内部**包裹，不在这里 —— 主题要读用户设置
+                //    （深浅模式 / 壁纸取色），而设置是在 AppRoot 里加载的。
+                AppRoot()
             }
         }
     }

@@ -18,7 +18,14 @@
             android:name=".MainActivity"
             android:exported="true"
             android:configChanges="orientation|screenSize|keyboardHidden|uiMode|smallestScreenSize|screenLayout"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:enableOnBackInvokedCallback="true">
+            <!--
+              enableOnBackInvokedCallback="true" 是**能力声明**，不是开关：
+              它让系统把手势以「预测性返回」形式派发（App 才能拿到跟手的 progress）。
+              用户是否真的启用，仍由「设置 → 显示 → 主题 → 预测性返回」决定 ——
+              关闭时 PageHost 走普通 BackHandler，行为与之前完全一致。
+            -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

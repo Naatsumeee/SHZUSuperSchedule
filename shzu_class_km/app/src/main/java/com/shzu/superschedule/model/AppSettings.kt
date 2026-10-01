@@ -100,6 +100,49 @@ data class AppSettings(
      * 解锁后「系统与交互」里会出现「通知测试」。
      */
     val eggUnlocked: Boolean = false,
+
+    // ==================== 界面与主题（2026-10-01，设置 → 显示 → 主题）====================
+
+    /**
+     * 主题深浅模式，取值见 [ThemeMode]：跟随系统 / 浅色 / 深色。
+     *
+     * 与「是否跟随壁纸取色」（[monetEnabled]）是**两个独立维度** ——
+     * 前者决定明暗、后者决定色相来源，组合起来才是完整主题。
+     */
+    val themeMode: Int = 0, // ThemeMode.SYSTEM
+
+    /**
+     * 是否跟随壁纸取色（Monet 动态取色）。
+     *
+     * ⚠️ 需 **Android 12（API 31）及以上**；低版本即使置 true 也不生效，
+     * 判断统一走 [isMonetSupported]，不要在调用点各写一遍 SDK 判断。
+     */
+    val monetEnabled: Boolean = false,
+
+    /** UI 风格，取值见 [UiStyle]。默认即现有 MiuiX 观感 */
+    val uiStyle: Int = 0, // UiStyle.DEFAULT
+
+    /**
+     * 底栏是否启用背景模糊。关闭后退化为半透明底色。
+     *
+     * ⚠️ 底层是叠层离屏模糊，**层数上限见 `ui/BlurBar.kt` 的 `BAND_COUNT`**，
+     * 调大曾导致 RenderThread 原生崩溃闪退（2026-10-01）。
+     */
+    val blurEnabled: Boolean = true,
+
+    /**
+     * 是否使用悬浮底栏（胶囊形，浮于内容之上）。关闭则是贴底的常规底栏。
+     */
+    val floatingBottomBar: Boolean = false,
+
+    /**
+     * 是否启用预测性返回手势（返回时跟手预览上一级界面）。
+     *
+     * ⚠️ 需 **Android 13（API 33）及以上**，低版本无效。
+     * 该项目曾在 BETA-v1.3.2 因「跟手预览体验不佳」整体移除，
+     * 现在作为**可选开关**回归，默认关闭。
+     */
+    val predictiveBack: Boolean = false,
 ) {
     /** 当前生效的自定义配色合集（无则为 null） */
     fun activeCustomPalette(): CustomPalette? =
@@ -241,3 +284,57 @@ object ColorSchemes {
 
     fun nameOf(index: Int): String = all.getOrElse(index) { all[0] }.first
 }
+
+/**
+ * 主题深浅模式。
+ *
+ * 与「跟随壁纸取色」（`AppSettings.monetEnabled`）正交：
+ * 本枚举管明暗，那个管色相来源。
+ */
+enum class ThemeMode {
+    /** 跟随系统深浅色 */
+    SYSTEM,
+
+    /** 强制浅色 */
+    LIGHT,
+
+    /** 强制深色 */
+    DARK,
+    ;
+
+    companion object {
+        fun of(value: Int): ThemeMode = entries.getOrElse(value) { SYSTEM }
+    }
+}
+
+/**
+ * UI 风格。
+ *
+ * 目前只有 [DEFAULT]（项目既有的 MiuiX 观感）。保留枚举是为了给后续
+ * 别的风格留出持久化位置 —— `AppSettings.uiStyle` 存的就是这里的序号，
+ * **不要重排已有项**（否则老用户的选择会漂移）。
+ */
+enum class UiStyle {
+    /** 默认（MiuiX） */
+    DEFAULT,
+    ;
+
+    companion object {
+        fun of(value: Int): UiStyle = entries.getOrElse(value) { DEFAULT }
+    }
+}
+
+/**
+ * 从当前设置解析出「是否使用深色」。
+ *
+ * 供主题层调用，把三态模式 + 系统状态收敛成一个布尔值，
+ * 避免各处重复写 `when`。
+ */
+fun AppSettings.resolveDarkMode(systemInDark: Boolean): Boolean = when (ThemeMode.of(themeMode)) {
+    ThemeMode.SYSTEM -> systemInDark
+    ThemeMode.LIGHT -> false
+    ThemeMode.DARK -> true
+}
+
+/** Monet（壁纸取色）是否可用：仅 Android 12 / API 31 及以上 */
+fun isMonetSupported(sdkInt: Int): Boolean = sdkInt >= 31

@@ -234,6 +234,9 @@ fun AppRoot() {
         }
     }
 
+    // 主题包裹整棵界面树。放在 AppRoot 内部（而不是 MainActivity）是因为
+    // 它要读用户设置里的深浅模式与壁纸取色，而设置在这里才加载出来。
+    AppTheme(settings = settings) {
     if (showImport) {
         ImportPage(
             canCancel = courses.isNotEmpty(),
@@ -427,6 +430,7 @@ fun AppRoot() {
             },
         )
     }
+    } // AppTheme 结束
 }
 
 /**
@@ -666,10 +670,15 @@ private fun MainScaffold(
 
     Scaffold(
         bottomBar = {
-            BlurredBottomBar(
+            AppBottomBar(
                 backdrop = barBackdrop,
+                tabs = bottomTabs,
                 selectedTab = selectedTab,
                 onTabSelected = onTabSelected,
+                style = BottomBarStyle(
+                    blur = settings.blurEnabled,
+                    floating = settings.floatingBottomBar,
+                ),
             )
         },
     ) { padding ->
@@ -751,59 +760,17 @@ private fun MainScaffold(
 }
 
 /**
- * 半透明磨砂底部导航栏（磨砂层在底、图标文字在上）。
+ * 底栏四个 tab。
  *
- * ## 透明效果不明显的真正原因（BETA-v1.3.2 二次修复 #4）
- *
- * MiuiX 的 `NavigationBar` 内部**硬编码**了 `.background(color)`，
- * 而 `color` 默认取 `MiuixTheme.colorScheme.surface` —— 一块完全不透明的底色。
- * 我们的磨砂层虽然画在它下面，却被这块不透明底整个盖住，等于白做。
- *
- * 因此这里必须显式把底色调成透明（`Color.Transparent`），
- * 并把 MiuiX 自带的分隔线关掉（改由磨砂层顶部的 1px 高光代替），
- * 磨砂层才真正透得出来 —— 进而才能看见它做的**真实背景模糊**。
+ * ⚠️ 抽出来共用：常规底栏与悬浮底栏两套外观读同一份数据，
+ * 否则加 tab 时要改两处、极易漏（项目注释里记过这个坑）。
  */
-@Composable
-private fun BlurredBottomBar(
-    backdrop: BarBackdropState,
-    selectedTab: Int,
-    onTabSelected: (Int) -> Unit,
-) {
-    BlurredBarContainer(
-        state = backdrop,
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        NavigationBar(
-            color = Color.Transparent,
-            showDivider = false,
-        ) {
-            NavigationBarItem(
-                selected = selectedTab == 0,
-                onClick = { onTabSelected(0) },
-                icon = Icons.Filled.Today,
-                label = "今日",
-            )
-            NavigationBarItem(
-                selected = selectedTab == 1,
-                onClick = { onTabSelected(1) },
-                icon = Icons.Filled.DateRange,
-                label = "课表",
-            )
-            NavigationBarItem(
-                selected = selectedTab == 2,
-                onClick = { onTabSelected(2) },
-                icon = Icons.Filled.Search,
-                label = "查询",
-            )
-            NavigationBarItem(
-                selected = selectedTab == 3,
-                onClick = { onTabSelected(3) },
-                icon = Icons.Filled.Settings,
-                label = "设置",
-            )
-        }
-    }
-}
+private val bottomTabs = listOf(
+    BottomTab(Icons.Filled.Today, "今日"),
+    BottomTab(Icons.Filled.DateRange, "课表"),
+    BottomTab(Icons.Filled.Search, "查询"),
+    BottomTab(Icons.Filled.Settings, "设置"),
+)
 
 /** 两门课的节次区间是否重叠 */
 internal fun overlapsSection(a: Course, b: Course): Boolean {
